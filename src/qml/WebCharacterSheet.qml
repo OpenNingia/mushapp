@@ -15,7 +15,8 @@ Page {
     WebEngineView {
         id: webView
         anchors.fill: parent
-        url: "http://www.acchiappasogni.org/msrpg/pgcreator/"
+        //url: "http://www.acchiappasogni.org/msrpg/pgcreator/"
+        url: "http://www.acchiappasogni.org/msrpg/pgcreator/ver2/index.php"
 
         /*settings.accelerated2dCanvasEnabled: true
         settings.allowRunningInsecureContent: false
@@ -32,17 +33,23 @@ Page {
         QtObject {
             id: code
             property string update_statistics_js: "
-                var chrs = document.querySelectorAll('[data-chrs]');
+                var chrs = [
+                    document.getElementById('ra'),
+                    document.getElementById('at'),
+                    document.getElementById('de')]
+
                 var values = [%1, %2, %3];
                 for (var i = 0; i < chrs.length; i++) {
                     var chr = chrs[i];
                     var val = values[i];
                     var labels = chr.getElementsByTagName('label');
-                    labels[val-1].getElementsByTagName('input')[0].click();
+                    for (var j = 0; j < val; j++) {
+                        labels[j].getElementsByTagName('input')[0].checked = true;
+                    }
                 }
             ".arg(charModel.speed).arg(charModel.attack).arg(charModel.defence)
 
-            property string change_name_js: "updateName('%1');".arg(charModel.name)
+            property string change_name_js: "changeName('%1');".arg(charModel.name)
         }
 
         userScripts: [
