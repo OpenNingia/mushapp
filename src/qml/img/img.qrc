@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>allontana.png</file>
+        <file>cade.png</file>
+        <file>combo.png</file>
+        <file>danni.png</file>
+        <file>difesa.png</file>
+        <file>distanza.png</file>
+        <file>ferite.png</file>
+        <file>pa.png</file>
+        <file>possente.png</file>
+        <file>riflette.png</file>
+        <file>saltook.png</file>
+        <file>scaglia.png</file>
+        <file>schianta.png</file>
+        <file>trasla.png</file>
+        <file>uagility.png</file>
+        <file>udurezza.png</file>
+    </qresource>
+</RCC>
