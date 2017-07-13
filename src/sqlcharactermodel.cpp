@@ -128,7 +128,7 @@ bool SqlCharacterModel::delCharacter(const QString& name)
         return false;
     }
 
-    setCharacter(QString::null);
+    setCharacter(QString{});
     return true;
 }
 
