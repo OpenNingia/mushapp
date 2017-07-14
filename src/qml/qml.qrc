@@ -47,5 +47,7 @@
         <file>img/sforzo_estremo.png</file>
         <file>img/tutto_per_tutto.png</file>
         <file>WebCharacterSheet.qml</file>
+        <file>i18n/MushApp_en.qm</file>
+        <file>i18n/MushApp_it.qm</file>
     </qresource>
 </RCC>

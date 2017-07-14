@@ -7,8 +7,10 @@
 #include <QtQml>
 #include <QIcon>
 
+#ifndef Q_OS_ANDROID
 // WEB ENGINE
-#include <qtwebengineglobal.h>
+#   include <qtwebengineglobal.h>
+#endif
 
 #include "sqlcharactermodel.h"
 
@@ -41,15 +43,30 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/appIcon.png"));
 
+#ifndef Q_OS_ANDROID
     QtWebEngine::initialize();
+#endif
 
     // install translators
     QTranslator qtTranslator;
     //qtTranslator.load("MushApp_" + QLocale::system().name(), "i18n/");
-    qtTranslator.load("MushApp_it", "i18n/");
+
+//#ifndef Q_OS_ANDROID
+//    qtTranslator.load("MushApp_it", "i18n/");
+//#else
+    qtTranslator.load(":/i18n/MushApp_it.qm");
+//#endif
     app.installTranslator(&qtTranslator);
 
-    QFontDatabase::addApplicationFont(QLatin1String("qrc:/fa/fontawesome-webfont.ttf"));
+/*
+#ifndef Q_OS_ANDROID
+    int fontId = QFontDatabase::addApplicationFont(QLatin1String("qrc:/fa/fontawesome-webfont.ttf"));
+    qDebug() << "fontId: " << fontId;
+    foreach(QString f,  QFontDatabase::applicationFontFamilies(fontId))
+        qDebug() << f;
+#endif
+*/
+
     qmlRegisterType<SqlCharacterModel>("org.openningia.mushapp", 1, 0, "SqlCharacterModel");
 
     connectToDatabase();
