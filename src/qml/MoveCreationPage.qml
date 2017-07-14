@@ -13,14 +13,22 @@ Page {
     property var selectedSymbols: []
     property int paCost: Moves.calcPaCost(selectedSymbols, superMove)
 
-    Component.onCompleted: {
+    property var initialize: function() {
         inputName.forceActiveFocus()
     }
 
+    property var finalize: function() {
+    }
+
+    /*Component.onCompleted: {
+
+    }*/
+
+    /*
     header: PageHeader {
         title: charModel.name
         onBackClicked: root.StackView.view.pop()
-    }
+    }*/
 
     ListModel {
         id: symbolsModel
@@ -208,38 +216,52 @@ Page {
                 }
             }
         }
-
-        Button {
-            Layout.fillWidth: true
-
-            id: btConfirm
-            text: qsTr("Confirm")
-            onClicked: {
-
-                var moveObject = {
-                    name: inputName.text,
-                    symbols: root.selectedSymbols,
-                    cost: paCost
-                };
-
-                /*for(var i=0; i<symbolsModel.count; i++) {
-                    var s = symbolsModel.get(i);
-                    if ( s.isChecked )
-                        moveObject.symbols.push(s.tag);
-                }*/
-
-                if ( superMove )
-                    charModel.superMoves.push(moveObject)
-                else
-                    charModel.moves.push(moveObject)
-
-                dataModel.characterData = JSON.stringify(charModel)
-
-                root.StackView.view.pop()
-            }
-            KeyNavigation.tab: inputName
-        }
-
     }
 
+    footer: ToolBar {
+        id: tabBar
+        RowLayout {
+            anchors.fill: parent
+
+            ToolButton {
+                id: btCancel
+                Layout.fillWidth: true
+                text: qsTr("Cancel")
+                onClicked: {
+                    root.StackView.view.pop()
+                }
+                KeyNavigation.tab: inputName
+            }
+
+            ToolButton {
+                id: btConfirm
+                Layout.fillWidth: true
+                text: qsTr("Confirm")
+                onClicked: {
+
+                    var moveObject = {
+                        name: inputName.text,
+                        symbols: root.selectedSymbols,
+                        cost: paCost
+                    };
+
+                    if ( charModel ) {
+
+                        if ( superMove )
+                            charModel.superMoves.push(moveObject)
+                        else
+                            charModel.moves.push(moveObject)
+
+                        // save immediately
+                        console.log('MoveCreationPage: saving...')
+                        dataModel.characterData = JSON.stringify(charModel)
+                    }
+
+                    root.StackView.view.pop()
+                }
+                KeyNavigation.tab: btCancel
+                enabled: inputName.text.length > 0
+            }
+        }
+    }
 }

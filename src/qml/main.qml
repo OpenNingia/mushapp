@@ -13,7 +13,7 @@ ApplicationWindow {
     //Material.accent: Material.Purple
 
     StackView {
-        id: swipeView
+        id: stackView
 
         property Item __oldItem: null
 
@@ -33,15 +33,4 @@ ApplicationWindow {
         }
 
     }
-
-    /*footer: TabBar {
-        id: tabBar
-        currentIndex: swipeView.currentIndex
-        TabButton {
-            text: qsTr("First")
-        }
-        TabButton {
-            text: qsTr("Second")
-        }
-    }*/
 }

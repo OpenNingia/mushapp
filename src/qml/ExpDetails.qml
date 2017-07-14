@@ -26,7 +26,7 @@ Item {
             Label {
                 Layout.preferredWidth: 60
                 horizontalAlignment: Text.AlignRight
-                text: Exp.calcSkillExp(charModel.speed, charModel.attack, charModel.defence)
+                text: charModel ? Exp.calcSkillExp(charModel.speed, charModel.attack, charModel.defence) : 0
                 Layout.fillWidth: false
             }
         }
@@ -44,7 +44,7 @@ Item {
             Label {
                 Layout.preferredWidth: 60
                 horizontalAlignment: Text.AlignRight
-                text: Exp.calcMovesExp(charModel.moves.length, charModel.superMoves.length)
+                text: charModel ? Exp.calcMovesExp(charModel.moves.length, charModel.superMoves.length) : 0
                 Layout.fillWidth: false
             }
         }
@@ -62,7 +62,7 @@ Item {
             Label {
                 Layout.preferredWidth: 60
                 horizontalAlignment: Text.AlignRight
-                text: Exp.calcAuraExp(charModel.auraLvl, charModel.auraPoints)
+                text: charModel ? Exp.calcAuraExp(charModel.aura.level, charModel.aura.points) : 0
                 Layout.fillWidth: false
             }
         }

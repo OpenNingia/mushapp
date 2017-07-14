@@ -17,7 +17,9 @@ Page {
     }
 
     ColumnLayout {
-        anchors.centerIn: parent
+        anchors.fill: parent
+        anchors.margins: 12
+        spacing: 12
 
         TextField {
             id: inputName
@@ -25,6 +27,8 @@ Page {
             placeholderText: qsTr("Enter character name")
             focus: true
             KeyNavigation.tab: inputTitle
+
+            Layout.fillWidth: true
         }
 
         TextField {
@@ -32,23 +36,36 @@ Page {
             width: 200
             placeholderText: qsTr("Enter character title")
             KeyNavigation.tab: btConfirm
+
+            Layout.fillWidth: true
         }
 
-        Button {
-            id: btConfirm
-            text: qsTr("Confirm")
-            onClicked: {
-                if ( dataModel.addCharacter(inputName.text, inputTitle.text) ) {
-                    console.log("add character success")
-                } else {
-                    console.log("add character error")
-                }
-
-                root.StackView.view.pop()
-            }
-            KeyNavigation.tab: inputName
+        Item {
+            Layout.fillHeight: true
         }
-
     }
 
+    footer: ToolBar {
+        id: tabBar
+        RowLayout {
+            anchors.fill: parent
+
+            ToolButton {
+                id: btConfirm
+                Layout.fillWidth: true
+                text: qsTr("Confirm")
+                onClicked: {
+                    if ( dataModel.addCharacter(inputName.text, inputTitle.text) ) {
+                        console.log("add character success")
+                    } else {
+                        console.log("add character error")
+                    }
+
+                    root.StackView.view.pop()
+                }
+                KeyNavigation.tab: inputName
+                enabled: inputName.text.length > 0
+            }
+        }
+    }
 }

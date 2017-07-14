@@ -1,118 +1,47 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
-import QtQuick.Dialogs 1.2
-import "fa"
-import "business/moves.js" as Moves
 
 Page {
     id: root
+
     property var charModel
-    property bool superMoves: false
-    property bool canAddMoves: true
+    property bool superMoves
 
     property var initialize: function() {
-        reload()
+        if ( charModel ) {
+            pgList.charModel = root.charModel
+            pgList.superMoves = root.superMoves
+            pgList.initialize()
+            //stackView.initialItem = pgList;
+        }
     }
 
     property var finalize: function() {
-        save()
+
     }
 
-    function reload() {
-        if ( charModel ) {
-            moveList.model = 0
-            moveList.model = superMoves ? charModel.superMoves : charModel.moves
 
-            canAddMoves = superMoves ? charModel.superMoves.length < 2 : charModel.moves.length < 5
-        }
-    }
+    StackView {
+        id: stackView
 
-    function save() {
-        if ( charModel ) {
-            dataModel.characterData = JSON.stringify(charModel)
-        }
-    }
+        property Item __oldItem: null
 
-    header: PageHeader {
-        title: superMoves ? qsTr("%1 - Super").arg(charModel.name) : qsTr("%1 - Specials").arg(charModel.name)
-        onBackClicked: root.StackView.view.pop()
-    }
-
-    ColumnLayout {
         anchors.fill: parent
-        anchors.margins: 10
-        spacing: 10
-
-        ListView {
-            id: moveList
-
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            spacing: 8
-
-            model: superMoves ? charModel.superMoves : charModel.moves
-            delegate:  ItemDelegate {
-                height: 64
-                width: moveList.width - moveList.leftMargin - moveList.rightMargin
-                leftPadding: 0
-                //highlighted: ListView.isCurrentItem
-                onClicked: {
-                    //moveList.currentIndex = index
-                    //root.StackView.view.push("qrc:/CharacterInfoPage.qml", { activeCharacterName: model.name, activeCharacterIndex: index })
-                }
-
-                RowLayout {
-                    anchors.fill: parent
-
-                    ColumnLayout {
-                        anchors.fill: parent
-                        anchors.margins: 10
-                        spacing: 10
-
-                        Text {
-                            Layout.fillWidth: true
-                            text: qsTr("%1 (%2 PA)").arg(modelData.name).arg(Moves.calcPaCost(modelData.symbols, root.superMoves))
-                            font.bold: true
-                        }
-                        SymbolList {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            symbols: modelData.symbols
-                        }
-                    }
-
-                    ToolButton {
-                        Layout.alignment: Qt.AlignRight
-                        contentItem: TextIcon {
-                            icon: icons.fa_trash_o
-                            pointSize: 20
-                        }
-                        onClicked: {
-                            Moves.removeOne(root.charModel, index, root.superMoves)
-                            reload()
-                        }
-                    }
-                }
-            }
+        initialItem: CharacterMoveListPage {
+            id: pgList
         }
-    }
 
-    footer: ToolBar {
-        id: tabBar
-        RowLayout {
-            anchors.fill: parent
-
-            ToolButton {
-                Layout.fillWidth: true
-                text: superMoves ? qsTr("Add new super") : qsTr("Add new move")
-                onClicked: {
-                    root.StackView.view.push(
-                                "qrc:/MoveCreationPage.qml",
-                                { charModel: charModel, superMove: superMoves })
-                }
-                enabled: canAddMoves
+        onCurrentItemChanged: {
+            if (__oldItem && __oldItem.finalize) {
+                __oldItem.finalize()
             }
+
+            if (currentItem && currentItem.initialize) {
+                currentItem.initialize()
+            }
+
+            __oldItem = currentItem
         }
     }
 }

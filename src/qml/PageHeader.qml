@@ -11,7 +11,8 @@ ToolBar {
     ToolButton {
 
         contentItem: TextIcon {
-            icon: icons.fa_arrow_left
+            icon: icons.fa_home
+            pointSize: 14
             color: "#fff"
         }
 

@@ -6,34 +6,38 @@ import "business/exp.js" as Exp
 
 Page {
     id: root
-    property string activeCharacterName
-    property int activeCharacterIndex
+    //property string activeCharacterName
+    //property int activeCharacterIndex
     property int charExperience
     property var charModel
 
     property var initialize: function() {
-        if ( dataModel ) {
-            dataModel.character = activeCharacterName
-            charModel = JSON.parse(dataModel.characterData)
-            //console.log(dataModel.characterData)
+        updateExp()
+    }
+
+    property var finalize: function() {
+
+    }
+
+    property var save: function() {
+        if ( charModel ) {
+            console.log('CharacterInfoPage: saving...')
+            dataModel.characterData = JSON.stringify(charModel)
+
+            // update experience
             updateExp()
         }
     }
 
-    property var finalize: function() {
-        // save on exit
-        dataModel.characterData = JSON.stringify(charModel)
+    property var updateExp: function() {        
+        charExperience = charModel ? Exp.calcExp(charModel) : 0
+        console.log('new experience: %1'.arg(charExperience))
     }
 
-    property var updateExp: function() {
-        charExperience = Exp.calcExp(charModel)
-        //console.log('new experience: %1'.arg(charExperience))
-    }
-
-    header: PageHeader {
+    /*header: PageHeader {
         title: activeCharacterName
         onBackClicked: root.StackView.view.pop()
-    }
+    }*/
 
     // TITOLO O DESCRIZIONE
     ColumnLayout {
@@ -69,15 +73,6 @@ Page {
                 text: qsTr("Experience")
                 font.bold: true
             }
-            /*
-            Label {
-                id: txExp
-                //anchors.centerIn: parent
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                topPadding: 12
-                text: charExperience
-                font.pointSize: 14
-            }*/
 
             ToolButton {
                 id: txExp
@@ -94,7 +89,6 @@ Page {
                     contentItem: ExpDetails { id: expDtl; charModel: root.charModel }
                 }
                 onDownChanged: {
-                    //expDtl.charModel = 0
                     expDtl.charModel = root.charModel
                 }
             }
@@ -124,7 +118,7 @@ Page {
                 rating: root.charModel ? root.charModel.speed : 0
                 onValueChanged: {
                     root.charModel.speed = rating
-                    updateExp()
+                    save()
                 }
             }
         }
@@ -146,7 +140,7 @@ Page {
                 rating: root.charModel ? root.charModel.attack : 0
                 onValueChanged: {
                     root.charModel.attack = rating
-                    updateExp()
+                    save()
                 }
             }
         }
@@ -169,7 +163,7 @@ Page {
                 rating: root.charModel ? root.charModel.defence : 0
                 onValueChanged: {
                     root.charModel.defence = rating
-                    updateExp()
+                    save()
                 }
             }
         }
@@ -198,6 +192,7 @@ Page {
                 rating: root.charModel ? root.charModel.balance : 0
                 onValueChanged: {
                     root.charModel.balance = rating
+                    save()
                 }
             }
         }
@@ -219,11 +214,13 @@ Page {
                 rating: root.charModel ? root.charModel.willpower : 0
                 onValueChanged: {
                     root.charModel.willpower = rating
+                    save()
                 }
             }
         }
     }
 
+    /*
     footer: ToolBar {
         id: tabBar
         RowLayout {
@@ -268,5 +265,5 @@ Page {
                 Layout.fillWidth: true
             }
         }
-    }
+    }*/
 }

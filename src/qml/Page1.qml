@@ -12,11 +12,6 @@ Page {
     property var initialize: function() {
         if ( dataModel )
             dataModel.character = ""
-        //
-        //characterList.model = null;
-        //characterList.model = dataModel;
-        //
-        //console.log('item count: ' + dataModel.rowCount())
     }
 
     header: ToolBar {
@@ -38,36 +33,18 @@ Page {
         rightMargin: 12
         spacing: 12
 
+        ScrollIndicator.vertical: ScrollIndicator { }
+
         model: dataModel
         delegate:  ItemDelegate {
             height: 48
             width: characterList.width - characterList.leftMargin - characterList.rightMargin
-            leftPadding: 32
-            //highlighted: ListView.isCurrentItem
+            leftPadding: 32            
             onClicked: {
                 characterList.currentIndex = index
-                root.StackView.view.push("qrc:/CharacterInfoPage.qml", { activeCharacterName: model.name, activeCharacterIndex: index })
+                //root.StackView.view.push("qrc:/CharacterInfoPage.qml", { activeCharacterName: model.name, activeCharacterIndex: index })
+                root.StackView.view.push("qrc:/CharacterMainPage.qml", { activeCharacterName: model.name })
             }
-            /*
-            Column {
-
-                Item {
-                    id: charModel
-                    function parseContent(c) {
-                        try {
-                            return JSON.parse(c)
-                        } catch(error) { return {} }
-                    }
-
-                    property var charContent: parseContent(content)
-                }
-
-                Text { text: name; font.bold: true }
-                Text {                    
-                    text: charModel.charContent.title
-                    color: "#888"
-                }
-            }*/
 
             RowLayout {
                 anchors.fill: parent
@@ -100,16 +77,11 @@ Page {
                     }
                     onClicked: {
                         dataModel.delCharacter(name)
-                        //reload()
                     }
                 }
             }
         }
 
-        /*highlight: Rectangle {
-            color: "#3F51B5";
-            radius: 2
-        }*/
         focus: true
         interactive: true
     }
@@ -119,13 +91,13 @@ Page {
         contentItem: TextIcon {
             icon: icons.fa_plus
             color: "#fff"
-            pointSize: 14
+            pointSize: 18
 
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
         }
 
-        width: 64; height: 64
+        width: 96; height: 96
 
         highlighted: true
         Material.accent: Material.Red

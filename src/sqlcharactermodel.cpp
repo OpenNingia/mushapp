@@ -77,8 +77,13 @@ bool SqlCharacterModel::addCharacter(const QString &name, const QString &title)
     o["defence"] = 0;
     o["balance"] = 0;
     o["willpower"] = 0;
-    o["auraLvl"] = 0;
-    o["auraPoints"] = 0;
+
+    QJsonObject aura;
+    aura["tag"] = QString{"none"};
+    aura["level"] = 0;
+    aura["points"] = 0;
+    o["aura"] = aura;
+
     o["moves"] = QJsonArray{};
     o["superMoves"] = QJsonArray{};
 
