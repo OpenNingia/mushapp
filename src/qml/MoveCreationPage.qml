@@ -219,7 +219,7 @@ Page {
                 var moveObject = {
                     name: inputName.text,
                     symbols: root.selectedSymbols,
-                    cost: 0
+                    cost: paCost
                 };
 
                 /*for(var i=0; i<symbolsModel.count; i++) {
