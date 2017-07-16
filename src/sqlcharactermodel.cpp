@@ -80,6 +80,7 @@ bool SqlCharacterModel::addCharacter(const QString &name, const QString &title)
 
     QJsonObject aura;
     aura["tag"] = QString{"none"};
+    aura["special"] = QString{"none"};
     aura["level"] = 0;
     aura["points"] = 0;
     o["aura"] = aura;

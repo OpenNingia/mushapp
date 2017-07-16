@@ -6,8 +6,6 @@ import "business/exp.js" as Exp
 
 Page {
     id: root
-    //property string activeCharacterName
-    //property int activeCharacterIndex
     property int charExperience
     property var charModel
 
@@ -16,7 +14,8 @@ Page {
     }
 
     property var finalize: function() {
-
+        // save on exit
+        save()
     }
 
     property var save: function() {
@@ -187,7 +186,7 @@ Page {
                 font.bold: true
             }
 
-            RoundPicker5 {
+            RoundPicker6 {
                 id: vaBalance
                 rating: root.charModel ? root.charModel.balance : 0
                 onValueChanged: {
@@ -209,7 +208,7 @@ Page {
                 font.bold: true
             }
 
-            RoundPicker5 {
+            RoundPicker6 {
                 id: vaWillPower
                 rating: root.charModel ? root.charModel.willpower : 0
                 onValueChanged: {

@@ -1,5 +1,5 @@
 import QtQuick 2.7
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
 import "fa"
@@ -19,7 +19,7 @@ Page {
 
     }
 
-    function reload() {
+    property var reload: function() {
         if ( charModel ) {
             moveList.model = 0
             moveList.model = superMoves ? charModel.superMoves : charModel.moves
@@ -57,13 +57,12 @@ Page {
 
             model: null
             delegate:  ItemDelegate {
-                height: 64
+                height: txMoveName.implicitHeight + symbolList.height + 30
                 width: moveList.width - moveList.leftMargin - moveList.rightMargin
                 leftPadding: 0
                 //highlighted: ListView.isCurrentItem
                 onClicked: {
                     //moveList.currentIndex = index
-                    //root.StackView.view.push("qrc:/CharacterInfoPage.qml", { activeCharacterName: model.name, activeCharacterIndex: index })
                 }
 
                 RowLayout {
@@ -75,27 +74,30 @@ Page {
                         spacing: 10
 
                         Text {
+                            id: txMoveName
                             Layout.fillWidth: true
                             text: qsTr("%1 (%2 PA)").arg(modelData.name).arg(Moves.calcPaCost(modelData.symbols, root.superMoves))
                             font.bold: true
                         }
                         SymbolList {
+                            id: symbolList
+                            height: 24
                             Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            symbols: modelData.symbols
+                            symbols: modelData.symbols                            
                         }
                     }
 
-                    ToolButton {
+                    DelayButton {
+                        delay: 1200
                         Layout.alignment: Qt.AlignRight
                         contentItem: TextIcon {
                             icon: icons.fa_trash_o
                             pointSize: 20
                         }
-                        onClicked: {
+                        onActivated: {
                             Moves.removeOne(root.charModel, index, root.superMoves)
-                            reload()
-                            save()
+                            root.reload()
+                            root.save()
                         }
                     }
                 }

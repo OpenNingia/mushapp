@@ -4,9 +4,49 @@
 <context>
     <name>CharacterAuraPage</name>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="9"/>
-        <source>Aura</source>
-        <translation type="unfinished">Aura</translation>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="32"/>
+        <source>None</source>
+        <translation>Nessuna</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="36"/>
+        <source>White</source>
+        <translation>Bianca</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="40"/>
+        <source>Black</source>
+        <translation>Nera</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="44"/>
+        <source>Red</source>
+        <translation>Rossa</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="48"/>
+        <source>Blue</source>
+        <translation>Blu</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="52"/>
+        <source>Green</source>
+        <translation>Verde</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="69"/>
+        <source>Color</source>
+        <translation>Colore</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="95"/>
+        <source>Level</source>
+        <translation>Livello</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="117"/>
+        <source>Points</source>
+        <translation>Punti Aura</translation>
     </message>
 </context>
 <context>
@@ -17,17 +57,17 @@
         <translation>Creazione Personaggio</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterCreationPage.qml" line="25"/>
+        <location filename="../src/qml/CharacterCreationPage.qml" line="27"/>
         <source>Enter character name</source>
         <translation>Nome del personaggio</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterCreationPage.qml" line="33"/>
+        <location filename="../src/qml/CharacterCreationPage.qml" line="37"/>
         <source>Enter character title</source>
         <translation>Descrizione o titolo</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterCreationPage.qml" line="39"/>
+        <location filename="../src/qml/CharacterCreationPage.qml" line="56"/>
         <source>Confirm</source>
         <translation>Conferma</translation>
     </message>
@@ -35,66 +75,43 @@
 <context>
     <name>CharacterInfoPage</name>
     <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="51"/>
+        <location filename="../src/qml/CharacterInfoPage.qml" line="55"/>
         <source>Title</source>
         <translatorcomment>Descrizione o titolo onorifico del personaggio</translatorcomment>
         <translation>Titolo</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="69"/>
+        <location filename="../src/qml/CharacterInfoPage.qml" line="73"/>
         <source>Experience</source>
         <translatorcomment>I punti esperienza spesi</translatorcomment>
         <translation>Punti esperienza</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="118"/>
+        <location filename="../src/qml/CharacterInfoPage.qml" line="112"/>
         <source>Speed</source>
         <translation>Rapidità</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="140"/>
+        <location filename="../src/qml/CharacterInfoPage.qml" line="134"/>
         <source>Attack</source>
         <translation>Attacco</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="162"/>
+        <location filename="../src/qml/CharacterInfoPage.qml" line="156"/>
         <source>Defense</source>
         <translation>Difesa</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="192"/>
+        <location filename="../src/qml/CharacterInfoPage.qml" line="186"/>
         <source>Balance</source>
         <translatorcomment>Nome della caratteristica Equilibrio</translatorcomment>
         <translation>Equilibrio</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="213"/>
+        <location filename="../src/qml/CharacterInfoPage.qml" line="208"/>
         <source>Willpower</source>
         <translatorcomment>Nome della caratteristica Volontà</translatorcomment>
         <translation>Volontà</translation>
-    </message>
-    <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="237"/>
-        <source>Special</source>
-        <translatorcomment>Mosse speciali in breve</translatorcomment>
-        <translation>Special</translation>
-    </message>
-    <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="245"/>
-        <source>Super</source>
-        <translatorcomment>Super mosse in breve</translatorcomment>
-        <translation>Super</translation>
-    </message>
-    <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="256"/>
-        <source>Aura</source>
-        <translation>Aura</translation>
-    </message>
-    <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="259"/>
-        <source>Equip</source>
-        <translatorcomment>Hyper armors, Hyper weapons</translatorcomment>
-        <translation>Oggetti</translation>
     </message>
 </context>
 <context>
@@ -106,34 +123,20 @@
     </message>
 </context>
 <context>
-    <name>CharacterMovesPage</name>
+    <name>CharacterMoveListPage</name>
     <message>
-        <location filename="../src/qml/CharacterMovesPage.qml" line="35"/>
-        <source>%1 - Super</source>
-        <translatorcomment>Titolo della pagina delle Super mosse</translatorcomment>
-        <translation>%1 &apos; Super</translation>
-    </message>
-    <message>
-        <location filename="../src/qml/CharacterMovesPage.qml" line="35"/>
-        <source>%1 - Specials</source>
-        <translatorcomment>Titolo della pagina delle mosse speciali</translatorcomment>
-        <translation>%1 &apos; Special</translation>
-    </message>
-    <message>
-        <location filename="../src/qml/CharacterMovesPage.qml" line="80"/>
+        <location filename="../src/qml/CharacterMoveListPage.qml" line="79"/>
         <source>%1 (%2 PA)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterMovesPage.qml" line="117"/>
+        <location filename="../src/qml/CharacterMoveListPage.qml" line="113"/>
         <source>Add new super</source>
-        <translatorcomment>Bottone nuova Super mossa</translatorcomment>
         <translation>Nuova Super</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterMovesPage.qml" line="117"/>
+        <location filename="../src/qml/CharacterMoveListPage.qml" line="113"/>
         <source>Add new move</source>
-        <translatorcomment>Bottone nuova mossa Speciale</translatorcomment>
         <translation>Nuova Special</translation>
     </message>
 </context>
@@ -159,77 +162,147 @@
 <context>
     <name>MoveCreationPage</name>
     <message>
-        <location filename="../src/qml/MoveCreationPage.qml" line="26"/>
+        <location filename="../src/qml/MoveCreationPage.qml" line="36"/>
         <source>2xCombo</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/MoveCreationPage.qml" line="32"/>
+        <location filename="../src/qml/MoveCreationPage.qml" line="42"/>
+        <source>Assorbimento</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/MoveCreationPage.qml" line="48"/>
+        <source>Blitz</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/MoveCreationPage.qml" line="54"/>
         <source>Cade</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/MoveCreationPage.qml" line="38"/>
+        <location filename="../src/qml/MoveCreationPage.qml" line="60"/>
+        <source>Cadi</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/MoveCreationPage.qml" line="66"/>
+        <source>Conclusiva</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/MoveCreationPage.qml" line="72"/>
+        <source>Congela</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/MoveCreationPage.qml" line="78"/>
+        <source>Cura</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/MoveCreationPage.qml" line="84"/>
+        <source>Danno continuato</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/MoveCreationPage.qml" line="90"/>
+        <source>Danno relativo</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/MoveCreationPage.qml" line="96"/>
         <source>Distanza</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/MoveCreationPage.qml" line="44"/>
+        <location filename="../src/qml/MoveCreationPage.qml" line="102"/>
+        <source>Guarigione</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/MoveCreationPage.qml" line="108"/>
         <source>Possente</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/MoveCreationPage.qml" line="50"/>
+        <location filename="../src/qml/MoveCreationPage.qml" line="114"/>
         <source>Riflette</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/MoveCreationPage.qml" line="56"/>
+        <location filename="../src/qml/MoveCreationPage.qml" line="120"/>
         <source>Salto OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/MoveCreationPage.qml" line="62"/>
+        <location filename="../src/qml/MoveCreationPage.qml" line="126"/>
         <source>Scaglia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/MoveCreationPage.qml" line="68"/>
+        <location filename="../src/qml/MoveCreationPage.qml" line="132"/>
         <source>Schianta</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/MoveCreationPage.qml" line="74"/>
+        <location filename="../src/qml/MoveCreationPage.qml" line="138"/>
+        <source>Sforzo estremo</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/MoveCreationPage.qml" line="144"/>
         <source>Spinge</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/MoveCreationPage.qml" line="80"/>
+        <location filename="../src/qml/MoveCreationPage.qml" line="150"/>
+        <source>Stordente</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/MoveCreationPage.qml" line="156"/>
         <source>Trasla</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/MoveCreationPage.qml" line="86"/>
+        <location filename="../src/qml/MoveCreationPage.qml" line="162"/>
+        <source>Tutto per tutto</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/MoveCreationPage.qml" line="168"/>
         <source>Ultra Agility</source>
         <translation>Ultra Agilità</translation>
     </message>
     <message>
-        <location filename="../src/qml/MoveCreationPage.qml" line="92"/>
+        <location filename="../src/qml/MoveCreationPage.qml" line="174"/>
         <source>Ultra Durezza</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/MoveCreationPage.qml" line="109"/>
+        <location filename="../src/qml/MoveCreationPage.qml" line="180"/>
+        <source>Vampirico</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/MoveCreationPage.qml" line="197"/>
         <source>Enter move name</source>
         <translation>Nome mossa</translation>
     </message>
     <message>
-        <location filename="../src/qml/MoveCreationPage.qml" line="122"/>
+        <location filename="../src/qml/MoveCreationPage.qml" line="216"/>
         <source>Symbols</source>
         <translation>Simboli</translation>
     </message>
     <message>
-        <location filename="../src/qml/MoveCreationPage.qml" line="164"/>
+        <location filename="../src/qml/MoveCreationPage.qml" line="265"/>
+        <source>Cancel</source>
+        <translation>Annulla</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/MoveCreationPage.qml" line="275"/>
         <source>Confirm</source>
         <translation>Conferma</translation>
     </message>
@@ -237,10 +310,23 @@
 <context>
     <name>Page1</name>
     <message>
-        <location filename="../src/qml/Page1.qml" line="25"/>
+        <location filename="../src/qml/Page1.qml" line="19"/>
         <source>Characters</source>
         <translatorcomment>Intestazione della lista dei personaggi</translatorcomment>
         <translation>Personaggi</translation>
+    </message>
+</context>
+<context>
+    <name>WebCharacterSheet</name>
+    <message>
+        <location filename="../src/qml/WebCharacterSheet.qml" line="11"/>
+        <source>Character sheet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/WebCharacterSheet.qml" line="184"/>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

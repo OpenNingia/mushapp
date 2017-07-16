@@ -10,6 +10,7 @@ Page {
 
     property var charModel: null
     property bool superMove: false
+    property bool hasName: false
     property var selectedSymbols: []
     property int paCost: Moves.calcPaCost(selectedSymbols, superMove)
 
@@ -18,6 +19,12 @@ Page {
     }
 
     property var finalize: function() {
+    }
+
+    property var reload: function() {
+        symbolList.model = 0
+        symbolList.model = root.selectedSymbols
+        paCost = Moves.calcPaCost(root.selectedSymbols, superMove)
     }
 
     /*Component.onCompleted: {
@@ -39,6 +46,18 @@ Page {
             portrait: "qrc:/img/combo.png"
         }
         ListElement {
+            name: qsTr("Assorbimento")
+            tag: "assorbimento"
+            isChecked: false
+            portrait: "qrc:/img/assorbimento.png"
+        }
+        ListElement {
+            name: qsTr("Blitz")
+            tag: "blitz"
+            isChecked: false
+            portrait: "qrc:/img/blitz.png"
+        }
+        ListElement {
             name: qsTr("Cade")
             tag: "cade"
             isChecked: false
@@ -57,6 +76,12 @@ Page {
             portrait: "qrc:/img/conclusiva.png"
         }
         ListElement {
+            name: qsTr("Congela")
+            tag: "congela"
+            isChecked: false
+            portrait: "qrc:/img/congela.png"
+        }
+        ListElement {
             name: qsTr("Cura")
             tag: "cura"
             isChecked: false
@@ -69,6 +94,12 @@ Page {
             portrait: "qrc:/img/danno_continuato.png"
         }
         ListElement {
+            name: qsTr("Danno relativo")
+            tag: "danno_relativo"
+            isChecked: false
+            portrait: "qrc:/img/danno_relativo.png"
+        }
+        ListElement {
             name: qsTr("Distanza")
             tag: "distanza"
             isChecked: false
@@ -79,6 +110,12 @@ Page {
             tag: "guarigione"
             isChecked: false
             portrait: "qrc:/img/guarigione.png"
+        }
+        ListElement {
+            name: qsTr("Multi shot")
+            tag: "crawling"
+            isChecked: false
+            portrait: "qrc:/img/crawling.png"
         }
         ListElement {
             name: qsTr("Possente")
@@ -123,6 +160,12 @@ Page {
             portrait: "qrc:/img/spinge.png"
         }
         ListElement {
+            name: qsTr("Stordente")
+            tag: "stordente"
+            isChecked: false
+            portrait: "qrc:/img/stordente.png"
+        }
+        ListElement {
             name: qsTr("Trasla")
             tag: "trasla"
             isChecked: false
@@ -146,6 +189,12 @@ Page {
             isChecked: false
             portrait: "qrc:/img/udurezza.png"
         }
+        ListElement {
+            name: qsTr("Vampirico")
+            tag: "vampirico"
+            isChecked: false
+            portrait: "qrc:/img/vampirico.png"
+        }
     }
 
     ColumnLayout {
@@ -160,14 +209,20 @@ Page {
             width: 200
             placeholderText: qsTr("Enter move name")
             focus: true
+
+            onTextEdited: {
+                hasName = text.length > 0
+            }
         }
 
         Label {
             id: txPaCost
             Layout.fillWidth: true
-            text: paCost
+            text: qsTr("PA: %1").arg(paCost)
+            font.bold: true
         }
 
+        /*
         ColumnLayout {
             //anchors.fill: parent
             //anchors.margins: 10
@@ -187,6 +242,28 @@ Page {
                 height: 64
                 symbols: root.selectedSymbols
             }
+        }*/
+        SymbolList {
+            id: symbolList
+
+            Layout.fillWidth: true
+            height: 24
+            symbols: root.selectedSymbols
+
+            MouseArea {
+                anchors.fill: symbolList
+                onClicked: {
+                    root.selectedSymbols.pop()
+                    root.reload()
+                }
+            }
+        }
+
+        Rectangle {
+            height: 1
+            Layout.minimumHeight: 1
+            Layout.fillWidth: true
+            color: "#3F51B5"
         }
 
         GridView {
@@ -209,10 +286,7 @@ Page {
 
                 onClicked: {
                     root.selectedSymbols.push(tag)
-                    symbolList.model = 0
-                    symbolList.model = root.selectedSymbols
-
-                    paCost = Moves.calcPaCost(root.selectedSymbols, superMove)
+                    root.reload()
                 }
             }
         }
@@ -260,7 +334,7 @@ Page {
                     root.StackView.view.pop()
                 }
                 KeyNavigation.tab: btCancel
-                enabled: inputName.text.length > 0
+                enabled: hasName
             }
         }
     }

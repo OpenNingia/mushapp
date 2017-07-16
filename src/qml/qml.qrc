@@ -51,5 +51,12 @@
         <file>i18n/MushApp_it.qm</file>
         <file>CharacterMainPage.qml</file>
         <file>CharacterMoveListPage.qml</file>
+        <file>img/assorbimento.png</file>
+        <file>img/blitz.png</file>
+        <file>img/congela.png</file>
+        <file>img/crawling.png</file>
+        <file>img/danno_relativo.png</file>
+        <file>img/stordente.png</file>
+        <file>img/vampirico.png</file>
     </qresource>
 </RCC>

@@ -1,5 +1,5 @@
 import QtQuick 2.7
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.1
 import org.openningia.mushapp 1.0
@@ -37,12 +37,15 @@ Page {
 
         model: dataModel
         delegate:  ItemDelegate {
-            height: 48
+            height: txCharName.implicitHeight + txCharTitle.implicitHeight + 30
             width: characterList.width - characterList.leftMargin - characterList.rightMargin
-            leftPadding: 32            
+
+            leftPadding: 12
+            rightPadding: 12
+
             onClicked: {
                 characterList.currentIndex = index
-                //root.StackView.view.push("qrc:/CharacterInfoPage.qml", { activeCharacterName: model.name, activeCharacterIndex: index })
+                //root.StackView.view.push("qrc:/CharacterInfoPage.qml", { activeCharacterName: model.name })
                 root.StackView.view.push("qrc:/CharacterMainPage.qml", { activeCharacterName: model.name })
             }
 
@@ -65,17 +68,18 @@ Page {
                     anchors.margins: 10
                     spacing: 10
 
-                    Text { text: name; font.bold: true }
-                    Text { text: charModel.charContent.title; color: "#888" }
+                    Text { id: txCharName; text: name; font.bold: true }
+                    Text { id: txCharTitle; text: charModel.charContent.title; color: "#888" }
                 }
 
-                ToolButton {
+                DelayButton {
+                    delay: 1200
                     Layout.alignment: Qt.AlignRight
                     contentItem: TextIcon {
                         icon: icons.fa_trash_o
                         pointSize: 20
                     }
-                    onClicked: {
+                    onActivated: {
                         dataModel.delCharacter(name)
                     }
                 }

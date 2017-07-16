@@ -44,8 +44,11 @@ Page {
     }
 
     property var finalize: function() {
-        // save on exit
-        // dataModel.characterData = JSON.stringify(characterModel)
+        // finalize on exit
+        if (swipeView.currentItem && swipeView.currentItem.finalize)
+            swipeView.currentItem.finalize()
+
+        //dataModel.characterData = JSON.stringify(characterModel)
     }
 
 
