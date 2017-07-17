@@ -1,7 +1,8 @@
 import QtQuick 2.7
-import QtQml.Models 2.1
+import QtQml.Models 2.2
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
+import SortFilterProxyModel 0.2
 
 Page {
     id: root
@@ -20,6 +21,8 @@ Page {
                     break;
                 }
             }
+
+            //filteredAbilities.filterOnGroup = charModel.aura.tag
 
             for(var i=0; i<cbSpecial.count; i++) {
                 if (cbSpecial.model.get(i).tag === charModel.aura.special) {
@@ -65,179 +68,149 @@ Page {
         }
     }
 
-    DelegateModel {
-
-        id: filteredAbilities
-
-
-        groups: [
-            DelegateModelGroup { name: "bianco" },
-            DelegateModelGroup { name: "nero" },
-            DelegateModelGroup { name: "blu" },
-            DelegateModelGroup { name: "rosso" },
-            DelegateModelGroup { name: "verde" }
-        ]
-
-        filterOnGroup: "items"
-
-        model: ListModel {
-            id: abilityModel
-            ListElement {
-                name: qsTr("Armatura Spirituale")
-                tag: "armatura_spirituale"
-                blu: true; bianco: true
-                //VisualDataModel.inBlu: true
-                //VisualDataModel.inBianco: true
-            }
-            ListElement {
-                name: qsTr("Aura Assassina")
-                tag: "aura_assassina"
-                nero: true
-                //VisualDataModel.inNero: true
-            }
-            ListElement {
-                name: qsTr("Aura Guaritrice")
-                tag: "aura_guaritrice"
-                //VisualDataModel.inBianco: true
-            }
-            ListElement {
-                name: qsTr("Aura Vampiro")
-                tag: "aura_vampiro"
-                //// enabledOn: [ ListElement{ key: "nero" } ]
-            }
-            ListElement {
-                name: qsTr("Bestiale")
-                tag: "bestiale"
-                // enabledOn: [ ListElement{ key: "verde" }, ListElement{ key: "bianco" } ]
-            }
-            ListElement {
-                name: qsTr("Colpo del Vento")
-                tag: "colpo_vento"
-                // enabledOn: [ ListElement{ key: "blu" } ]
-            }
-            ListElement {
-                name: qsTr("Colpo Possente")
-                tag: "colpo_possente"
-                // enabledOn: [ ListElement{ key: "verde" }, ListElement{ key: "nero" } ]
-            }
-            ListElement {
-                name: qsTr("Energia Interiore")
-                tag: "energia_interiore"
-                // enabledOn: [ ListElement{ key: "rosso" }, ListElement{ key: "verde" } ]
-            }
-            ListElement {
-                name: qsTr("Focus")
-                tag: "focus"
-                // enabledOn: [ ListElement{ key: "blu" } ]
-            }
-            ListElement {
-                name: qsTr("Foglia Fluttuante")
-                tag: "focus"
-                // enabledOn: [ ListElement{ key: "verde" }, ListElement{ key: "bianco" } ]
-            }
-            ListElement {
-                name: qsTr("Furia")
-                tag: "furia"
-                // enabledOn: [ ListElement{ key: "rosso" }, ListElement{ key: "nero" } ]
-            }
-            ListElement {
-                name: qsTr("Gatling Combo!")
-                tag: "gatling"
-                // enabledOn: [ ListElement{ key: "rosso" } ]
-            }
-            ListElement {
-                name: qsTr("Groovy!")
-                tag: "groovy"
-                // enabledOn: [ ListElement{ key: "rosso" }, ListElement{ key: "verde" } ]
-            }
-            ListElement {
-                name: qsTr("Inarrestabile")
-                tag: "inarrestabile"
-                // enabledOn: [ ListElement{ key: "rosso" } ]
-            }
-            ListElement {
-                name: qsTr("Ira")
-                tag: "ira"
-                // enabledOn: [ ListElement{ key: "rosso" }, ListElement{ key: "nero" } ]
-            }
-            ListElement {
-                name: qsTr("Passo del Fulmine")
-                tag: "passo_fulmine"
-                // enabledOn: [ ListElement{ key: "blu" }, ListElement{ key: "nero" } ]
-            }
-            ListElement {
-                name: qsTr("Pesante")
-                tag: "pesante"
-                // enabledOn: [ ListElement{ key: "verde" } ]
-            }
-            ListElement {
-                name: qsTr("Presa Fulminea")
-                tag: "presa_fulminea"
-                // enabledOn: [ ListElement{ key: "blu" } ]
-            }
-            ListElement {
-                name: qsTr("Presa Tornado")
-                tag: "presa_tornado"
-                // enabledOn: [ ListElement{ key: "rosso" } ]
-            }
-            ListElement {
-                name: qsTr("Prudenza")
-                tag: "prudenza"
-                // enabledOn: [ ListElement{ key: "blu" }, ListElement{ key: "bianco" } ]
-            }
-            ListElement {
-                name: qsTr("Rigenerazione")
-                tag: "rigenerazione"
-                // enabledOn: [ ListElement{ key: "bianco" } ]
-            }
-            ListElement {
-                name: qsTr("Ritmico")
-                tag: "ritmico"
-                // enabledOn: [ ListElement{ key: "verde" } ]
-            }
-            ListElement {
-                name: qsTr("Robusto")
-                tag: "robusto"
-                // enabledOn: [ ListElement{ key: "verde" }, ListElement{ key: "bianco" } ]
-            }
-            ListElement {
-                name: qsTr("Sacrificio di Sangue")
-                tag: "sacrificio_sangue"
-                // enabledOn: [ ListElement{ key: "bianco" } ]
-            }
-            ListElement {
-                name: qsTr("Ultima Chance")
-                tag: "ultima_chance"
-                // enabledOn: [ ListElement{ key: "bianco" }, ListElement{ key: "nero" } ]
-            }
-            ListElement {
-                name: qsTr("Underdog")
-                tag: "underdog"
-                // enabledOn: [ ListElement{ key: "rosso" }, ListElement{ key: "blu" } ]
-            }
+    ListModel {
+        id: auraSpecialModel
+        ListElement {
+            name: qsTr("Armatura Spirituale")
+            tag: "armatura_spirituale"
+            colors: "blu;bianco"
         }
-
-        Component.onCompleted: {
-            //var rowCount = myModel.count;
-            //items.remove(0,rowCount);
-            for( var i=0; i < model.count; i++ ) {
-                var entry = model.get(i);
-                var groups = []
-                if(entry.blu)
-                    groups.push("blu");
-                if(entry.verde)
-                    groups.push("verde");
-                if(entry.rosso)
-                    groups.push("rosso");
-                if(entry.bianco)
-                    groups.push("bianco");
-                if(entry.nero)
-                    groups.push("nero");
-                console.log('set item ' + i + ' in groups ' + groups)
-                items.setGroups(i, 1, groups);
-            }
+        ListElement {
+            name: qsTr("Aura Assassina")
+            tag: "aura_assassina"
+            colors: "nero"
+        }
+        ListElement {
+            name: qsTr("Aura Guaritrice")
+            tag: "aura_guaritrice"
+            colors: "bianco"
+        }
+        ListElement {
+            name: qsTr("Aura Vampiro")
+            tag: "aura_vampiro"
+            colors: "nero"
+        }
+        ListElement {
+            name: qsTr("Bestiale")
+            tag: "bestiale"
+            colors: "verde;bianco"
+        }
+        ListElement {
+            name: qsTr("Colpo del Vento")
+            tag: "colpo_vento"
+            colors: "blu"
+        }
+        ListElement {
+            name: qsTr("Colpo Possente")
+            tag: "colpo_possente"
+            colors: "verde;nero"
+        }
+        ListElement {
+            name: qsTr("Energia Interiore")
+            tag: "energia_interiore"
+            rosso: true; verde: true
+            colors: "rosso;verde"
+        }
+        ListElement {
+            name: qsTr("Focus")
+            tag: "focus"
+            colors: "blu"
+        }
+        ListElement {
+            name: qsTr("Foglia Fluttuante")
+            tag: "foglia_fluttuante"
+            colors: "verde;bianco"
+        }
+        ListElement {
+            name: qsTr("Furia")
+            tag: "furia"
+            colors: "rosso;nero"
+        }
+        ListElement {
+            name: qsTr("Gatling Combo!")
+            tag: "gatling"
+            colors: "rosso"
+        }
+        ListElement {
+            name: qsTr("Groovy!")
+            tag: "groovy"
+            colors: "rosso;verde"
+        }
+        ListElement {
+            name: qsTr("Inarrestabile")
+            tag: "inarrestabile"
+            colors: "rosso"
+        }
+        ListElement {
+            name: qsTr("Ira")
+            tag: "ira"
+            colors: "rosso;nero"
+        }
+        ListElement {
+            name: qsTr("Passo del Fulmine")
+            tag: "passo_fulmine"
+            colors: "blu;nero"
+        }
+        ListElement {
+            name: qsTr("Pesante")
+            tag: "pesante"
+            colors: "verde"
+        }
+        ListElement {
+            name: qsTr("Presa Fulminea")
+            tag: "presa_fulminea"
+            colors: "blu"
+        }
+        ListElement {
+            name: qsTr("Presa Tornado")
+            tag: "presa_tornado"
+            colors: "rosso"
+        }
+        ListElement {
+            name: qsTr("Prudenza")
+            tag: "prudenza"
+            colors: "blu;bianco"
+        }
+        ListElement {
+            name: qsTr("Rigenerazione")
+            tag: "rigenerazione"
+            colors: "bianco"
+        }
+        ListElement {
+            name: qsTr("Ritmico")
+            tag: "ritmico"
+            colors: "verde"
+        }
+        ListElement {
+            name: qsTr("Robusto")
+            tag: "robusto"
+            colors: "verde;bianco"
+        }
+        ListElement {
+            name: qsTr("Sacrificio di Sangue")
+            tag: "sacrificio_sangue"
+            colors: "bianco"
+        }
+        ListElement {
+            name: qsTr("Ultima Chance")
+            tag: "ultima_chance"
+            colors: "bianco;nero"
+        }
+        ListElement {
+            name: qsTr("Underdog")
+            tag: "underdog"
+            colors: "rosso;blu"
         }
     }
+
+    SortFilterProxyModel {
+        id: auraSpecialProxyModel
+        sourceModel: auraSpecialModel
+        filterRoleName: "colors"
+        filterPattern: auraModel.get(cbAura.currentIndex).tag
+        filterCaseSensitivity: Qt.CaseSensitive
+    }
+
 
     ColumnLayout {
 
@@ -265,8 +238,12 @@ Page {
                 model: auraModel
 
                 onActivated: {
-                    charModel.aura.tag = auraModel.get(index).tag
+                    console.log('selected aura: ' + auraModel.get(index).tag)
+
+                    charModel.aura.tag = auraModel.get(index).tag                                       
                     charModel.aura.special = ""
+
+                    filteredAbilities.filterOnGroup = charModel.aura.tag
                     save()
                 }
             }
@@ -334,10 +311,12 @@ Page {
                 currentIndex: 0
 
                 textRole: "name"
-                model: filteredAbilities
+                model: auraSpecialProxyModel
 
                 onActivated: {
-                    charModel.aura.special = abilityModel.get(index).tag
+                    //console.log('activated: ' + JSON.stringify(filteredAbilities.get(index)))
+                    console.log('activated: ' + cbSpecial.textAt(index))
+                    charModel.aura.special = auraSpecialProxyModel.get(index).tag
                     save()
                 }
             }

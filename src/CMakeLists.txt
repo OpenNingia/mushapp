@@ -13,7 +13,15 @@ find_package(Qt5 COMPONENTS Core Quick Sql WebEngine REQUIRED)
 get_target_property(Qt5Core_location Qt5::Core LOCATION)
 get_filename_component(QT5_DLL_DIR ${Qt5Core_location} DIRECTORY)
 
-add_executable(${PROJECT_NAME} WIN32 "main.cpp" "sqlcharactermodel.cpp" "qml/qml.qrc")
+add_executable(${PROJECT_NAME} WIN32
+    "main.cpp"
+    "sqlcharactermodel.cpp"
+    "qml/qml.qrc"
+    # sort proxy model
+    SortFilterProxyModel/filter.cpp
+    SortFilterProxyModel/sorter.cpp
+    SortFilterProxyModel/qqmlsortfilterproxymodel.cpp
+)
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Sql Qt5::WebEngine)
 
 # INSTALL INSTRUCTIONS
