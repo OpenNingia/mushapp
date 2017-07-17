@@ -314,7 +314,6 @@ Page {
                 model: auraSpecialProxyModel
 
                 onActivated: {
-                    //console.log('activated: ' + JSON.stringify(filteredAbilities.get(index)))
                     console.log('activated: ' + cbSpecial.textAt(index))
                     charModel.aura.special = auraSpecialProxyModel.get(index).tag
                     save()

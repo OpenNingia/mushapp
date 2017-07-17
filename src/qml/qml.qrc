@@ -15,7 +15,7 @@
         <file>appIcon.png</file>
         <file>CharacterMovesPage.qml</file>
         <file>CharacterAuraPage.qml</file>
-        <file>CharacterItemsPage.qml</file>
+        <file>CharacterArmorPage.qml</file>
         <file>MoveCreationPage.qml</file>
         <file>img/spinge.png</file>
         <file>img/cade.png</file>
@@ -58,5 +58,6 @@
         <file>img/danno_relativo.png</file>
         <file>img/stordente.png</file>
         <file>img/vampirico.png</file>
+        <file>RoundPicker7.qml</file>
     </qresource>
 </RCC>
