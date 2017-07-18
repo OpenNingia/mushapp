@@ -32,14 +32,7 @@ Page {
             characterModel = JSON.parse(dataModel.characterData)
             pgInfo.initialize()
 
-            console.log(dataModel.characterData)
-            /*
-            charModelTest.name = o.name
-            charModelTest.title = o.title
-            charModelTest.speed = o.speed
-            charModelTest.attack = o.attack
-            charModelTest.defence = o.defence
-            */
+            //console.log(dataModel.characterData)
         }
     }
 
@@ -83,6 +76,20 @@ Page {
         CharacterAuraPage {
             id: pgAura
             charModel: characterModel
+        }
+
+        CharacterArmorPage {
+            id: pgArmor
+            charModel: characterModel
+            itemModel: characterModel.armor
+            isWeapon: false
+        }
+
+        CharacterArmorPage {
+            id: pgWeapon
+            charModel: characterModel
+            itemModel: characterModel.weapon
+            isWeapon: true
         }
 
         onCurrentItemChanged: {

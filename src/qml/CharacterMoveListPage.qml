@@ -57,7 +57,7 @@ Page {
 
             model: null
             delegate:  ItemDelegate {
-                height: txMoveName.implicitHeight + symbolList.height + 30
+                height: txMoveName.implicitHeight + 48 + 30
                 width: moveList.width - moveList.leftMargin - moveList.rightMargin
                 leftPadding: 0
                 //highlighted: ListView.isCurrentItem
@@ -81,9 +81,10 @@ Page {
                         }
                         SymbolList {
                             id: symbolList
-                            height: 24
+                            //height: 24
+                            Layout.fillHeight: true
                             Layout.fillWidth: true
-                            symbols: modelData.symbols                            
+                            symbols: modelData.symbols
                         }
                     }
 
@@ -96,8 +97,9 @@ Page {
                         }
                         onActivated: {
                             Moves.removeOne(root.charModel, index, root.superMoves)
-                            root.reload()
                             root.save()
+                            root.reload()
+
                         }
                     }
                 }

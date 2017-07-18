@@ -11,6 +11,21 @@ Page {
 
     property var initialize: function() {
         updateExp()
+
+        cbSpEngine.currentIndex = -1;
+
+        console.log("InfoPage initialize")
+
+        if ( charModel ) {
+            console.log(charModel.spEngine)
+            for(var i=0; i<cbSpEngine.count; i++) {
+                if (cbSpEngine.model.get(i).tag === charModel.spEngine) {
+                    cbSpEngine.currentIndex = i;
+                    break;
+                }
+            }
+        }
+
     }
 
     property var finalize: function() {
@@ -28,7 +43,7 @@ Page {
         }
     }
 
-    property var updateExp: function() {        
+    property var updateExp: function() {
         charExperience = charModel ? Exp.calcExp(charModel) : 0
         console.log('new experience: %1'.arg(charExperience))
     }
@@ -37,6 +52,36 @@ Page {
         title: activeCharacterName
         onBackClicked: root.StackView.view.pop()
     }*/
+
+    // SP ENGINES
+    ListModel {
+        id: spModel
+        ListElement {
+            name: qsTr("Combo")
+            tag: "sp_combo"
+            portrait: "qrc:/img/sp_combo.png"
+        }
+        ListElement {
+            name: qsTr("Danni")
+            tag: "sp_danni"
+            portrait: "qrc:/img/sp_danni.png"
+        }
+        ListElement {
+            name: qsTr("Difesa")
+            tag: "sp_difesa"
+            portrait: "qrc:/img/sp_difesa.png"
+        }
+        ListElement {
+            name: qsTr("Ferite")
+            tag: "sp_ferite"
+            portrait: "qrc:/img/sp_ferite.png"
+        }
+        ListElement {
+            name: qsTr("PA")
+            tag: "sp_pa"
+            portrait: "qrc:/img/sp_pa.png"
+        }
+    }
 
     // TITOLO O DESCRIZIONE
     ColumnLayout {
@@ -59,6 +104,60 @@ Page {
                 text: root.charModel ? root.charModel.title : ""
                 Layout.fillWidth: true
                 onTextChanged: root.charModel.title = text
+            }
+        }
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            anchors.margins: 2
+            spacing: 2
+
+            Label {
+                text: qsTr("SP")
+                font.bold: true
+            }
+            ComboBox {
+                id: cbSpEngine
+                model: spModel
+                textRole: "name"
+                Layout.fillWidth: true
+                onActivated: {
+                    root.charModel.spEngine = model.get(index).tag
+                    save()
+                }
+
+                delegate: ItemDelegate {
+                    width: cbSpEngine.width
+                    //height: idImg.height + 12
+                    contentItem: Row {
+                        topPadding: 6
+                        bottomPadding: 6
+                        leftPadding: 12
+                        Image {
+                            source: portrait
+                            height: 22
+                            width: 22
+                        }
+                        Text {
+                            height: 22
+                            text: name
+                            font: cbSpEngine.font
+                            leftPadding: 12
+                        }
+                    }
+
+                    highlighted: cbSpEngine.highlightedIndex === index
+                }
+
+                indicator: Image {
+                    source: spModel.get(cbSpEngine.currentIndex).portrait
+                    x: cbSpEngine.width - width - cbSpEngine.rightPadding
+                    y: cbSpEngine.topPadding + (cbSpEngine.availableHeight - height) / 2
+                    width: 16
+                    height: 16
+                    visible: cbSpEngine.currentIndex > 0
+                }
+
             }
         }
 

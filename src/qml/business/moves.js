@@ -13,17 +13,17 @@ function calcPaCost(symbols, isSuper) {
       return acc;
     }, {});
 
-    //console.log(JSON.stringify(move))
+    //console.log(JSON.stringify(symbols))
     //console.log("is super:" + isSuper);
 
     var cost = 0;
     var nsymbols = symbols.length;
 
     var sforzi_estremi = "sforzo_estremo" in tagCount ? tagCount["sforzo_estremo"] : 0;
-    var cadi = "cadi" in tagCount ? tagCount["cadi"] : 0;
+    var crolla = "crolla" in tagCount ? tagCount["crolla"] : 0;
 
     // questi simboli non aggiungono costo al PA
-    nsymbols -= sforzi_estremi + cadi
+    nsymbols -= sforzi_estremi + crolla
 
     if ( isSuper ) {
         cost = superBaseCost + (nsymbols-superFreeSymbols);
@@ -32,7 +32,7 @@ function calcPaCost(symbols, isSuper) {
     }
 
     // cadi al massimo una volta
-    if ( "cadi" in tagCount && nsymbols > 0 ) {
+    if ( crolla > 0 && nsymbols > 0 ) {
         cost -= 1;
     }
 

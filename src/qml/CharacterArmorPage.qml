@@ -9,6 +9,8 @@ Page {
 
     property var charModel
     property var itemModel
+    property bool isWeapon: false
+
     property var initialize: function() {
 
     }
@@ -38,7 +40,7 @@ Page {
             spacing: 2
 
             Label {
-                text: qsTr("Armatura")
+                text: isWeapon ? qsTr("Weapon") : qsTr("Armatura")
                 font.bold: true
             }
             TextField {

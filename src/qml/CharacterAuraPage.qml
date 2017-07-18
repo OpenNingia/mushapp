@@ -22,8 +22,6 @@ Page {
                 }
             }
 
-            //filteredAbilities.filterOnGroup = charModel.aura.tag
-
             for(var i=0; i<cbSpecial.count; i++) {
                 if (cbSpecial.model.get(i).tag === charModel.aura.special) {
                     cbSpecial.currentIndex = i
@@ -108,7 +106,6 @@ Page {
         ListElement {
             name: qsTr("Energia Interiore")
             tag: "energia_interiore"
-            rosso: true; verde: true
             colors: "rosso;verde"
         }
         ListElement {
@@ -207,7 +204,7 @@ Page {
         id: auraSpecialProxyModel
         sourceModel: auraSpecialModel
         filterRoleName: "colors"
-        filterPattern: auraModel.get(cbAura.currentIndex).tag
+        filterPattern: charModel ? charModel.aura.tag : ""
         filterCaseSensitivity: Qt.CaseSensitive
     }
 
@@ -243,7 +240,6 @@ Page {
                     charModel.aura.tag = auraModel.get(index).tag                                       
                     charModel.aura.special = ""
 
-                    filteredAbilities.filterOnGroup = charModel.aura.tag
                     save()
                 }
             }

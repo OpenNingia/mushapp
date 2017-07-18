@@ -46,7 +46,7 @@ Page {
             portrait: "qrc:/img/combo.png"
         }
         ListElement {
-            name: qsTr("Assorbimento")
+            name: qsTr("Assorbe")
             tag: "assorbimento"
             isChecked: false
             portrait: "qrc:/img/assorbimento.png"
@@ -58,19 +58,19 @@ Page {
             portrait: "qrc:/img/blitz.png"
         }
         ListElement {
+            name: qsTr("Crolla")
+            tag: "crolla"
+            isChecked: false
+            portrait: "qrc:/img/crolla.png"
+        }
+        ListElement {
             name: qsTr("Cade")
             tag: "cade"
             isChecked: false
             portrait: "qrc:/img/cade.png"
         }
         ListElement {
-            name: qsTr("Cadi")
-            tag: "cadi"
-            isChecked: false
-            portrait: "qrc:/img/cadi.png"
-        }
-        ListElement {
-            name: qsTr("Conclusiva")
+            name: qsTr("Conclude")
             tag: "conclusiva"
             isChecked: false
             portrait: "qrc:/img/conclusiva.png"
@@ -80,12 +80,6 @@ Page {
             tag: "congela"
             isChecked: false
             portrait: "qrc:/img/congela.png"
-        }
-        ListElement {
-            name: qsTr("Cura")
-            tag: "cura"
-            isChecked: false
-            portrait: "qrc:/img/cura.png"
         }
         ListElement {
             name: qsTr("Danno continuato")
@@ -112,10 +106,10 @@ Page {
             portrait: "qrc:/img/guarigione.png"
         }
         ListElement {
-            name: qsTr("Multi shot")
-            tag: "crawling"
+            name: qsTr("Multi")
+            tag: "multi"
             isChecked: false
-            portrait: "qrc:/img/crawling.png"
+            portrait: "qrc:/img/multi.png"
         }
         ListElement {
             name: qsTr("Possente")
@@ -160,7 +154,7 @@ Page {
             portrait: "qrc:/img/spinge.png"
         }
         ListElement {
-            name: qsTr("Stordente")
+            name: qsTr("Stordisce")
             tag: "stordente"
             isChecked: false
             portrait: "qrc:/img/stordente.png"
@@ -190,7 +184,7 @@ Page {
             portrait: "qrc:/img/udurezza.png"
         }
         ListElement {
-            name: qsTr("Vampirico")
+            name: qsTr("Vampirizza")
             tag: "vampirico"
             isChecked: false
             portrait: "qrc:/img/vampirico.png"
@@ -247,7 +241,7 @@ Page {
             id: symbolList
 
             Layout.fillWidth: true
-            height: 24
+            height: 48
             symbols: root.selectedSymbols
 
             MouseArea {
