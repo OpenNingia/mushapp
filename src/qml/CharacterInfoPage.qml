@@ -155,7 +155,7 @@ Page {
                     y: cbSpEngine.topPadding + (cbSpEngine.availableHeight - height) / 2
                     width: 16
                     height: 16
-                    visible: cbSpEngine.currentIndex > 0
+                    visible: cbSpEngine.currentIndex >= 0
                 }
 
             }

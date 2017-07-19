@@ -101,13 +101,14 @@ Page {
             verticalAlignment: Text.AlignVCenter
         }
 
-        width: 96; height: 96
+        width: 80; height: 80
 
         highlighted: true
         Material.accent: Material.Red
 
         anchors.bottom: characterList.bottom
         anchors.right: characterList.right
+        anchors.margins: 12
 
         onClicked: root.StackView.view.push("qrc:/CharacterCreationPage.qml")
     }

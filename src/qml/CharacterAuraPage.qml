@@ -241,6 +241,8 @@ Page {
                     charModel.aura.special = ""
 
                     save()
+
+                    auraSpecialProxyModel.filterPattern = charModel.aura.tag
                 }
             }
         }
