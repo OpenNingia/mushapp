@@ -2,8 +2,8 @@ QT += qml quick sql
 
 CONFIG += c++11
 
-SOURCES += src/main.cpp src/sqlcharactermodel.cpp
-HEADERS += src/sqlcharactermodel.h
+SOURCES += src/main.cpp src/sqlcharactermodel.cpp src/pdfexport.cpp
+HEADERS += src/sqlcharactermodel.h src/pdfexport.h
 
 RESOURCES += src/qml/qml.qrc
 
