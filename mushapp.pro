@@ -2,8 +2,21 @@ QT += qml quick sql
 
 CONFIG += c++11
 
-SOURCES += src/main.cpp src/sqlcharactermodel.cpp src/pdfexport.cpp
-HEADERS += src/sqlcharactermodel.h src/pdfexport.h
+SOURCES += \
+    src/main.cpp \
+    src/sqlcharactermodel.cpp \
+    src/pdfexport.cpp \
+    src/SortFilterProxyModel/filter.cpp \
+    src/SortFilterProxyModel/sorter.cpp \
+    src/SortFilterProxyModel/qqmlsortfilterproxymodel.cpp
+
+HEADERS += \
+    src/sqlcharactermodel.h \
+    src/pdfexport.h \
+    src/SortFilterProxyModel/filter.h \
+    src/SortFilterProxyModel/sorter.h \
+    src/SortFilterProxyModel/qqmlsortfilterproxymodel.h
+
 
 RESOURCES += src/qml/qml.qrc
 
