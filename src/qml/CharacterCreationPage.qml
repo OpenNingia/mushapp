@@ -27,7 +27,7 @@ Page {
             placeholderText: qsTr("Enter character name")
             focus: true
             KeyNavigation.tab: inputTitle
-
+            validator: RegExpValidator { regExp: /[^\"\\\/':]+/ }
             Layout.fillWidth: true
         }
 
@@ -36,7 +36,7 @@ Page {
             width: 200
             placeholderText: qsTr("Enter character title")
             KeyNavigation.tab: btConfirm
-
+            validator: RegExpValidator { regExp: /[^\"\\\/':]+/ }
             Layout.fillWidth: true
         }
 

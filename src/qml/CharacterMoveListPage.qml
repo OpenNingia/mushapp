@@ -108,7 +108,6 @@ Page {
     }
 
     footer: ToolBar {
-        id: tabBar
         RowLayout {
             anchors.fill: parent
 

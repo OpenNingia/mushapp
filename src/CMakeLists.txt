@@ -8,7 +8,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt5 COMPONENTS Core Quick Sql WebEngine REQUIRED)
+find_package(Qt5 COMPONENTS Core Quick Sql REQUIRED)
 
 get_target_property(Qt5Core_location Qt5::Core LOCATION)
 get_filename_component(QT5_DLL_DIR ${Qt5Core_location} DIRECTORY)
@@ -16,13 +16,14 @@ get_filename_component(QT5_DLL_DIR ${Qt5Core_location} DIRECTORY)
 add_executable(${PROJECT_NAME} WIN32
     "main.cpp"
     "sqlcharactermodel.cpp"
+    "pdfexport.cpp"
     "qml/qml.qrc"
     # sort proxy model
     SortFilterProxyModel/filter.cpp
     SortFilterProxyModel/sorter.cpp
     SortFilterProxyModel/qqmlsortfilterproxymodel.cpp
 )
-target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Sql Qt5::WebEngine)
+target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Sql)
 
 # INSTALL INSTRUCTIONS
 install(TARGETS ${PROJECT_NAME} DESTINATION bin COMPONENT coreapp)
@@ -68,7 +69,7 @@ endif()
 set(CPACK_PACKAGE_NAME MushApp)
 set(CPACK_PACKAGE_VERSION_MAJOR 0)
 set(CPACK_PACKAGE_VERSION_MINOR 0)
-set(CPACK_PACKAGE_VERSION_PATCH 1)
+set(CPACK_PACKAGE_VERSION_PATCH 2)
 
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Musha Shugyo companion App")
 set(CPACK_PACKAGE_CONTACT "Daniele Simonetti <oppifjellet@gmail.com>")
@@ -96,7 +97,7 @@ file(TO_NATIVE_PATH ${ENV_LOCALAPPDATA}/Programs CPACK_NSIS_INSTALL_ROOT)
 string(REPLACE "\\" "\\\\" CPACK_NSIS_INSTALL_ROOT ${CPACK_NSIS_INSTALL_ROOT})
 #set(CPACK_NSIS_INSTALL_ROOT $ENV{LOCALAPPDATA}/Programs/${CPACK_PACKAGE_NAME})
 set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
-set(CPACK_NSIS_URL_INFO_ABOUT "https://gitlab.com/dasi")
+set(CPACK_NSIS_URL_INFO_ABOUT "https://github.com/openningia/mushapp")
 set(CPACK_NSIS_CONTACT ${CPACK_PACKAGE_CONTACT})
 set(CPACK_NSIS_MUI_FINISHPAGE_RUN "MushApp")
 set(CPACK_NSIS_COMPRESSOR "/FINAL /SOLID lzma")

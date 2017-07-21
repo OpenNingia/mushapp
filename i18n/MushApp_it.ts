@@ -2,6 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="it_IT">
 <context>
+    <name>CanvasCharacterSheet</name>
+    <message>
+        <location filename="../src/qml/CanvasCharacterSheet.qml" line="382"/>
+        <source>Save PDF</source>
+        <translation>Salva PDF</translation>
+    </message>
+</context>
+<context>
     <name>CharacterArmorPage</name>
     <message>
         <location filename="../src/qml/CharacterArmorPage.qml" line="43"/>
@@ -42,182 +50,182 @@
 <context>
     <name>CharacterAuraPage</name>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="44"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="45"/>
         <source>None</source>
         <translation>Nessuna</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="48"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="49"/>
         <source>White</source>
         <translation>Bianca</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="52"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="53"/>
         <source>Black</source>
         <translation>Nera</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="56"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="57"/>
         <source>Red</source>
         <translation>Rossa</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="60"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="61"/>
         <source>Blue</source>
         <translation>Blu</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="64"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="65"/>
         <source>Green</source>
         <translation>Verde</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="72"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="73"/>
         <source>Armatura Spirituale</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="77"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="78"/>
         <source>Aura Assassina</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="82"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="83"/>
         <source>Aura Guaritrice</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="87"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="88"/>
         <source>Aura Vampiro</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="92"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="93"/>
         <source>Bestiale</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="97"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="98"/>
         <source>Colpo del Vento</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="102"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="103"/>
         <source>Colpo Possente</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="107"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="108"/>
         <source>Energia Interiore</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="112"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="113"/>
         <source>Focus</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="117"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="118"/>
         <source>Foglia Fluttuante</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="122"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="123"/>
         <source>Furia</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="127"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="128"/>
         <source>Gatling Combo!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="132"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="133"/>
         <source>Groovy!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="137"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="138"/>
         <source>Inarrestabile</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="142"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="143"/>
         <source>Ira</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="147"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="148"/>
         <source>Passo del Fulmine</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="152"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="153"/>
         <source>Pesante</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="157"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="158"/>
         <source>Presa Fulminea</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="162"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="163"/>
         <source>Presa Tornado</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="167"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="168"/>
         <source>Prudenza</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="172"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="173"/>
         <source>Rigenerazione</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="177"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="178"/>
         <source>Ritmico</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="182"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="183"/>
         <source>Robusto</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="187"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="188"/>
         <source>Sacrificio di Sangue</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="192"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="193"/>
         <source>Ultima Chance</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="197"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="198"/>
         <source>Underdog</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="224"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="225"/>
         <source>Color</source>
         <translation>Colore</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="254"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="257"/>
         <source>Level</source>
         <translation>Livello</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="276"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="279"/>
         <source>Points</source>
         <translation>Punti Aura</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterAuraPage.qml" line="299"/>
+        <location filename="../src/qml/CharacterAuraPage.qml" line="302"/>
         <source>Special Ability</source>
         <translation>Qualità Speciale</translation>
     </message>
@@ -279,39 +287,39 @@
         <translation>Titolo</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="116"/>
+        <location filename="../src/qml/CharacterInfoPage.qml" line="117"/>
         <source>SP</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="171"/>
+        <location filename="../src/qml/CharacterInfoPage.qml" line="172"/>
         <source>Experience</source>
         <translatorcomment>I punti esperienza spesi</translatorcomment>
         <translation>Punti esperienza</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="210"/>
+        <location filename="../src/qml/CharacterInfoPage.qml" line="211"/>
         <source>Speed</source>
         <translation>Rapidità</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="232"/>
+        <location filename="../src/qml/CharacterInfoPage.qml" line="233"/>
         <source>Attack</source>
         <translation>Attacco</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="254"/>
+        <location filename="../src/qml/CharacterInfoPage.qml" line="255"/>
         <source>Defense</source>
         <translation>Difesa</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="284"/>
+        <location filename="../src/qml/CharacterInfoPage.qml" line="285"/>
         <source>Balance</source>
         <translatorcomment>Nome della caratteristica Equilibrio</translatorcomment>
         <translation>Equilibrio</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterInfoPage.qml" line="306"/>
+        <location filename="../src/qml/CharacterInfoPage.qml" line="307"/>
         <source>Willpower</source>
         <translatorcomment>Nome della caratteristica Volontà</translatorcomment>
         <translation>Volontà</translation>
@@ -325,12 +333,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterMoveListPage.qml" line="117"/>
+        <location filename="../src/qml/CharacterMoveListPage.qml" line="116"/>
         <source>Add new super</source>
         <translation>Nuova Super</translation>
     </message>
     <message>
-        <location filename="../src/qml/CharacterMoveListPage.qml" line="117"/>
+        <location filename="../src/qml/CharacterMoveListPage.qml" line="116"/>
         <source>Add new move</source>
         <translation>Nuova Special</translation>
     </message>
@@ -505,7 +513,7 @@
 <context>
     <name>Page1</name>
     <message>
-        <location filename="../src/qml/Page1.qml" line="19"/>
+        <location filename="../src/qml/Page1.qml" line="18"/>
         <source>Characters</source>
         <translatorcomment>Intestazione della lista dei personaggi</translatorcomment>
         <translation>Personaggi</translation>

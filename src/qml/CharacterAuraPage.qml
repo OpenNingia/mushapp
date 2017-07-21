@@ -38,6 +38,7 @@ Page {
         }
     }
 
+
     ListModel {
         id: auraModel
         ListElement {

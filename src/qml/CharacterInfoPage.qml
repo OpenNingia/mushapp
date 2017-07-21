@@ -103,6 +103,7 @@ Page {
                 id: txTitle
                 text: root.charModel ? root.charModel.title : ""
                 Layout.fillWidth: true
+                validator: RegExpValidator { regExp: /[^\"\\\/':]+/ }
                 onTextChanged: root.charModel.title = text
             }
         }

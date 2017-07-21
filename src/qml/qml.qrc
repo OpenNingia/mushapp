@@ -46,7 +46,6 @@
         <file>img/guarigione.png</file>
         <file>img/sforzo_estremo.png</file>
         <file>img/tutto_per_tutto.png</file>
-        <file>WebCharacterSheet.qml</file>
         <file>i18n/MushApp_en.qm</file>
         <file>i18n/MushApp_it.qm</file>
         <file>CharacterMainPage.qml</file>
@@ -59,5 +58,13 @@
         <file>img/stordente.png</file>
         <file>img/vampirico.png</file>
         <file>RoundPicker7.qml</file>
+        <file>CanvasCharacterSheet.qml</file>
+        <file>img/Background_01.jpg</file>
+        <file>fonts/DISTInking-Regular.otf</file>
+        <file>img/Colonna.png</file>
+        <file>img/vdivider.png</file>
+        <file>img/hdivider.png</file>
+        <file>img/pennellata1.png</file>
+        <file>fonts/RODEK.TTF</file>
     </qresource>
 </RCC>

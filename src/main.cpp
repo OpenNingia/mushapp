@@ -7,12 +7,8 @@
 #include <QtQml>
 #include <QIcon>
 
-#ifndef Q_OS_ANDROID
-// WEB ENGINE
-#   include <qtwebengineglobal.h>
-#endif
-
 #include "sqlcharactermodel.h"
+#include "pdfexport.h"
 
 static void connectToDatabase()
 {
@@ -43,10 +39,6 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/appIcon.png"));
 
-#ifndef Q_OS_ANDROID
-    QtWebEngine::initialize();
-#endif
-
     // install translators
     QTranslator qtTranslator;
     //qtTranslator.load("MushApp_" + QLocale::system().name(), "i18n/");
@@ -58,21 +50,11 @@ int main(int argc, char *argv[])
 //#endif
     app.installTranslator(&qtTranslator);
 
-/*
-#ifndef Q_OS_ANDROID
-    int fontId = QFontDatabase::addApplicationFont(QLatin1String("qrc:/fa/fontawesome-webfont.ttf"));
-    qDebug() << "fontId: " << fontId;
-    foreach(QString f,  QFontDatabase::applicationFontFamilies(fontId))
-        qDebug() << f;
-#endif
-*/
-
-    qmlRegisterType<SqlCharacterModel>("org.openningia.mushapp", 1, 0, "SqlCharacterModel");
-
     connectToDatabase();
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("dataModel", new SqlCharacterModel{});
+    engine.rootContext()->setContextProperty("pdfExporter", new PdfExport{});
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));    
     if (engine.rootObjects().isEmpty())
         return -1;

@@ -1,27 +1,10 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
+import "fa"
 
 Page {
     id: root
-
-    /*QtObject {
-        id: charModelTest
-        property string name
-        property string title
-        // caratteristiche
-        property int speed
-        property int attack
-        property int defence
-        property int balance
-        property int willpower
-        // mosse
-        property var moves
-        property var superMoves
-        // aura
-        property int auraLvl
-        property int auraPoints
-    }*/
 
     property string activeCharacterName
     property var characterModel
@@ -46,8 +29,12 @@ Page {
 
 
     header: PageHeader {
+        id: pageTitle
         title: activeCharacterName
         onBackClicked: root.StackView.view.pop()
+        onPdfClicked: {
+            root.StackView.view.push("qrc:/CanvasCharacterSheet.qml", { charModel: characterModel })
+        }
     }
 
     SwipeView {
@@ -62,6 +49,7 @@ Page {
             id: pgInfo
             charModel: characterModel
         }
+
         CharacterMovesPage {
             id: pgSpecial
             charModel: characterModel
@@ -92,6 +80,7 @@ Page {
             isWeapon: true
         }
 
+
         onCurrentItemChanged: {
             if (__oldItem && __oldItem.finalize) {
                 __oldItem.finalize()
@@ -102,43 +91,9 @@ Page {
             }
 
             __oldItem = currentItem
+
+            if ( currentItem.getTitle )
+                pageTitle.title = currentItem.getTitle()
         }
     }
-
-    /*
-    PageIndicator {
-        id: indicator
-
-        count: swipeView.count
-        currentIndex: swipeView.currentIndex
-
-        anchors.bottom: swipeView.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-    }*/
-
-    /*
-    footer: TabBar {
-        id: tabBar
-        currentIndex: swipeView.currentIndex
-        TabButton {
-            text: qsTr("Info")
-            width: implicitWidth
-        }
-        TabButton {
-            text: qsTr("Special")
-            width: implicitWidth
-        }
-        TabButton {
-            text: qsTr("Super")
-            width: implicitWidth
-        }
-        TabButton {
-            text: qsTr("Aura")
-            width: implicitWidth
-        }
-        TabButton {
-            text: qsTr("Sheet")
-            width: implicitWidth
-        }
-    }*/
 }
