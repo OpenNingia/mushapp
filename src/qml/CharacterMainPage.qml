@@ -96,4 +96,30 @@ Page {
                 pageTitle.title = currentItem.getTitle()
         }
     }
+
+    footer: RowLayout {
+            Item { Layout.fillWidth: true }
+            PageIndicator {
+            id: control
+            count: swipeView.count
+            currentIndex: swipeView.currentIndex
+
+            delegate: Rectangle {
+                implicitWidth: 8
+                implicitHeight: 8
+
+                radius: width / 2
+                color: "#E91E63"
+
+                opacity: index === control.currentIndex ? 0.95 : pressed ? 0.7 : 0.45
+
+                Behavior on opacity {
+                    OpacityAnimator {
+                        duration: 100
+                    }
+                }
+            }
+        }
+        Item { Layout.fillWidth: true }
+    }
 }

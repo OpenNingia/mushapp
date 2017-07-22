@@ -66,5 +66,6 @@
         <file>img/hdivider.png</file>
         <file>img/pennellata1.png</file>
         <file>fonts/RODEK.TTF</file>
+        <file>CharacterSheetItem.qml</file>
     </qresource>
 </RCC>
