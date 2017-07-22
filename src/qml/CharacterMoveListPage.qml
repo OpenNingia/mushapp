@@ -36,11 +36,6 @@ Page {
         }
     }
 
-    /*header: PageHeader {
-        title: superMoves ? qsTr("%1 - Super").arg(charModel.name) : qsTr("%1 - Specials").arg(charModel.name)
-        onBackClicked: root.StackView.view.pop()
-    }*/
-
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: 10
@@ -60,9 +55,10 @@ Page {
                 height: txMoveName.implicitHeight + 48 + 30
                 width: moveList.width - moveList.leftMargin - moveList.rightMargin
                 leftPadding: 0
-                //highlighted: ListView.isCurrentItem
-                onClicked: {
-                    //moveList.currentIndex = index
+                onClicked: {                   
+                    root.StackView.view.push(
+                                "qrc:/MoveCreationPage.qml",
+                                { charModel: root.charModel, superMove: superMoves, moveIndex: index })
                 }
 
                 RowLayout {

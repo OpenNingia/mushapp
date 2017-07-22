@@ -9,13 +9,23 @@ Page {
     id: root
 
     property var charModel: null
-    property bool superMove: false
+
+    // moveIndex >= 0 means that we're editing an existing move
+    property int moveIndex: -1
+
+    property bool superMove: false    
     property bool hasName: false
     property var selectedSymbols: []
     property int paCost: Moves.calcPaCost(selectedSymbols, superMove)
 
     property var initialize: function() {
         inputName.forceActiveFocus()
+        if ( moveIndex >= 0 ) {
+            var moveObj = superMove ? charModel.superMoves[moveIndex] : charModel.moves[moveIndex]
+            selectedSymbols = moveObj.symbols
+            paCost = moveObj.cost
+            inputName.text = moveObj.name
+        }
     }
 
     property var finalize: function() {
@@ -26,16 +36,6 @@ Page {
         symbolList.model = root.selectedSymbols
         paCost = Moves.calcPaCost(root.selectedSymbols, superMove)
     }
-
-    /*Component.onCompleted: {
-
-    }*/
-
-    /*
-    header: PageHeader {
-        title: charModel.name
-        onBackClicked: root.StackView.view.pop()
-    }*/
 
     ListModel {
         id: symbolsModel
@@ -216,27 +216,6 @@ Page {
             font.bold: true
         }
 
-        /*
-        ColumnLayout {
-            //anchors.fill: parent
-            //anchors.margins: 10
-            spacing: 10
-
-            Layout.fillWidth: true
-
-            Label {
-                Layout.fillWidth: true
-                text: qsTr("Symbols")
-            }
-
-            SymbolList {
-                id: symbolList
-
-                Layout.fillWidth: true
-                height: 64
-                symbols: root.selectedSymbols
-            }
-        }*/
         SymbolList {
             id: symbolList
 
@@ -315,10 +294,17 @@ Page {
 
                     if ( charModel ) {
 
-                        if ( superMove )
-                            charModel.superMoves.push(moveObject)
-                        else
-                            charModel.moves.push(moveObject)
+                        if ( moveIndex < 0 ) {
+                            if ( superMove )
+                                charModel.superMoves.push(moveObject)
+                            else
+                                charModel.moves.push(moveObject)
+                        } else {
+                            if ( superMove )
+                                charModel.superMoves[moveIndex] = moveObject
+                            else
+                                charModel.moves[moveIndex] = moveObject
+                        }
 
                         // save immediately
                         console.log('MoveCreationPage: saving...')
