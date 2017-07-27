@@ -5,12 +5,8 @@ GridView {
     property var symbols
     property int preferredHeight: 24
 
-    //orientation: ListView.Horizontal
-
     cellHeight: 22
     cellWidth: 22
-
-    //height: parent.height
 
     model: symbols
     delegate: Image {
@@ -18,10 +14,6 @@ GridView {
         height: 22
         width: 22
     }
-
-    //Component.onCompleted: {
-    //    preferredHeight = calcPreferredHeight()
-    //}
 
     onWidthChanged: {
         preferredHeight = calcPreferredHeight()

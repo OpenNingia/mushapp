@@ -22,7 +22,7 @@ Page {
 
     property var save: function() {
         if ( charModel ) {
-            console.log('CharacterInfoPage: saving...')
+            console.log('CharacterArmorPage: saving...')
             dataModel.characterData = JSON.stringify(charModel)
         }
     }
@@ -31,12 +31,12 @@ Page {
 
         anchors.fill: parent
         anchors.margins: 12
-        //spacing: 3
+        spacing: 6
 
         // NOME ARMATURA
         ColumnLayout {
             Layout.fillWidth: true
-            anchors.margins: 2
+            //anchors.margins: 2
             spacing: 2
 
             Label {
@@ -48,6 +48,56 @@ Page {
                 text: root.itemModel ? root.itemModel.name : ""
                 Layout.fillWidth: true
                 onTextChanged: root.itemModel.name = text
+            }
+        }
+
+        /*Label {
+            text: isWeapon ? qsTr("Weapon") : qsTr("Armatura")
+            font.bold: true
+        }
+        TextField {
+            id: txArmorName
+            text: root.itemModel ? root.itemModel.name : ""
+            Layout.fillWidth: true
+            onTextChanged: root.itemModel.name = text
+        }*/
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: 12
+
+            Button {
+                contentItem: TextIcon {
+                    icon: icons.fa_tags
+                    pointSize: 12
+                }
+
+                flat: true
+                Layout.maximumWidth: 24
+                Layout.maximumHeight: 24
+                Layout.alignment: Qt.AlignVCenter
+
+                //height: 16; width: 16
+                onClicked: popup.open()
+            }
+
+            SymbolList {
+                id: symbolList
+
+                Layout.fillWidth: true
+                Layout.minimumHeight: 24
+                Layout.maximumHeight: 32
+
+                symbols: itemModel.symbols
+
+                MouseArea {
+                    anchors.fill: symbolList
+                    onClicked: {
+                        itemModel.symbols.pop()
+                        itemModelChanged()
+                    }
+                }
+
+                //visible: itemModel.symbols.length !== 0
             }
         }
 
@@ -177,8 +227,35 @@ Page {
             color: "#3F51B5"
         }
 
-        SymbolList {
+        Item { Layout.fillHeight: true }
 
+        Drawer {
+            id: popup
+            edge: Qt.BottomEdge
+            interactive: true
+
+            height: parent.height * 0.55
+            width: parent.width
+
+            y: parent.height - height
+            x: 0
+
+            //modal: true
+            focus: true
+
+            //closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+
+            contentItem: SymbolSelector {
+              anchors.fill: parent
+
+              onSymbolActivated:  {
+                  if ( itemModel.symbols )
+                    itemModel.symbols.push(symbolId)
+                  else
+                      itemModel.symbols = [symbolId]
+                  itemModelChanged()
+              }
+            }
         }
     }
 }

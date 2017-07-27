@@ -67,5 +67,6 @@
         <file>img/pennellata1.png</file>
         <file>fonts/RODEK.TTF</file>
         <file>CharacterSheetItem.qml</file>
+        <file>SymbolSelector.qml</file>
     </qresource>
 </RCC>
