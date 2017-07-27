@@ -1,6 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.1
 import "fa"
 import "business/exp.js" as Exp
 
@@ -47,11 +48,6 @@ Page {
         charExperience = charModel ? Exp.calcExp(charModel) : 0
         console.log('new experience: %1'.arg(charExperience))
     }
-
-    /*header: PageHeader {
-        title: activeCharacterName
-        onBackClicked: root.StackView.view.pop()
-    }*/
 
     // SP ENGINES
     ListModel {
@@ -173,22 +169,48 @@ Page {
                 font.bold: true
             }
 
-            ToolButton {
-                id: txExp
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                topPadding: 12
-                text: charExperience
-                font.pointSize: 14
+            RowLayout {
+                //Layout.margins: 4
+                ToolButton {
+                    id: txExp
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                    //topPadding: 12
+                    text: charExperience
+                    font.pointSize: 14
 
-                ToolTip {
-                    parent: txExp
-                    visible: txExp.down
-                    width: 180
-                    height: 80
-                    contentItem: ExpDetails { id: expDtl; charModel: root.charModel }
+                    contentItem: Label {
+                        text: txExp.text
+                        font: txExp.font
+
+                        color: charExperience > charModel.exp ? "#f00" : "#000"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
+
+                    ToolTip {
+                        parent: txExp
+                        visible: txExp.down
+                        width: 180
+                        height: 80
+                        contentItem: ExpDetails { id: expDtl; charModel: root.charModel }
+                    }
+                    onDownChanged: {
+                        expDtl.charModel = root.charModel
+                    }
                 }
-                onDownChanged: {
-                    expDtl.charModel = root.charModel
+
+                Item { Layout.fillWidth: true }
+
+                SpinBox {
+                    from: 0
+                    to: 1000
+                    stepSize: 1
+                    value: charModel.exp
+                    onValueChanged: {
+                        charModel.exp = value
+                        charModelChanged()
+                    }
                 }
             }
         }
@@ -267,12 +289,13 @@ Page {
             }
         }
 
+        /*
         Rectangle {
             height: 1
             Layout.minimumHeight: 1
             Layout.fillWidth: true
             color: "#3F51B5"
-        }
+        }*/
 
         // EQUILIBRIO
         RowLayout {
@@ -318,51 +341,4 @@ Page {
             }
         }
     }
-
-    /*
-    footer: ToolBar {
-        id: tabBar
-        RowLayout {
-            anchors.fill: parent
-
-            Item {
-                Layout.fillWidth: true
-            }
-
-            ToolButton {
-                text: qsTr("Special")
-                onClicked: {
-                    root.StackView.view.push(
-                                "qrc:/CharacterMovesPage.qml",
-                                { charModel: charModel, superMoves: false })
-                }
-            }
-            ToolButton {
-                text: qsTr("Super")
-                onClicked: {
-                    root.StackView.view.push(
-                                "qrc:/CharacterMovesPage.qml",
-                                { charModel: charModel, superMoves: true })
-                }
-            }
-
-            ToolSeparator {}
-
-            ToolButton {
-                text: qsTr("Aura")
-            }
-            ToolButton {
-                text: qsTr("Equip")
-                onClicked: {
-                    root.StackView.view.push(
-                                "qrc:/WebCharacterSheet.qml",
-                                { charModel: charModel })
-                }
-            }
-
-            Item {
-                Layout.fillWidth: true
-            }
-        }
-    }*/
 }
