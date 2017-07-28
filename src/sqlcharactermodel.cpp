@@ -300,7 +300,7 @@ bool SqlCharacterModel::importAll()
             return false;
 
         QJsonArray lst{doc.array()};
-        for(auto& c: lst) {
+        for(auto c: lst) {
             if ( c.isObject() ) {
                 auto o = c.toObject();
                 QJsonDocument d{o};
