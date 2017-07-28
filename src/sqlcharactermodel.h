@@ -22,10 +22,17 @@ public:
 
     Q_INVOKABLE bool addCharacter(const QString &name, const QString &title);
     Q_INVOKABLE bool delCharacter(const QString &name);
-    //Q_INVOKABLE void updCharacter(const QModelIndex &index, const QByteArray & data);
+
+    // export all characters into a JSON file
+    Q_INVOKABLE bool exportAll();
+    // import characters from previous export
+    Q_INVOKABLE bool importAll();
+
 signals:
     void characterChanged();
 private:
     QString activeCharacter;
+
+    bool importCharacter(const QString &name, const QByteArray &content);
 };
 

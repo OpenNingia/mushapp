@@ -2,6 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.1
+import Qt.labs.platform 1.0
 import "fa"
 
 Page {
@@ -92,6 +93,7 @@ Page {
     }
 
     RoundButton {
+        id: fab
 
         contentItem: TextIcon {
             icon: icons.fa_plus
@@ -112,5 +114,87 @@ Page {
         anchors.margins: 12
 
         onClicked: root.StackView.view.push("qrc:/CharacterCreationPage.qml")
+    }
+
+    RoundButton {
+        id: btExport
+
+        contentItem: TextIcon {
+            icon: icons.fa_download
+            pointSize: 14
+
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+
+        width: 40; height: 40
+
+        highlighted: false
+        //Material.accent: Material.Red
+
+        ToolTip.text: qsTr("Export")
+        ToolTip.visible: down
+
+        anchors.right: fab.left
+        anchors.bottom: fab.bottom
+        //anchors.right: characterList.right
+        anchors.margins: 12
+
+        MessageDialog {
+            id: resultDlg
+            buttons: MessageDialog.Ok
+            //text: "The document has been modified."
+        }
+
+        onClicked: {
+            var success = dataModel.exportAll();
+
+            if ( Qt.platform.os == "android" ) {
+                if ( success ) {
+                    resultDlg.text = qsTr("Exported with success");
+                } else {
+                    resultDlg.text = qsTr("Export failed");
+                }
+                resultDlg.open();
+            }
+        }
+    }
+
+    RoundButton {
+        id: btImport
+
+        contentItem: TextIcon {
+            icon: icons.fa_upload
+            pointSize: 14
+
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+
+        width: 40; height: 40
+
+        highlighted: false
+        //Material.accent: Material.Red
+
+        ToolTip.text: qsTr("Import")
+        ToolTip.visible: down
+
+        anchors.right: btExport.left
+        anchors.bottom: fab.bottom
+        //anchors.right: characterList.right
+        anchors.margins: 12
+
+        onClicked: {
+            var success = dataModel.importAll();
+
+            if ( Qt.platform.os == "android" ) {
+                if ( success ) {
+                    resultDlg.text = qsTr("Imported with success");
+                } else {
+                    resultDlg.text = qsTr("Import failed");
+                }
+                resultDlg.open();
+            }
+        }
     }
 }

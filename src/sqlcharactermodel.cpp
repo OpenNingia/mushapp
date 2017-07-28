@@ -10,6 +10,11 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QDesktopServices>
+
 static const char *charactersTableName = "Characters";
 
 static void createTable()
@@ -65,6 +70,8 @@ QHash<int, QByteArray> SqlCharacterModel::roleNames() const
 
 bool SqlCharacterModel::addCharacter(const QString &name, const QString &title)
 {
+    bool ret = true;
+
     beginInsertRows(QModelIndex{}, rowCount(), rowCount());
 
     const QString timestamp = QDateTime::currentDateTime().toString(Qt::ISODate);
@@ -115,14 +122,10 @@ bool SqlCharacterModel::addCharacter(const QString &name, const QString &title)
 
     qDebug() << "current rowCount: " << rowCount();
 
-    if (!insertRecord(rowCount(), newRecord)) {
+    if (!insertRecord(rowCount(), newRecord) || !submitAll()) {
         qWarning() << "Failed to add character:" << lastError().text();
-        return false;
+        ret = false;
     }
-
-    if ( !submitAll() ) {
-        return false;
-    }    
 
     qDebug() << "after addCharacter rowCount: " << rowCount();
 
@@ -134,7 +137,35 @@ bool SqlCharacterModel::addCharacter(const QString &name, const QString &title)
     // Ensures that the model is sorted correctly after submitting a new row.
     setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    return true;
+    return ret;
+}
+
+bool SqlCharacterModel::importCharacter(const QString &name, const QByteArray &content)
+{
+    bool ret = true;
+
+    beginInsertRows(QModelIndex{}, rowCount(), rowCount());
+
+    const QString timestamp = QDateTime::currentDateTime().toString(Qt::ISODate);
+
+    QSqlRecord newRecord = record();
+    newRecord.setValue("name", name);
+    newRecord.setValue("content", content);
+
+    if (!insertRecord(rowCount(), newRecord) || !submitAll()) {
+        qWarning() << "Failed to import character:" << lastError().text();
+        ret = false;
+    }
+
+    endInsertRows();
+
+    setTable(charactersTableName);
+    setSort(0, Qt::DescendingOrder);
+    select();
+    // Ensures that the model is sorted correctly after submitting a new row.
+    setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+    return ret;
 }
 
 bool SqlCharacterModel::delCharacter(const QString& name)
@@ -158,14 +189,6 @@ bool SqlCharacterModel::delCharacter(const QString& name)
     setCharacter(QString{});
     return true;
 }
-
-/*void SqlCharacterModel::updCharacter(const QModelIndex &index, const QByteArray & data)
-{
-    if ( !setData(index, data, Qt::UserRole+1) ) {
-        qWarning("could not update character data");
-    }
-    submitAll();
-}*/
 
 QString SqlCharacterModel::character() const {
     return activeCharacter;
@@ -215,6 +238,78 @@ void SqlCharacterModel::setCharacterData(const QByteArray & data)
         qWarning() << lastError().driverText();
         qWarning() << lastError().databaseText();
     }
+}
 
-    //updCharacter(index(0,0), QJsonDocument::fromJson(data).toBinaryData());
+
+// export all characters into a JSON file
+bool SqlCharacterModel::exportAll()
+{
+    // should not export a single character
+    if ( !(activeCharacter.isNull() || activeCharacter.isEmpty()) )
+        return false;
+
+    QString outPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    outPath.append("/org.openningia.mushapp/ie");
+
+    // create directory if not exists
+    QDir().mkpath(outPath);
+
+    auto timeStamp = QDateTime::currentDateTimeUtc().toString(Qt::ISODate)
+            .replace(":", "")
+            .replace("-", "");
+
+    QString outJson = QString("%1/export_%2.json")
+            .arg(outPath)
+            .arg(timeStamp);
+
+    QJsonArray lst;
+
+    for(int i = 0; i < rowCount(); i++) {
+        auto json_value = QJsonDocument::fromBinaryData(record(i).value("content").toByteArray());
+        lst.append(json_value.object());
+    }
+
+    QFile writer{outJson};
+    if ( writer.open(QFile::WriteOnly) )
+        return writer.write(QJsonDocument(lst).toJson()) != 0;
+    return false;
+}
+
+// import characters from previous export
+bool SqlCharacterModel::importAll()
+{
+    QString inPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    inPath.append("/org.openningia.mushapp/ie");
+
+    QDir inDir{inPath};
+    if ( !inDir.exists() )
+        return false;
+
+    auto files = inDir.entryInfoList(QStringList() << "*.json", QDir::Files, QDir::Name);
+    if ( files.empty() )
+        return false;
+
+    auto importFrom = files.last();
+
+
+    QFile reader(importFrom.absoluteFilePath());
+    if ( reader.open(QFile::ReadOnly) ) {
+        auto doc = QJsonDocument::fromJson(reader.readAll());
+
+        if ( !doc.isArray() )
+            return false;
+
+        QJsonArray lst{doc.array()};
+        for(auto& c: lst) {
+            if ( c.isObject() ) {
+                auto o = c.toObject();
+                QJsonDocument d{o};
+                importCharacter(o["name"].toString(), d.toBinaryData());
+            }
+        }
+
+        return true;
+    }
+
+    return false;
 }
