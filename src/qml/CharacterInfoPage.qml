@@ -207,7 +207,8 @@ Page {
                     to: 1000
                     stepSize: 1
                     value: charModel.exp
-                    onValueChanged: {
+                    onValueModified: {
+                    //onValueChanged: {
                         charModel.exp = value
                         charModelChanged()
                     }

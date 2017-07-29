@@ -6,6 +6,8 @@ import "fa"
 
 Page {
     id: root
+    enabled: stackView.busy === false
+
     property alias characterList: characterList
 
     property var initialize: function() {

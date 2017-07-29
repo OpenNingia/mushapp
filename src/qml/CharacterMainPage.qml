@@ -5,6 +5,7 @@ import "fa"
 
 Page {
     id: root
+    enabled: stackView.busy === false
 
     property string activeCharacterName
     property var characterModel
