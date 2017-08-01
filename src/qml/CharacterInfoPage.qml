@@ -274,13 +274,13 @@ Page {
 
             Label {
                 Layout.preferredWidth: 60
-                text: qsTr("Defense")
+                text: qsTr("Defence")
                 font.bold: true
             }
 
             RoundPicker6 {
                 //Layout.alignment: Qt.AlignRight | Qt.AlignBaseline
-                id: veDefense
+                id: veDefence
                 rating: root.charModel ? root.charModel.defence : 0
                 onValueChanged: {
                     root.charModel.defence = rating
