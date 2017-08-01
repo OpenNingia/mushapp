@@ -21,7 +21,7 @@ GridView {
 
     function calcPreferredHeight() {
         var symbols_per_row = container.width/24
-        var rows = Math.ceil(symbols.length/symbols_per_row)
+        var rows = symbols ? Math.ceil(symbols.length/symbols_per_row) : 1
         return  24 * rows
     }
 }

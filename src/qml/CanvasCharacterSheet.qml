@@ -13,7 +13,6 @@ Page {
 
     header: PageHeader {
         title: charModel.name
-        showPdf: false
         backIcon: FA.Icons.fa_arrow_left
         onBackClicked: root.StackView.view.pop()
     }

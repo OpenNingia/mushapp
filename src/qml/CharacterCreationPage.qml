@@ -13,7 +13,6 @@ Page {
 
     header: PageHeader {
         title: qsTr("Character creation")
-        showPdf: false
         onBackClicked: root.StackView.view.pop()
     }
 

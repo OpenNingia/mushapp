@@ -32,10 +32,16 @@ Page {
     header: PageHeader {
         id: pageTitle
         title: activeCharacterName
+        showPdf: true
+        showGame: true
         onBackClicked: root.StackView.view.pop()
         onPdfClicked: {
             root.StackView.view.push("qrc:/CanvasCharacterSheet.qml", { charModel: characterModel })
         }
+        onGameClicked: {
+            root.StackView.view.push("qrc:/GameBoard.qml", { charModel: characterModel })
+        }
+
     }
 
     SwipeView {
@@ -70,14 +76,14 @@ Page {
         CharacterArmorPage {
             id: pgArmor
             charModel: characterModel
-            itemModel: characterModel.armor
+            itemModel: characterModel ? characterModel.armor : null
             isWeapon: false
         }
 
         CharacterArmorPage {
             id: pgWeapon
             charModel: characterModel
-            itemModel: characterModel.weapon
+            itemModel: characterModel ? characterModel.weapon : null
             isWeapon: true
         }
 

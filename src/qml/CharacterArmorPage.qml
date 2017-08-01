@@ -51,16 +51,6 @@ Page {
             }
         }
 
-        /*Label {
-            text: isWeapon ? qsTr("Weapon") : qsTr("Armatura")
-            font.bold: true
-        }
-        TextField {
-            id: txArmorName
-            text: root.itemModel ? root.itemModel.name : ""
-            Layout.fillWidth: true
-            onTextChanged: root.itemModel.name = text
-        }*/
         RowLayout {
             Layout.fillWidth: true
             spacing: 12
@@ -87,7 +77,7 @@ Page {
                 Layout.minimumHeight: 24
                 Layout.maximumHeight: 32
 
-                symbols: itemModel.symbols
+                symbols: itemModel ? itemModel.symbols : []
 
                 MouseArea {
                     anchors.fill: symbolList
@@ -115,7 +105,7 @@ Page {
 
             RoundPicker6 {
                 id: veSpeed
-                rating: root.charModel ? root.itemModel.speed : 0
+                rating: root.itemModel ? root.itemModel.speed||0 : 0
                 onValueChanged: {
                     root.itemModel.speed = rating
                     save()
@@ -137,7 +127,7 @@ Page {
 
             RoundPicker6 {
                 id: veAttack
-                rating: root.itemModel ? root.itemModel.attack : 0
+                rating: root.itemModel ? root.itemModel.attack||0 : 0
                 onValueChanged: {
                     root.itemModel.attack = rating
                     save()
@@ -160,7 +150,7 @@ Page {
             RoundPicker6 {
                 //Layout.alignment: Qt.AlignRight | Qt.AlignBaseline
                 id: veDefense
-                rating: root.itemModel ? root.itemModel.defence : 0
+                rating: root.itemModel ? root.itemModel.defence||0 : 0
                 onValueChanged: {
                     root.itemModel.defence = rating
                     save()

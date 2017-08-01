@@ -147,7 +147,7 @@ Page {
                 }
 
                 indicator: Image {
-                    source: spModel.get(cbSpEngine.currentIndex).portrait
+                    source: cbSpEngine.currentIndex >=0 ? spModel.get(cbSpEngine.currentIndex).portrait : ""
                     x: cbSpEngine.width - width - cbSpEngine.rightPadding
                     y: cbSpEngine.topPadding + (cbSpEngine.availableHeight - height) / 2
                     width: 16
@@ -182,7 +182,7 @@ Page {
                         text: txExp.text
                         font: txExp.font
 
-                        color: charExperience > charModel.exp ? "#f00" : "#000"
+                        color: !charModel || (!charModel.exp && charExperience!==0) || (charExperience > charModel.exp) ? "#f00" : "#000"
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         elide: Text.ElideRight
@@ -206,9 +206,8 @@ Page {
                     from: 0
                     to: 1000
                     stepSize: 1
-                    value: charModel.exp
+                    value: charModel && charModel.exp ? charModel.exp : 0
                     onValueModified: {
-                    //onValueChanged: {
                         charModel.exp = value
                         charModelChanged()
                     }

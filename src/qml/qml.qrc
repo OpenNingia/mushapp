@@ -68,5 +68,8 @@
         <file>fonts/RODEK.TTF</file>
         <file>CharacterSheetItem.qml</file>
         <file>SymbolSelector.qml</file>
+        <file>GameBoard.qml</file>
+        <file>FlaggableValue.qml</file>
+        <file>FlaggablePicker.qml</file>
     </qresource>
 </RCC>

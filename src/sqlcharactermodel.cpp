@@ -104,13 +104,13 @@ bool SqlCharacterModel::addCharacter(const QString &name, const QString &title)
     o["armor"] = armor;
 
     QJsonObject weapon;
-    armor["name"] = QString{};
-    armor["speed"] = 0;
-    armor["attack"] = 0;
-    armor["defence"] = 0;
-    armor["build"] = 0;
-    armor["integrity"] = 0;
-    armor["symbols"] = QJsonArray{};
+    weapon["name"] = QString{};
+    weapon["speed"] = 0;
+    weapon["attack"] = 0;
+    weapon["defence"] = 0;
+    weapon["build"] = 0;
+    weapon["integrity"] = 0;
+    weapon["symbols"] = QJsonArray{};
     o["weapon"] = weapon;
 
     o["moves"] = QJsonArray{};
