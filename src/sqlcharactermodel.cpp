@@ -282,34 +282,62 @@ bool SqlCharacterModel::importAll()
     inPath.append("/org.openningia.mushapp/ie");
 
     QDir inDir{inPath};
-    if ( !inDir.exists() )
+    if ( !inDir.exists() ) {
+        qWarning("import/export directory does not exists");
         return false;
+    }
 
     auto files = inDir.entryInfoList(QStringList() << "*.json", QDir::Files, QDir::Name);
-    if ( files.empty() )
+    if ( files.empty() ) {
+        qWarning("import/export directory is empty");
         return false;
+    }
 
     auto importFrom = files.last();
-
+    qDebug() << "import from: " << importFrom.absoluteFilePath();
 
     QFile reader(importFrom.absoluteFilePath());
     if ( reader.open(QFile::ReadOnly) ) {
         auto doc = QJsonDocument::fromJson(reader.readAll());
 
-        if ( !doc.isArray() )
+        if ( !doc.isArray() ) {
+            qWarning("loaded document is not an array of characters");
             return false;
+        }
 
         QJsonArray lst{doc.array()};
-        for(auto c: lst) {
-            if ( c.isObject() ) {
-                auto o = c.toObject();
-                QJsonDocument d{o};
-                importCharacter(o["name"].toString(), d.toBinaryData());
+
+        qDebug() << "found " << lst.count() << " characters";
+
+        auto import_from_json_object = [&](QJsonObject o) {
+            QJsonDocument d{o};
+            if ( !importCharacter(o["name"].toString(), d.toBinaryData()) ) {
+                qWarning() << "Failed to import " << o["name"].toString();
             }
+        };
+
+        auto import_from_json_array = [&](QJsonArray lst) {
+            for(auto c: lst) {
+                if ( c.isObject() )
+                    import_from_json_object(c.toObject());
+                else
+                    qWarning("expected a json object");
+            }
+        };
+
+        for(auto c: lst) {
+            if ( c.isObject() )
+                import_from_json_object(c.toObject());
+            else if ( c.isArray() )
+                import_from_json_array(c.toArray());
+            else
+                qWarning("expected a json object or a json array");
         }
 
         return true;
     }
+
+    qWarning("Could not read from import file");
 
     return false;
 }
