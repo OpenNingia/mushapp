@@ -1,22 +1,25 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
+import "."
 import "fa"
 
-Page {
+MushaDynPage {
     id: root
     enabled: stackView.busy === false
 
+
     property string activeCharacterName
-    property var characterModel
 
     property var initialize: function() {
-        if ( dataModel ) {
-            dataModel.character = activeCharacterName
-            characterModel = JSON.parse(dataModel.characterData)
-            pgInfo.initialize()
 
-            //console.log(dataModel.characterData)
+        console.log('MainPage initialize')
+
+        if ( dataModel ) {
+            if ( dataModel.character != activeCharacterName )
+                dataModel.character = activeCharacterName
+            charModel = JSON.parse(dataModel.characterData)
+            pgInfo.initialize()
         }
     }
 
@@ -24,109 +27,130 @@ Page {
         // finalize on exit
         if (swipeView.currentItem && swipeView.currentItem.finalize)
             swipeView.currentItem.finalize()
+        else if (swipeView.currentItem.item && swipeView.currentItem.item.finalize)
+            swipeView.currentItem.item.finalize()
 
         //dataModel.characterData = JSON.stringify(characterModel)
     }
 
-
     header: PageHeader {
         id: pageTitle
-        title: activeCharacterName
+        title: charModel ? charModel.name : ""
+        subTitle: charModel ? charModel.title : ""
         showPdf: true
-        showGame: true
-        onBackClicked: root.StackView.view.pop()
+        onBackClicked: {
+            swipeView.visible = false
+            root.StackView.view.pop()
+        }
         onPdfClicked: {
-            root.StackView.view.push("qrc:/CanvasCharacterSheet.qml", { charModel: characterModel })
+            root.StackView.view.push("qrc:/CanvasCharacterSheet.qml", { charModel: charModel })
         }
-        onGameClicked: {
-            root.StackView.view.push("qrc:/GameBoard.qml", { charModel: characterModel })
-        }
-
     }
 
     SwipeView {
         id: swipeView
 
-        property Item __oldItem: null
+        Component.onCompleted: {
+            pgInfo.initialize()
+        }
+
+        property var __oldItem: null
 
         anchors.fill: parent
-        //currentIndex: indicator.currentIndex
+        currentIndex: tabBar.currentIndex
 
         CharacterInfoPage {
             id: pgInfo
-            charModel: characterModel
+            charModel: root.charModel
         }
 
-        CharacterMovesPage {
-            id: pgSpecial
-            charModel: characterModel
-            superMoves: false
-        }
-        CharacterMovesPage {
-            id: pgSuper
-            charModel: characterModel
-            superMoves: true
+        Loader {
+            active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+            sourceComponent: MoveMainPage {
+                charModel: root.charModel
+            }
         }
 
-        CharacterAuraPage {
-            id: pgAura
-            charModel: characterModel
+        Loader {
+            active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+            sourceComponent: CharacterAuraPage {
+                charModel: root.charModel
+            }
         }
 
-        CharacterArmorPage {
-            id: pgArmor
-            charModel: characterModel
-            itemModel: characterModel ? characterModel.armor : null
-            isWeapon: false
+
+        Loader {
+            active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+            sourceComponent: HyperMainPage {
+                charModel: root.charModel
+            }
         }
 
-        CharacterArmorPage {
-            id: pgWeapon
-            charModel: characterModel
-            itemModel: characterModel ? characterModel.weapon : null
-            isWeapon: true
+        Loader {
+            active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+            sourceComponent: GameBoard {
+                charModel: root.charModel
+            }
         }
-
 
         onCurrentItemChanged: {
+
             if (__oldItem && __oldItem.finalize) {
                 __oldItem.finalize()
             }
 
-            if (currentItem && currentItem.initialize) {
-                currentItem.initialize()
+            var item_ = currentItem.item
+            //console.log('current item: ', item_, item_.initialize, item_.finalize, item_.url)
+
+            if (item_ && item_.initialize) {
+                item_.initialize()
             }
 
-            __oldItem = currentItem
+            __oldItem = item_
 
-            if ( currentItem.getTitle )
-                pageTitle.title = currentItem.getTitle()
+            if ( item_.getTitle )
+                pageTitle.title = item_.getTitle()
+
+            if ( item_.reset )
+                pageTitle.resetCallback = item_.reset
+            else
+                pageTitle.resetCallback = null
         }
     }
 
-    footer: RowLayout {
-            Item { Layout.fillWidth: true }
-            PageIndicator {
-            id: control
-            count: swipeView.count
-            currentIndex: swipeView.currentIndex
+    footer: TabBar {
+        id: tabBar
 
-            delegate: Rectangle {
-                implicitWidth: 8
-                implicitHeight: 8
+        width: parent.width
+        height: 40
+        spacing: 2
+        currentIndex: swipeView.currentIndex
 
-                radius: width / 2
-                color: "#E91E63"
+        Repeater {
+            model: [
+                'profile',
+                'moves',
+                'aura',
+                'hyper',
+                'game',
+            ]
 
-                opacity: index === control.currentIndex ? 0.95 : pressed ? 0.7 : 0.45
+            TabButton {
+                property bool isActive: tabBar.currentItem === this
+                property var activeSrc: 'qrc:/img/tab/%1_active.png'.arg(modelData)
+                property var inactiveSrc: 'qrc:/img/tab/%1.png'.arg(modelData)
 
-                Behavior on opacity {
-                    OpacityAnimator {
-                        duration: 100
-                    }
+                background: Rectangle { color: Style.primaryBgColor }
+                contentItem: Image {
+                    source: isActive ? activeSrc : inactiveSrc
+                    fillMode: Image.PreserveAspectFit
+                    horizontalAlignment: Image.AlignHCenter
+                    verticalAlignment: Image.AlignVCenter
                 }
+
+                width: isActive ? 100 : 64
+                height: tabBar.height
             }
         }
-        Item { Layout.fillWidth: true }
     }
 }

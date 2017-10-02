@@ -71,5 +71,39 @@
         <file>GameBoard.qml</file>
         <file>FlaggableValue.qml</file>
         <file>FlaggablePicker.qml</file>
+        <file>MushaDynPage.qml</file>
+        <file>fonts/DaxBold_2.ttf</file>
+        <file>fonts/DaxMedium_1.ttf</file>
+        <file>img/stat_off.png</file>
+        <file>img/stat_on.png</file>
+        <file>img/bg/sp_combo.png</file>
+        <file>img/bg/sp_danni.png</file>
+        <file>img/bg/sp_difesa.png</file>
+        <file>img/bg/sp_ferite.png</file>
+        <file>img/bg/sp_pa.png</file>
+        <file>img/tab/aura.png</file>
+        <file>img/tab/aura_active.png</file>
+        <file>img/tab/game.png</file>
+        <file>img/tab/game_active.png</file>
+        <file>img/tab/hyper.png</file>
+        <file>img/tab/hyper_active.png</file>
+        <file>img/tab/moves.png</file>
+        <file>img/tab/moves_active.png</file>
+        <file>img/tab/profile.png</file>
+        <file>img/tab/profile_active.png</file>
+        <file>MoveMainPage.qml</file>
+        <file>HyperMainPage.qml</file>
+        <file>components/MyDelayButton.qml</file>
+        <file>img/bin.png</file>
+        <file>img/bin_active.png</file>
+        <file>components/MyDelayDeleteButton.qml</file>
+        <file>components/MyComboBox.qml</file>
+        <file>img/sp_combo_inactive.png</file>
+        <file>img/sp_danni_inactive.png</file>
+        <file>img/sp_difesa_inactive.png</file>
+        <file>img/sp_ferite_inactive.png</file>
+        <file>img/sp_pa_inactive.png</file>
+        <file>Style.qml</file>
+        <file>qmldir</file>
     </qresource>
 </RCC>

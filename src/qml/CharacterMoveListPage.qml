@@ -2,12 +2,14 @@ import QtQuick 2.7
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
+import "."
 import "fa"
 import "business/moves.js" as Moves
+import "components"
 
-Page {
+MushaDynPage {
     id: root
-    property var charModel
+
     property bool superMoves: false
     property bool canAddMoves: false
 
@@ -39,7 +41,7 @@ Page {
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: 10
-        spacing: 10
+        spacing: 10               
 
         ListView {
             id: moveList
@@ -52,13 +54,18 @@ Page {
 
             model: null
             delegate:  ItemDelegate {
-                height: txMoveName.implicitHeight + 48 + 30
+                height: txMoveName.implicitHeight + 48 + 10
                 width: moveList.width - moveList.leftMargin - moveList.rightMargin
                 leftPadding: 0
                 onClicked: {                   
                     root.StackView.view.push(
                                 "qrc:/MoveCreationPage.qml",
                                 { charModel: root.charModel, superMove: superMoves, moveIndex: index })
+                }
+
+                background: Rectangle {
+                    //color: Qt.lighter(Style.primaryBgColor, 2)
+                    color: "#fff"
                 }
 
                 RowLayout {
@@ -73,24 +80,29 @@ Page {
                             id: txMoveName
                             Layout.fillWidth: true
                             text: qsTr("%1 (%2 PA)").arg(modelData.name).arg(Moves.calcPaCost(modelData.symbols, root.superMoves))
-                            font.bold: true
+
+                            font.family: Style.uiFont.name
+                            font.pointSize: 10
+                            font.bold: false
+
+                            color: Style.primaryBgColor
                         }
+
                         SymbolList {
                             id: symbolList
                             //height: 24
                             Layout.fillHeight: true
                             Layout.fillWidth: true
                             symbols: modelData.symbols
+
                         }
+
                     }
 
-                    DelayButton {
-                        delay: 1200
+                    MyDelayDeleteButton {
                         Layout.alignment: Qt.AlignRight
-                        contentItem: TextIcon {
-                            icon: icons.fa_trash_o
-                            pointSize: 20
-                        }
+                        Layout.rightMargin: 6
+
                         onActivated: {
                             Moves.removeOne(root.charModel, index, root.superMoves)
                             root.save()
@@ -107,8 +119,33 @@ Page {
         RowLayout {
             anchors.fill: parent
 
+
+
             ToolButton {
+                id: button
+
+                font.pointSize: 12
+                font.family: Style.uiFont.name
+
+                contentItem: Text {
+                    text: button.text
+                    font: button.font
+                    opacity: enabled ? 1.0 : 0.3
+                    color: Style.primaryFgColor
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                }
+
+                background: Rectangle {
+                    implicitWidth: 100
+                    implicitHeight: 40
+                    opacity: enabled ? 1 : 0.3
+                    color: Style.primaryBgColor
+                }
+
                 Layout.fillWidth: true
+                Layout.bottomMargin: 2
                 text: superMoves ? qsTr("Add new super") : qsTr("Add new move")
                 onClicked: {
                     root.StackView.view.push(

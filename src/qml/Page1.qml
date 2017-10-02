@@ -1,11 +1,13 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.1
-import Qt.labs.platform 1.0
-import "fa"
 
-Page {
+import Qt.labs.platform 1.0
+import "."
+import "fa"
+import "components"
+
+MushaDynPage {
     id: root
     enabled: stackView.busy === false
 
@@ -17,9 +19,13 @@ Page {
     }
 
     header: ToolBar {
+        background: Rectangle { color: "#000"; implicitHeight: 64 }
         Label {
             text: qsTr("Characters")
+            font.family: Style.uiBoldFont.name
             font.pixelSize: 20
+            font.bold: true
+            color: "#fff"
             anchors.centerIn: parent
         }
     }
@@ -45,9 +51,13 @@ Page {
             leftPadding: 12
             rightPadding: 12
 
+            background: Rectangle {
+                color: Style.primaryBgColor
+            }
+
             onClicked: {
+                console.log('user clicked on %1'.arg(model.name))
                 characterList.currentIndex = index
-                //root.StackView.view.push("qrc:/CharacterInfoPage.qml", { activeCharacterName: model.name })
                 root.StackView.view.push("qrc:/CharacterMainPage.qml", { activeCharacterName: model.name })
             }
 
@@ -70,17 +80,27 @@ Page {
                     anchors.margins: 10
                     spacing: 10
 
-                    Text { id: txCharName; text: name; font.bold: true }
-                    Text { id: txCharTitle; text: charModel.charContent.title; color: "#888" }
+                    Text {
+                        id: txCharName;
+                        text: name;
+                        font.family: Style.uiBoldFont.name
+                        font.pointSize: 12
+                        font.bold: true;
+                        color: Style.primaryFgColor
+                    }
+                    Text {
+                        id: txCharTitle;
+                        text: charModel.charContent.title;
+                        font.family: Style.uiFont.name
+                        font.pointSize: 10
+                        color: "#fff"
+                    }
                 }
 
-                DelayButton {
-                    delay: 1200
+                MyDelayDeleteButton {
                     Layout.alignment: Qt.AlignRight
-                    contentItem: TextIcon {
-                        icon: icons.fa_trash_o
-                        pointSize: 20
-                    }
+                    Layout.rightMargin: 6
+
                     onActivated: {
                         dataModel.delCharacter(name)
                     }
@@ -107,7 +127,7 @@ Page {
         width: 80; height: 80
 
         highlighted: true
-        Material.accent: Material.Red
+        //Material.accent: Material.Red
 
         anchors.bottom: characterList.bottom
         anchors.right: characterList.right
