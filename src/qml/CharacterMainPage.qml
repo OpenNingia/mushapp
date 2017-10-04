@@ -64,6 +64,23 @@ MushaDynPage {
             charModel: root.charModel
         }
 
+        MoveMainPage {
+            charModel: root.charModel
+        }
+
+        CharacterAuraPage {
+            charModel: root.charModel
+        }
+
+        HyperMainPage {
+            charModel: root.charModel
+        }
+
+        GameBoard {
+            charModel: root.charModel
+        }
+
+        /*
         Loader {
             active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
             sourceComponent: MoveMainPage {
@@ -92,6 +109,7 @@ MushaDynPage {
                 charModel: root.charModel
             }
         }
+        */
 
         onCurrentItemChanged: {
 
@@ -99,7 +117,8 @@ MushaDynPage {
                 __oldItem.finalize()
             }
 
-            var item_ = currentItem.item
+            //var item_ = currentItem.item
+            var item_ = currentItem
             //console.log('current item: ', item_, item_.initialize, item_.finalize, item_.url)
 
             if (item_ && item_.initialize) {

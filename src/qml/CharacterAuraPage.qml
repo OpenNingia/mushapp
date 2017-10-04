@@ -10,6 +10,8 @@ MushaDynPage {
     id: root
 
     property var availableAbilities
+    property string auraDescr: ""
+    property string specialDescr: ""
 
     property var initialize: function() {
         cbAura.currentIndex = -1;
@@ -21,6 +23,7 @@ MushaDynPage {
             for(var i=0; i<cbAura.count; i++) {
                 if (cbAura.model.get(i).tag === charModel.aura.tag) {
                     cbAura.currentIndex = i;
+                    auraDescr = auraModel.get(i).descr
                     break;
                 }
             }
@@ -28,6 +31,7 @@ MushaDynPage {
             for(var i=0; i<cbSpecial.count; i++) {
                 if (cbSpecial.model.get(i).tag === charModel.aura.special) {
                     cbSpecial.currentIndex = i
+                    specialDescr = auraSpecialProxyModel.get(i).name
                     break;
                 }
             }            
@@ -47,26 +51,32 @@ MushaDynPage {
         ListElement {
             name: qsTr("None")
             tag: "none"
+            descr: ""
         }
         ListElement {
             name: qsTr("White")
             tag: "bianco"
+            descr: qsTr("<h3>Aura bianca</h3><p>Volemose bene</p>")
         }
         ListElement {
             name: qsTr("Black")
             tag: "nero"
+            descr: qsTr("<h3>Aura nera</h3><p>Levati o ti schiaccio</p>")
         }
         ListElement {
             name: qsTr("Red")
             tag: "rosso"
+            descr: qsTr("<h3>Aura rossa</h3><p>Prima agire poi pensare</p>")
         }
         ListElement {
             name: qsTr("Blue")
             tag: "blu"
+            descr: qsTr("<h3>Aura blu</h3><p>Prima pensare BENE poi agire</p>")
         }
         ListElement {
             name: qsTr("Green")
             tag: "verde"
+            descr: qsTr("<h3>Aura verde</h3><p>Abbastanza cauto e protettivo</p>")
         }
     }
 
@@ -239,14 +249,18 @@ MushaDynPage {
                 model: auraModel
 
                 onActivated: {
-                    console.log('selected aura: ' + auraModel.get(index).tag)
+                    var auraItm = auraModel.get(index)
+                    console.log('selected aura: ' + auraItm.tag)
 
-                    charModel.aura.tag = auraModel.get(index).tag                                       
+                    charModel.aura.tag = auraItm.tag
                     charModel.aura.special = ""
+                    auraDescr = auraItm.descr
+                    specialDescr = ""
+                    cbSpecial.currentIndex = -1
 
                     save()
 
-                    auraSpecialProxyModel.filterPattern = charModel.aura.tag
+                    auraSpecialProxyModel.filterPattern = charModel.aura.tag                    
                 }
             }
         }
@@ -317,9 +331,36 @@ MushaDynPage {
                 model: auraSpecialProxyModel
 
                 onActivated: {
-                    console.log('activated: ' + cbSpecial.textAt(index))
-                    charModel.aura.special = auraSpecialProxyModel.get(index).tag
+                    var specialItm = auraSpecialProxyModel.get(index)
+                    console.log('activated: ' + specialItm.name)
+                    charModel.aura.special = specialItm.tag
+                    specialDescr = specialItm.name
                     save()
+                }
+            }
+        }
+
+        Pane {
+            Layout.fillWidth: true
+            anchors.margins: 2
+            spacing: 2
+            background: Rectangle { color: Style.primaryBgColor }
+            ColumnLayout {
+
+                Text {
+                    text: auraDescr
+                    font.family: Style.uiFont.name
+                    font.bold: false
+                    font.pointSize: 10
+                    color: Style.primaryFgColor
+                }
+
+                Text {
+                    text: specialDescr
+                    font.family: Style.uiFont.name
+                    font.bold: false
+                    font.pointSize: 10
+                    color: Style.primaryFgColor
                 }
             }
         }
