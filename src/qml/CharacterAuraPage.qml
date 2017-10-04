@@ -3,11 +3,12 @@ import QtQml.Models 2.2
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.2
 import SortFilterProxyModel 0.2
+import "."
+import "components"
 
-Page {
+MushaDynPage {
     id: root
 
-    property var charModel
     property var availableAbilities
 
     property var initialize: function() {
@@ -15,6 +16,8 @@ Page {
         cbSpecial.currentIndex = -1;
 
         if ( charModel ) {
+            charModelChanged()
+
             for(var i=0; i<cbAura.count; i++) {
                 if (cbAura.model.get(i).tag === charModel.aura.tag) {
                     cbAura.currentIndex = i;
@@ -27,8 +30,8 @@ Page {
                     cbSpecial.currentIndex = i
                     break;
                 }
-            }
-        }
+            }            
+        }                
     }
 
     property var save: function() {
@@ -226,7 +229,7 @@ Page {
                 font.bold: true
             }
 
-            ComboBox {
+            MyComboBox {
                 Layout.fillWidth: true
                 id: cbAura
 
@@ -301,9 +304,10 @@ Page {
             Label {
                 text: qsTr("Special Ability")
                 font.bold: true
+                font.family: Style.uiBoldFont.name
             }
 
-            ComboBox {
+            MyComboBox {
                 Layout.fillWidth: true
                 id: cbSpecial
 

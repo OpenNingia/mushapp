@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 
 import "fa"
 
-Page {
+MushaDynPage {
     id: root
 
     Component.onCompleted: {

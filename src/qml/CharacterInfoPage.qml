@@ -1,24 +1,26 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.1
-import "fa"
-import "business/exp.js" as Exp
+import "."
+import "components"
 
-Page {
+//import QtQuick.Controls.Material 2.1
+//import "fa"
+//import "business/exp.js" as Exp
+
+MushaDynPage {
     id: root
-    property int charExperience
-    property var charModel
+    spacing: 0
 
     property var initialize: function() {
-        updateExp()
+        console.log("InfoPage initialize")
 
         cbSpEngine.currentIndex = -1;
 
-        console.log("InfoPage initialize")
-
         if ( charModel ) {
-            console.log(charModel.spEngine)
+            if ( !charModel.spEngine )
+                charModel.spEngine = "sp_danni"
+
             for(var i=0; i<cbSpEngine.count; i++) {
                 if (cbSpEngine.model.get(i).tag === charModel.spEngine) {
                     cbSpEngine.currentIndex = i;
@@ -38,15 +40,7 @@ Page {
         if ( charModel ) {
             console.log('CharacterInfoPage: saving...')
             dataModel.characterData = JSON.stringify(charModel)
-
-            // update experience
-            updateExp()
         }
-    }
-
-    property var updateExp: function() {
-        charExperience = charModel ? Exp.calcExp(charModel) : 0
-        console.log('new experience: %1'.arg(charExperience))
     }
 
     // SP ENGINES
@@ -56,26 +50,31 @@ Page {
             name: qsTr("Combo")
             tag: "sp_combo"
             portrait: "qrc:/img/sp_combo.png"
+            portrait_inactive: "qrc:/img/sp_combo_inactive.png"
         }
         ListElement {
             name: qsTr("Danni")
             tag: "sp_danni"
             portrait: "qrc:/img/sp_danni.png"
+            portrait_inactive: "qrc:/img/sp_danni_inactive.png"
         }
         ListElement {
             name: qsTr("Difesa")
             tag: "sp_difesa"
             portrait: "qrc:/img/sp_difesa.png"
+            portrait_inactive: "qrc:/img/sp_difesa_inactive.png"
         }
         ListElement {
             name: qsTr("Ferite")
             tag: "sp_ferite"
             portrait: "qrc:/img/sp_ferite.png"
+            portrait_inactive: "qrc:/img/sp_ferite_inactive.png"
         }
         ListElement {
             name: qsTr("PA")
             tag: "sp_pa"
             portrait: "qrc:/img/sp_pa.png"
+            portrait_inactive: "qrc:/img/sp_pa_inactive.png"
         }
     }
 
@@ -83,260 +82,236 @@ Page {
     ColumnLayout {
 
         anchors.fill: parent
-        anchors.margins: 12
-        //spacing: 3
 
-        ColumnLayout {
+        MyComboBox {
             Layout.fillWidth: true
-            anchors.margins: 2
-            spacing: 2
+            Layout.preferredHeight: 40
 
-            Label {
-                text: qsTr("Title")
-                font.bold: true
+            id: cbSpEngine
+            model: spModel
+            textRole: "name"
+
+            spacing: 12
+
+            onActivated: {
+                root.charModel.spEngine = model.get(index).tag
+                root.charModelChanged()
+                //save()
             }
-            TextField {
-                id: txTitle
-                text: root.charModel ? root.charModel.title : ""
-                Layout.fillWidth: true
-                validator: RegExpValidator { regExp: /[^\"\\\/':]+/ }
-                onTextChanged: root.charModel.title = text
-            }
-        }
 
-        ColumnLayout {
-            Layout.fillWidth: true
-            anchors.margins: 2
-            spacing: 2
+            contentItem: ItemDelegate {
+                id: item
+                height: cbSpEngine.height
+                width: cbSpEngine.width
 
-            Label {
-                text: qsTr("SP")
-                font.bold: true
-            }
-            ComboBox {
-                id: cbSpEngine
-                model: spModel
-                textRole: "name"
-                Layout.fillWidth: true
-                onActivated: {
-                    root.charModel.spEngine = model.get(index).tag
-                    save()
-                }
+                Row {
+                    spacing: 6
+                    Label {
+                        text: qsTr("SP")
+                        font.family: Style.uiBoldFont.name
+                        font.bold: true
+                        font.pointSize: 12
+                        color: "#fff"
 
-                delegate: ItemDelegate {
-                    width: cbSpEngine.width
-                    //height: idImg.height + 12
-                    contentItem: Row {
-                        topPadding: 6
-                        bottomPadding: 6
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignVCenter
                         leftPadding: 12
-                        Image {
-                            source: portrait
-                            height: 22
-                            width: 22
-                        }
-                        Text {
-                            height: 22
-                            text: name
-                            font: cbSpEngine.font
-                            leftPadding: 12
-                        }
+
+                        height: item.height
+                        width: item.width / 3
                     }
 
-                    highlighted: cbSpEngine.highlightedIndex === index
+                    Label {
+                        text: cbSpEngine.displayText
+                        font: cbSpEngine.font
+                        color: Style.primaryFgColor
+
+                        height: item.height
+                        width: item.width / 2
+
+                        horizontalAlignment: Text.AlignRight
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+            }
+
+            delegate: ItemDelegate {
+
+                width: cbSpEngine.width
+                background: Rectangle { color: Qt.lighter(Style.primaryBgColor) }
+
+                contentItem: Row {
+                    spacing: 12
+                    anchors.right: parent.right
+                    leftPadding: cbSpEngine.width - img.implicitWidth - txt.width - cbSpEngine.padding*4
+
+                    Text {
+                        id: txt
+                        height: 22
+                        width: 100
+                        text: name
+                        font: cbSpEngine.font
+                        color: Style.primaryFgColor
+                        verticalAlignment: Text.AlignVCenter
+                    }
+
+                    Image {
+                        id: img
+                        source: cbSpEngine.currentIndex === index ? portrait : portrait_inactive
+                        fillMode: Image.PreserveAspectFit
+                        height: 32
+                        width: 32
+                    }
+
                 }
 
-                indicator: Image {
-                    source: cbSpEngine.currentIndex >=0 ? spModel.get(cbSpEngine.currentIndex).portrait : ""
-                    x: cbSpEngine.width - width - cbSpEngine.rightPadding
-                    y: cbSpEngine.topPadding + (cbSpEngine.availableHeight - height) / 2
-                    width: 16
-                    height: 16
-                    visible: cbSpEngine.currentIndex >= 0
-                }
-
+                highlighted: cbSpEngine.highlightedIndex === index
             }
         }
 
-        // PUNTI ESPERIENZA
-        ColumnLayout {
-            Layout.fillWidth: true
-            //anchors.margins: 2
-            spacing: 2
 
-            Label {
-                text: qsTr("Experience")
-                font.bold: true
+        Item { Layout.preferredHeight: 8 }
+
+        // STATS
+        Repeater {
+
+            model: [
+                { text: qsTr("Speed"), tag: 'speed' },
+                { text: qsTr("Attack"), tag: 'attack' },
+                { text: qsTr("Defence"), tag: 'defence' },
+                { text: qsTr("Willpower"), tag: 'willpower' },
+                { text: qsTr("Balance"), tag: 'balance' },
+            ]
+
+            Pane {
+
+                visible: !cbSpEngine.popup.visible
+
+                Layout.fillWidth: true
+                Layout.preferredHeight: 48
+                background: Rectangle { color: Style.primaryBgColor }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: 24
+
+                    Label {
+                        Layout.preferredWidth: 60
+                        text: modelData.text
+                        font.family: Style.uiBoldFont.name
+                        font.bold: true
+                        font.pointSize: 12
+                        color: "#fff"
+                        Layout.leftMargin: 12
+                    }
+
+                    RoundPicker6 {
+                        rating: root.charModel ? root.charModel[modelData.tag] : 0
+                        onValueChanged: {
+                            root.charModel[modelData.tag] = rating
+                            save()
+                        }
+                    }
+                }
             }
+        }
+
+        Item { Layout.fillHeight: true }
+
+        Pane {
+            id: plExp
+
+            Layout.fillWidth: true
+            Layout.preferredHeight: 48
+            Layout.bottomMargin: 2
+            background: Rectangle { color: Style.primaryBgColor }
 
             RowLayout {
-                //Layout.margins: 4
-                ToolButton {
-                    id: txExp
-                    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                    //topPadding: 12
-                    text: charExperience
-                    font.pointSize: 14
+                Layout.fillWidth: true
+                spacing: 12
 
-                    contentItem: Label {
-                        text: txExp.text
-                        font: txExp.font
-
-                        color: !charModel || (!charModel.exp && charExperience!==0) || (charExperience > charModel.exp) ? "#f00" : "#000"
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        elide: Text.ElideRight
-                    }
-
-                    ToolTip {
-                        parent: txExp
-                        visible: txExp.down
-                        width: 180
-                        height: 80
-                        contentItem: ExpDetails { id: expDtl; charModel: root.charModel }
-                    }
-                    onDownChanged: {
-                        expDtl.charModel = root.charModel
-                    }
+                Label {
+                    text: qsTr("Experience")
+                    font.family: Style.uiBoldFont.name
+                    font.bold: true
+                    font.pointSize: 12
+                    color: "#fff"
+                    Layout.leftMargin: 12
                 }
 
-                Item { Layout.fillWidth: true }
-
                 SpinBox {
-                    from: 0
-                    to: 1000
-                    stepSize: 1
+                    id: sbExp
+                    editable: false
+
+                    font.family: Style.uiBoldFont.name
+                    font.pointSize: 14
+                    font.bold: true
+
+                    contentItem: TextInput {
+                        z: 2
+                        text: sbExp.textFromValue(sbExp.value, sbExp.locale)
+
+                        font: sbExp.font
+
+                        color: Style.primaryFgColor
+                        selectionColor: Style.primaryFgColor
+                        selectedTextColor: "#ffffff"
+                        horizontalAlignment: Qt.AlignHCenter
+                        verticalAlignment: Qt.AlignVCenter
+
+                        readOnly: !sbExp.editable
+                        validator: sbExp.validator
+                        inputMethodHints: Qt.ImhFormattedNumbersOnly
+                    }
+
+                    up.indicator: Rectangle {
+                        x: sbExp.mirrored ? 0 : parent.width - width
+                        height: parent.height
+                        implicitWidth: 32
+                        implicitHeight: 32
+                        color: Style.primaryBgColor
+
+                        Text {
+                            text: "+"
+                            font: sbExp.font
+
+                            color: Style.primaryFgColor
+                            anchors.fill: parent
+                            fontSizeMode: Text.Fit
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                    }
+
+                    down.indicator: Rectangle {
+                        x: sbExp.mirrored ? parent.width - width : 0
+                        height: parent.height
+                        implicitWidth: 32
+                        implicitHeight: 32
+                        color: Style.primaryBgColor
+
+                        Text {
+                            text: "-"
+                            font: sbExp.font
+
+                            color: Style.primaryFgColor
+                            anchors.fill: parent
+                            fontSizeMode: Text.Fit
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                    }
+
+                    background: Rectangle {
+                        implicitWidth: 120
+                        color: Style.primaryBgColor
+                    }
+
                     value: charModel && charModel.exp ? charModel.exp : 0
                     onValueModified: {
                         charModel.exp = value
                         charModelChanged()
                     }
-                }
-            }
-        }
-
-        Rectangle {
-            height: 1
-            Layout.minimumHeight: 1
-            Layout.fillWidth: true
-            color: "#3F51B5"
-        }
-
-        // RAPIDITA'
-        RowLayout {
-            Layout.fillWidth: true
-            anchors.margins: 2
-            spacing: 24
-
-            Label {
-                Layout.preferredWidth: 60
-                text: qsTr("Speed")
-                font.bold: true
-            }
-
-            RoundPicker6 {
-                id: veSpeed
-                rating: root.charModel ? root.charModel.speed : 0
-                onValueChanged: {
-                    root.charModel.speed = rating
-                    save()
-                }
-            }
-        }
-
-        // ATTACCO
-        RowLayout {
-            Layout.fillWidth: true
-            anchors.margins: 2
-            spacing: 24
-
-            Label {
-                Layout.preferredWidth: 60
-                text: qsTr("Attack")
-                font.bold: true
-            }
-
-            RoundPicker6 {
-                id: veAttack
-                rating: root.charModel ? root.charModel.attack : 0
-                onValueChanged: {
-                    root.charModel.attack = rating
-                    save()
-                }
-            }
-        }
-
-        // DIFESA
-        RowLayout {
-            Layout.fillWidth: true
-            anchors.margins: 2
-            spacing: 24
-
-            Label {
-                Layout.preferredWidth: 60
-                text: qsTr("Defence")
-                font.bold: true
-            }
-
-            RoundPicker6 {
-                //Layout.alignment: Qt.AlignRight | Qt.AlignBaseline
-                id: veDefence
-                rating: root.charModel ? root.charModel.defence : 0
-                onValueChanged: {
-                    root.charModel.defence = rating
-                    save()
-                }
-            }
-        }
-
-        /*
-        Rectangle {
-            height: 1
-            Layout.minimumHeight: 1
-            Layout.fillWidth: true
-            color: "#3F51B5"
-        }*/
-
-        // EQUILIBRIO
-        RowLayout {
-            Layout.fillWidth: true
-            anchors.margins: 2
-            spacing: 24
-
-            Label {
-                Layout.preferredWidth: 60
-                text: qsTr("Balance")
-                font.bold: true
-            }
-
-            RoundPicker6 {
-                id: vaBalance
-                rating: root.charModel ? root.charModel.balance : 0
-                onValueChanged: {
-                    root.charModel.balance = rating
-                    save()
-                }
-            }
-        }
-
-        // VOLONTA'
-        RowLayout {
-            Layout.fillWidth: true
-            anchors.margins: 2
-            spacing: 24
-
-            Label {
-                Layout.preferredWidth: 60
-                text: qsTr("Willpower")
-                font.bold: true
-            }
-
-            RoundPicker6 {
-                id: vaWillPower
-                rating: root.charModel ? root.charModel.willpower : 0
-                onValueChanged: {
-                    root.charModel.willpower = rating
-                    save()
                 }
             }
         }

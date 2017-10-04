@@ -1,16 +1,40 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.1
+// import QtQuick.Controls.Material 2.1
 import "fa"
 import "fa/fontawesome.js" as FA
 
-Page {
+MushaDynPage {
     id: root
-    property var charModel
+
+    property var initialize: function() {
+        console.log('GameBoard initialize')
+        charModelChanged()
+        gameObject.resume()
+    }
+
+    property var finalize: function() {
+        console.log('GameBoard finalize')
+        gameObject.suspend()
+        save()
+    }
+
+    property var reset: function() {
+        gameObject.reset()
+    }
+
+    property var save: function() {
+        if ( charModel ) {
+            console.log('Gameboard: saving...')
+            dataModel.characterData = JSON.stringify(charModel)
+        }
+    }
 
     QtObject {
         id: gameObject
+
+        property int turn_cnt: 1
 
         property var reset: function() {
             sbPa.value = 0
@@ -31,19 +55,74 @@ Page {
 
             // aura
             itmAura.value = 0
+
+            // turn counter
+            turn_cnt = 1
         }
 
         property var turn: function() {
             sbPa.value += charModel.speed
             if ( auraSwitch.checked )
                 itmAura.value = Math.min(10, itmAura.value + 1)
+            turn_cnt += 1
         }
-    }
 
-    header: PageHeader {
-        title: qsTr("Game Board")
-        backIcon: FA.Icons.fa_arrow_left
-        onBackClicked: root.StackView.view.pop()
+        property var resume: function() {
+
+            if ( charModel.game ) {
+                sbPa.value = charModel.game.pa
+                sbSp.value = charModel.game.sp
+                sbHp.value = charModel.game.hp
+                itmWillpower.value = charModel.game.willpower
+                itmBalance.value = charModel.game.balance
+
+                // armor
+                haSpeed.value = charModel.game.ha_speed
+                haAttack.value = charModel.game.ha_attack
+                haDefence.value = charModel.game.ha_defence
+
+                // weapon
+                hwSpeed.value = charModel.game.hw_speed
+                hwAttack.value = charModel.game.hw_attack
+                hwDefence.value = charModel.game.hw_defence
+
+                // aura
+                itmAura.value = charModel.game.aura
+
+                // turn counter
+                turn_cnt = charModel.game.turn
+            }
+        }
+
+        property var suspend: function() {
+
+            if ( !charModel.game ) {
+                charModel.game = { }
+            }
+
+            charModel.game.pa = sbPa.value
+            charModel.game.sp = sbSp.value
+            charModel.game.hp = sbHp.value
+            charModel.game.willpower = itmWillpower.value
+            charModel.game.balance = itmBalance.value
+
+            // armor
+            charModel.game.ha_speed = haSpeed.value
+            charModel.game.ha_attack = haAttack.value
+            charModel.game.ha_defence = haDefence.value
+
+            // weapon
+            charModel.game.hw_speed = hwSpeed.value
+            charModel.game.hw_attack = hwAttack.value
+            charModel.game.hw_defence = hwDefence.value
+
+            // aura
+            charModel.game.aura = itmAura.value
+
+            // turn counter
+            charModel.game.turn = turn_cnt
+
+        }
     }
 
     ScrollView {
@@ -122,7 +201,7 @@ Page {
                 anchors.margins: 2
                 spacing: 24
 
-                visible: charModel.willpower > 0
+                visible: charModel && charModel.willpower > 0
 
                 Label {
                     Layout.preferredWidth: 60
@@ -133,7 +212,7 @@ Page {
                 FlaggablePicker {
                     id: itmWillpower
                     value: 0
-                    size: charModel.willpower
+                    size: charModel ? charModel.willpower : 0
                 }
             }
 
@@ -142,7 +221,7 @@ Page {
                 anchors.margins: 2
                 spacing: 24
 
-                visible: charModel.balance > 0
+                visible: charModel && charModel.balance > 0
 
                 Label {
                     Layout.preferredWidth: 60
@@ -153,7 +232,7 @@ Page {
                 FlaggablePicker {
                     id: itmBalance
                     value: 0
-                    size: charModel.balance
+                    size: charModel ? charModel.balance : 0
                 }
             }
 
@@ -163,7 +242,7 @@ Page {
                 anchors.margins: 2
                 spacing: 2
 
-                visible: charModel.aura.level > 0
+                visible: charModel && charModel.aura.level > 0
 
                 Switch {
                     id: auraSwitch
@@ -183,11 +262,11 @@ Page {
             ColumnLayout {
                 Layout.fillWidth: true
 
-                visible: charModel.armor.name !== ""
+                visible: charModel && charModel.armor.name !== ""
 
                 Switch {
                     id: haSwitch
-                    text: charModel.armor.name
+                    text: charModel ? charModel.armor.name : ""
                 }
 
                 ColumnLayout {
@@ -201,7 +280,7 @@ Page {
                         anchors.margins: 2
                         spacing: 24
 
-                        visible: charModel.armor.speed > 0
+                        visible: charModel && charModel.armor.speed > 0
 
                         Label {
                             Layout.preferredWidth: 60
@@ -212,7 +291,7 @@ Page {
                         FlaggablePicker {
                             id: haSpeed
                             value: 0
-                            size: charModel.armor.speed
+                            size: charModel ? charModel.armor.speed : 0
                         }
                     }
                     // SPEED
@@ -223,7 +302,7 @@ Page {
                         anchors.margins: 2
                         spacing: 24
 
-                        visible: charModel.armor.attack > 0
+                        visible: charModel && charModel.armor.attack > 0
 
                         Label {
                             Layout.preferredWidth: 60
@@ -234,7 +313,7 @@ Page {
                         FlaggablePicker {
                             id: haAttack
                             value: 0
-                            size: charModel.armor.attack
+                            size: charModel ? charModel.armor.attack : 0
                         }
                     }
                     // ATTACK
@@ -245,7 +324,7 @@ Page {
                         anchors.margins: 2
                         spacing: 24
 
-                        visible: charModel.armor.defence > 0
+                        visible: charModel && charModel.armor.defence > 0
 
                         Label {
                             Layout.preferredWidth: 60
@@ -256,7 +335,7 @@ Page {
                         FlaggablePicker {
                             id: haDefence
                             value: 0
-                            size: charModel.armor.defence
+                            size: charModel ? charModel.armor.defence : 0
                         }
                     } // DEFENCE
                 }
@@ -266,11 +345,11 @@ Page {
             ColumnLayout {
                 Layout.fillWidth: true
 
-                visible: charModel.weapon.name !== ""
+                visible: charModel && charModel.weapon.name !== ""
 
                 Switch {
                     id: hwSwitch
-                    text: charModel.weapon.name
+                    text: charModel ? charModel.weapon.name : ""
                 }
 
                 ColumnLayout {
@@ -284,7 +363,7 @@ Page {
                         anchors.margins: 2
                         spacing: 24
 
-                        visible: charModel.weapon.speed > 0
+                        visible: charModel && charModel.weapon.speed > 0
 
                         Label {
                             Layout.preferredWidth: 60
@@ -295,7 +374,7 @@ Page {
                         FlaggablePicker {
                             id: hwSpeed
                             value: 0
-                            size: charModel.weapon.speed
+                            size: charModel ? charModel.weapon.speed : 0
                         }
                     }
                     // SPEED
@@ -306,7 +385,7 @@ Page {
                         anchors.margins: 2
                         spacing: 24
 
-                        visible: charModel.weapon.attack > 0
+                        visible: charModel && charModel.weapon.attack > 0
 
                         Label {
                             Layout.preferredWidth: 60
@@ -317,7 +396,7 @@ Page {
                         FlaggablePicker {
                             id: hwAttack
                             value: 0
-                            size: charModel.weapon.attack
+                            size: charModel ? charModel.weapon.attack : 0
                         }
                     }
                     // ATTACK
@@ -328,7 +407,7 @@ Page {
                         anchors.margins: 2
                         spacing: 24
 
-                        visible: charModel.weapon.defence > 0
+                        visible: charModel && charModel.weapon.defence > 0
 
                         Label {
                             Layout.preferredWidth: 60
@@ -339,7 +418,7 @@ Page {
                         FlaggablePicker {
                             id: hwDefence
                             value: 0
-                            size: charModel.weapon.defence
+                            size: charModel ? charModel.weapon.defence : 0
                         }
                     } // DEFENCE
                 }
@@ -358,18 +437,9 @@ Page {
             anchors.fill: parent
 
             ToolButton {
-                id: btReset
-                Layout.fillWidth: true
-                text: qsTr("Reset")
-                onClicked: {
-                    gameObject.reset()
-                }
-            }
-
-            ToolButton {
                 id: btSwitchTurn
                 Layout.fillWidth: true
-                text: qsTr("New turn")
+                text: qsTr("New turn (%1)").arg(gameObject.turn_cnt)
                 onClicked: {
                     gameObject.turn()
                 }

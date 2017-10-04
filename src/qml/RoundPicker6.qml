@@ -1,5 +1,6 @@
 import QtQuick 2.7
 import "fa/fontawesome.js" as FA
+import "."
 
 Item {
     id: container
@@ -13,6 +14,7 @@ Item {
         Repeater {
             model: 6
             ValuePicker {
+                color: Style.primaryFgColor
                 rating: modelData+1
                 onClicked: {
                     container.rating = container.rating == rating ? rating-1 : rating

@@ -5,10 +5,8 @@ import QtQuick.Layouts 1.3
 import "fa"
 import "business/moves.js" as Moves
 
-Page {
+MushaDynPage {
     id: root
-
-    property var charModel: null
 
     // moveIndex >= 0 means that we're editing an existing move
     property int moveIndex: -1

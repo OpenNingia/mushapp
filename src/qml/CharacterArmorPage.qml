@@ -4,20 +4,19 @@ import QtQuick.Layouts 1.3
 import "fa"
 import "business/exp.js" as Exp
 
-Page {
+MushaDynPage {
     id: root
 
-    property var charModel
-    property var itemModel
+    property var itemModel: null
     property bool isWeapon: false
 
     property var initialize: function() {
-
+        charModelChanged()
     }
 
     property var finalize: function() {
         // save on exit
-        save()
+        //save()
     }
 
     property var save: function() {

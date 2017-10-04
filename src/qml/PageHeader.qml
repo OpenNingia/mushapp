@@ -8,14 +8,19 @@ ToolBar {
     id: pageHeader
 
     property string title: ""
+    property string subTitle: ""
     property string backIcon: FA.Icons.fa_home
 
     property bool showPdf: false
     property bool showGame: false
 
+    property var resetCallback: null
+
     signal backClicked
-    signal pdfClicked
-    signal gameClicked
+    signal pdfClicked    
+
+    background: Rectangle { color: "black" }
+    height: 64
 
     RowLayout {
         spacing: 2
@@ -24,44 +29,57 @@ ToolBar {
         ToolButton {
             contentItem: TextIcon {
                 icon: backIcon
-                pointSize: 14
+                pointSize: 18
                 color: "#fff"
             }
 
             Layout.leftMargin: 8
-
-            //anchors.left: parent.left
-            //anchors.leftMargin: 10
-            //anchors.verticalCenter: parent.verticalCenter
             onClicked: pageHeader.backClicked()
         }
 
-        Label {
-            text: title
-            font.pixelSize: 18
-            elide: Label.ElideRight
-            //anchors.centerIn: parent
-
-            horizontalAlignment: Label.Center
+        Column {
             Layout.fillWidth: true
-            //Layout.preferredWidth: 120
+
+            Label {
+                text: title
+                font.pixelSize: 18
+                font.bold: true
+                elide: Label.ElideRight
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                horizontalAlignment: Label.Center
+                color: "#fff"
+                //Layout.preferredWidth: 120
+            }
+
+            Label {
+                text: subTitle
+                font.pixelSize: 12
+                font.bold: true
+                elide: Label.ElideRight
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                horizontalAlignment: Label.Center
+                color: "#fff"
+                //Layout.preferredWidth: 120
+            }
         }
 
         ToolButton {
             contentItem: TextIcon {
-                icon: icons.fa_gamepad
-                pointSize: 14
+                icon: icons.fa_refresh
+                pointSize: 18
                 color: "#fff"
             }
 
-            onClicked: pageHeader.gameClicked()
-            visible: showGame
+            onClicked: resetCallback()
+            visible: resetCallback
         }
 
         ToolButton {
             contentItem: TextIcon {
                 icon: icons.fa_file_pdf_o
-                pointSize: 14
+                pointSize: 18
                 color: "#fff"
             }
 
