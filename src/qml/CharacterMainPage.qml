@@ -108,10 +108,10 @@ MushaDynPage {
 
             __oldItem = item_
 
-            if ( item_.getTitle )
+            if ( item_ && item_.getTitle )
                 pageTitle.title = item_.getTitle()
 
-            if ( item_.reset )
+            if ( item_ && item_.reset )
                 pageTitle.resetCallback = item_.reset
             else
                 pageTitle.resetCallback = null
