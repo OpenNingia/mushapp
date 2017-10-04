@@ -1,4 +1,4 @@
-QT += qml quick sql
+QT += qml quick sql networkauth
 
 CONFIG += c++11
 
@@ -8,14 +8,28 @@ SOURCES += \
     src/pdfexport.cpp \
     src/SortFilterProxyModel/filter.cpp \
     src/SortFilterProxyModel/sorter.cpp \
-    src/SortFilterProxyModel/qqmlsortfilterproxymodel.cpp
+    src/SortFilterProxyModel/qqmlsortfilterproxymodel.cpp \
+    # gdrive
+    src/gdrivewrapper.cpp \
+    # qt-googleapps
+    src/googleapps/abstractgoogleapps.cpp \
+    src/googleapps/googledrive.cpp \
+    src/googleapps/googleoauth2.cpp \
+    src/googleapps/jsonfile.cpp
 
 HEADERS += \
     src/sqlcharactermodel.h \
     src/pdfexport.h \
     src/SortFilterProxyModel/filter.h \
     src/SortFilterProxyModel/sorter.h \
-    src/SortFilterProxyModel/qqmlsortfilterproxymodel.h
+    src/SortFilterProxyModel/qqmlsortfilterproxymodel.h \
+    # gdrive
+    src/gdrivewrapper.h \
+    # qt-googleapps
+    src/googleapps/abstractgoogleapps.h \
+    src/googleapps/googledrive.h \
+    src/googleapps/googleoauth2.h \
+    src/googleapps/jsonfile.h
 
 
 RESOURCES += src/qml/qml.qrc
