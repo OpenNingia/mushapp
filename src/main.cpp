@@ -9,6 +9,7 @@
 
 #include "sqlcharactermodel.h"
 #include "pdfexport.h"
+#include "gdrivewrapper.h"
 
 static void connectToDatabase()
 {
@@ -53,6 +54,7 @@ int main(int argc, char *argv[])
     connectToDatabase();
 
     QQmlApplicationEngine engine;
+    engine.rootContext()->setContextProperty("gdrive", new GDriveWrapper{});
     engine.rootContext()->setContextProperty("dataModel", new SqlCharacterModel{});
     engine.rootContext()->setContextProperty("pdfExporter", new PdfExport{});
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));    

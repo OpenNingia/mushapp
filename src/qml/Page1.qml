@@ -136,6 +136,12 @@ MushaDynPage {
         onClicked: root.StackView.view.push("qrc:/CharacterCreationPage.qml")
     }
 
+    MessageDialog {
+        id: resultDlg
+        buttons: MessageDialog.Ok
+        //text: "The document has been modified."
+    }
+
     RoundButton {
         id: btExport
 
@@ -159,12 +165,6 @@ MushaDynPage {
         anchors.bottom: fab.bottom
         //anchors.right: characterList.right
         anchors.margins: 12
-
-        MessageDialog {
-            id: resultDlg
-            buttons: MessageDialog.Ok
-            //text: "The document has been modified."
-        }
 
         onClicked: {
             var success = dataModel.exportAll();
@@ -212,6 +212,42 @@ MushaDynPage {
                     resultDlg.text = qsTr("Imported with success");
                 } else {
                     resultDlg.text = qsTr("Import failed");
+                }
+                resultDlg.open();
+            }
+        }
+    }
+
+    RoundButton {
+        id: btSyncGdrive
+
+        contentItem: TextIcon {
+            icon: icons.fa_cloud_upload
+            pointSize: 14
+
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+
+        width: 40; height: 40
+
+        highlighted: false
+
+        ToolTip.text: qsTr("Sync with Google Drive")
+        ToolTip.visible: down
+
+        anchors.right: btImport.left
+        anchors.bottom: fab.bottom
+        anchors.margins: 12
+
+        onClicked: {
+            var success = gdrive.syncAll();
+
+            if ( Qt.platform.os == "android" ) {
+                if ( success ) {
+                    resultDlg.text = qsTr("Syncronized with success");
+                } else {
+                    resultDlg.text = qsTr("Syncronization failed");
                 }
                 resultDlg.open();
             }

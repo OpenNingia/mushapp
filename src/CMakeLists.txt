@@ -8,7 +8,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt5 COMPONENTS Core Quick Sql REQUIRED)
+find_package(Qt5 COMPONENTS Core Quick Sql NetworkAuth REQUIRED)
 
 get_target_property(Qt5Core_location Qt5::Core LOCATION)
 get_filename_component(QT5_DLL_DIR ${Qt5Core_location} DIRECTORY)
@@ -21,9 +21,16 @@ add_executable(${PROJECT_NAME} WIN32
     # sort proxy model
     SortFilterProxyModel/filter.cpp
     SortFilterProxyModel/sorter.cpp
-    SortFilterProxyModel/qqmlsortfilterproxymodel.cpp
+    SortFilterProxyModel/qqmlsortfilterproxymodel.cpp    
+    # gdrive
+    gdrivewrapper.cpp
+    # qt-googleapps
+    googleapps/abstractgoogleapps.cpp
+    googleapps/googledrive.cpp
+    googleapps/googleoauth2.cpp
+    googleapps/jsonfile.cpp
 )
-target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Sql)
+target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Sql Qt5::NetworkAuth)
 
 # INSTALL INSTRUCTIONS
 install(TARGETS ${PROJECT_NAME} DESTINATION bin COMPONENT coreapp)
@@ -45,6 +52,7 @@ if(WIN32)
     ${QT5_DLL_DIR}/Qt5Svg${D}.dll
     ${QT5_DLL_DIR}/Qt5Qml${D}.dll
     ${QT5_DLL_DIR}/Qt5Network${D}.dll
+    ${QT5_DLL_DIR}/Qt5NetworkAuth${D}.dll
     ${QT5_DLL_DIR}/Qt5Quick${D}.dll
     ${QT5_DLL_DIR}/Qt5QuickControls2${D}.dll
     ${QT5_DLL_DIR}/Qt5QuickTemplates2${D}.dll

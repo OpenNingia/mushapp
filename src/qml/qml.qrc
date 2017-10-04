@@ -105,5 +105,6 @@
         <file>img/sp_pa_inactive.png</file>
         <file>Style.qml</file>
         <file>qmldir</file>
+        <file>client_id.json</file>
     </qresource>
 </RCC>

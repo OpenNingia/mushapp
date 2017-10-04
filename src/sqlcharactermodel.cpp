@@ -240,6 +240,26 @@ void SqlCharacterModel::setCharacterData(const QByteArray & data)
     }
 }
 
+static void removeOldestFiles(int freeSlots)
+{
+    QString inPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    inPath.append("/org.openningia.mushapp/ie");
+
+    QDir inDir{inPath};
+    if ( !inDir.exists() ) {
+        return;
+    }
+
+    auto files = inDir.entryInfoList(QStringList() << "*.json", QDir::Files, QDir::Name);
+    if ( files.empty() ) {
+        return;
+    }
+
+    int deleteCount = files.count() - freeSlots;
+    for ( int i = 0; i < deleteCount; i++ ) {
+        QFile::remove(files[i].absoluteFilePath());
+    }
+}
 
 // export all characters into a JSON file
 bool SqlCharacterModel::exportAll()
@@ -270,8 +290,12 @@ bool SqlCharacterModel::exportAll()
     }
 
     QFile writer{outJson};
-    if ( writer.open(QFile::WriteOnly) )
-        return writer.write(QJsonDocument(lst).toJson()) != 0;
+    if ( writer.open(QFile::WriteOnly) ) {
+        bool ok = (writer.write(QJsonDocument(lst).toJson()) != 0);
+        if ( ok )
+            removeOldestFiles(5);
+        return true;
+    }
     return false;
 }
 
@@ -341,3 +365,4 @@ bool SqlCharacterModel::importAll()
 
     return false;
 }
+
