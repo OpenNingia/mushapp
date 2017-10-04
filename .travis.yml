@@ -14,6 +14,7 @@ script:
     - export WORKDIR=$PWD
     - echo $PWD
     - source path.env
+    - chmod -R 755 qtci/recipes
     - qt-5.9.1-android-24
     - cat qt-5.9.1-android-24.env
     - ls $QT_ROOT
