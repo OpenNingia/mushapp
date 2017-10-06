@@ -148,9 +148,11 @@ bool SqlCharacterModel::importCharacter(const QString &name, const QByteArray &c
 
     const QString timestamp = QDateTime::currentDateTime().toString(Qt::ISODate);
 
+    auto doc = QJsonDocument::fromJson(content);
+
     QSqlRecord newRecord = record();
     newRecord.setValue("name", name);
-    newRecord.setValue("content", content);
+    newRecord.setValue("content", doc.toBinaryData());
 
     if (!insertRecord(rowCount(), newRecord) || !submitAll()) {
         qWarning() << "Failed to import character:" << lastError().text();
@@ -335,7 +337,7 @@ bool SqlCharacterModel::importAll()
 
         auto import_from_json_object = [&](QJsonObject o) {
             QJsonDocument d{o};
-            if ( !importCharacter(o["name"].toString(), d.toBinaryData()) ) {
+            if ( !importCharacter(o["name"].toString(), d.toJson()) ) {
                 qWarning() << "Failed to import " << o["name"].toString();
             }
         };

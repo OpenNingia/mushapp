@@ -27,12 +27,12 @@ public:
     Q_INVOKABLE bool exportAll();
     // import characters from previous export
     Q_INVOKABLE bool importAll();
+    // import one character, also useful for the rename feature
+    Q_INVOKABLE bool importCharacter(const QString &name, const QByteArray &content);
 
 signals:
     void characterChanged();
 private:
-    QString activeCharacter;
-
-    bool importCharacter(const QString &name, const QByteArray &content);
+    QString activeCharacter;   
 };
 

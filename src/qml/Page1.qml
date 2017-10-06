@@ -65,7 +65,7 @@ MushaDynPage {
                 anchors.fill: parent
 
                 Item {
-                    id: charModel
+                    id: itmCharModel
                     function parseContent(c) {
                         try {
                             return JSON.parse(c)
@@ -90,19 +90,36 @@ MushaDynPage {
                     }
                     Text {
                         id: txCharTitle;
-                        text: charModel.charContent.title;
+                        text: itmCharModel.charContent.title;
                         font.family: Style.uiFont.name
                         font.pointSize: 10
                         color: "#fff"
                     }
                 }
 
-                MyDelayDeleteButton {
+                Row {
                     Layout.alignment: Qt.AlignRight
                     Layout.rightMargin: 6
 
-                    onActivated: {
-                        dataModel.delCharacter(name)
+                    ToolButton {
+                        anchors.verticalCenter: btDelete.verticalCenter
+                        //background: Rectangle { color: "white"}
+                        contentItem: TextIcon {
+                            icon: icons.fa_edit
+                            color: Style.primaryFgColor
+                            font.pointSize: 12
+                        }
+
+                        onClicked: {
+                            root.StackView.view.push("qrc:/CharacterCreationPage.qml", { charModel: itmCharModel.charContent, rename: true })
+                        }
+                    }
+
+                    MyDelayDeleteButton {
+                        id: btDelete
+                        onActivated: {
+                            dataModel.delCharacter(name)
+                        }
                     }
                 }
             }

@@ -7,12 +7,14 @@ import "fa"
 MushaDynPage {
     id: root
 
+    property bool rename: false
+
     Component.onCompleted: {
         inputName.forceActiveFocus()
     }
 
     header: PageHeader {
-        title: qsTr("Character creation")
+        title: rename ? qsTr("Edit character") : qsTr("Character creation")
         onBackClicked: root.StackView.view.pop()
     }
 
@@ -23,6 +25,7 @@ MushaDynPage {
 
         TextField {
             id: inputName
+            text: charModel ? charModel.name : ""
             width: 200
             placeholderText: qsTr("Enter character name")
             focus: true
@@ -33,6 +36,7 @@ MushaDynPage {
 
         TextField {
             id: inputTitle
+            text: charModel ? charModel.title : ""
             width: 200
             placeholderText: qsTr("Enter character title")
             KeyNavigation.tab: btConfirm
@@ -55,10 +59,28 @@ MushaDynPage {
                 Layout.fillWidth: true
                 text: qsTr("Confirm")
                 onClicked: {
-                    if ( dataModel.addCharacter(inputName.text, inputTitle.text) ) {
-                        console.log("add character success")
+
+                    if ( rename ) {
+
+                        var oldName = charModel.name
+
+                        charModel.name = inputName.text
+                        charModel.title = inputTitle.text
+
+                        if ( oldName === charModel.name ) {
+                            dataModel.character = oldName
+                            dataModel.characterData = JSON.stringify(charModel)
+                        } else {
+                            if ( dataModel.importCharacter(charModel.name, JSON.stringify(charModel)) )
+                                dataModel.delCharacter(oldName)
+                        }
+
                     } else {
-                        console.log("add character error")
+                        if ( dataModel.addCharacter(inputName.text, inputTitle.text) ) {
+                            console.log("add character success")
+                        } else {
+                            console.log("add character error")
+                        }
                     }
 
                     root.StackView.view.pop()

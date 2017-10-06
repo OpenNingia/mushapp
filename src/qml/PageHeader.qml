@@ -38,6 +38,7 @@ ToolBar {
         }
 
         Column {
+            id: charName
             Layout.fillWidth: true
 
             Label {
