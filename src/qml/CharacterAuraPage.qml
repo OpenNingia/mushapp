@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.2
 import SortFilterProxyModel 0.2
 import "."
 import "components"
+import "business/dal.js" as Dal
 
 MushaDynPage {
     id: root
@@ -39,12 +40,8 @@ MushaDynPage {
     }
 
     property var save: function() {
-        if ( charModel ) {
-            console.log('CharacterAuraPage: saving...')
-            dataModel.characterData = JSON.stringify(charModel)
-        }
+        Dal.saveCharacter(charModel);
     }
-
 
     ListModel {
         id: auraModel

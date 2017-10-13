@@ -1,3 +1,1 @@
-{
-    "dummy": "replace with real file before building"
-}
+{"web":{"client_id":"1049652350577-g2m1cvv8il06e1p0m9494bhq3n9kr09t.apps.googleusercontent.com","project_id":"mushapp-181815","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://accounts.google.com/o/oauth2/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"z39MMiEgtvu_LKjMfEFZpRKq","redirect_uris":["http://localhost:8080/cb"]}}

@@ -1,8 +1,10 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.0
 import "."
 import "fa"
+import "components"
 
 MushaDynPage {
     id: root
@@ -27,10 +29,7 @@ MushaDynPage {
         // finalize on exit
         if (swipeView.currentItem && swipeView.currentItem.finalize)
             swipeView.currentItem.finalize()
-        else if (swipeView.currentItem.item && swipeView.currentItem.item.finalize)
-            swipeView.currentItem.item.finalize()
-
-        //dataModel.characterData = JSON.stringify(characterModel)
+        dataModel.character = ""
     }
 
     header: PageHeader {
@@ -47,8 +46,110 @@ MushaDynPage {
         }
     }
 
+    ParallaxView {
+        id: swipeView
+        anchors.fill: parent
+        background: charModel && charModel.spEngine ? "qrc:/img/bg/" + charModel.spEngine + ".png" : ""
+        //currentIndex: tabBar.currentIndex
+
+        CharacterInfoPage {
+            id: pgInfo
+            charModel: root.charModel
+            width: swipeView.width
+            height: swipeView.height
+        }
+
+
+        MoveMainPage {
+            charModel: root.charModel
+            width: swipeView.width
+            height: swipeView.height
+
+        }
+
+
+        CharacterAuraPage {
+            charModel: root.charModel
+            width: swipeView.width
+            height: swipeView.height
+
+        }
+
+        HyperMainPage {
+            charModel: root.charModel
+            width: swipeView.width
+            height: swipeView.height
+
+        }
+
+        GameBoard {
+            charModel: root.charModel
+            width: swipeView.width
+            height: swipeView.height
+
+        }
+
+        Component.onCompleted: {
+            pgInfo.initialize()
+        }
+
+         property var __oldItem: null
+        onCurrentItemChanged: {
+
+            if (__oldItem && __oldItem.finalize) {
+                __oldItem.finalize()
+            }
+
+            //var item_ = currentItem.item
+            var item_ = currentItem
+            //var item_ = currentItem
+            //console.log('current item: ', item_, item_.initialize, item_.finalize, item_.url)
+
+            if (item_ && item_.initialize) {
+                item_.initialize()
+            }
+
+            __oldItem = item_
+
+            if ( item_ && item_.getTitle )
+                pageTitle.title = item_.getTitle()
+
+            if ( item_ && item_.reset )
+                pageTitle.resetCallback = item_.reset
+            else
+                pageTitle.resetCallback = null
+        }
+    }
+
+    /*
     SwipeView {
         id: swipeView
+
+        background: Rectangle {
+            id: rect
+            color: "#B7D5DD"
+
+            Image {
+                id: image
+                source: charModel && charModel.spEngine ? "qrc:/img/bg/" + charModel.spEngine + ".png" : ""
+                horizontalAlignment: Image.AlignHCenter
+                verticalAlignment: Image.AlignBottom
+                fillMode: Image.PreserveAspectFit
+                anchors.bottom: rect.bottom
+                width: rect.width
+                //height: 100
+            }
+
+            DropShadow {
+                anchors.fill: image
+                horizontalOffset: 40
+                verticalOffset: 20
+                radius: 4.0
+                samples: 11
+                color: "#802A3E47"
+                source: image
+            }
+        }
 
         Component.onCompleted: {
             pgInfo.initialize()
@@ -80,7 +181,7 @@ MushaDynPage {
             charModel: root.charModel
         }
 
-        /*
+
         Loader {
             active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
             sourceComponent: MoveMainPage {
@@ -109,7 +210,7 @@ MushaDynPage {
                 charModel: root.charModel
             }
         }
-        */
+
 
         onCurrentItemChanged: {
 
@@ -135,7 +236,7 @@ MushaDynPage {
             else
                 pageTitle.resetCallback = null
         }
-    }
+    }*/
 
     footer: TabBar {
         id: tabBar
@@ -144,6 +245,10 @@ MushaDynPage {
         height: 40
         spacing: 2
         currentIndex: swipeView.currentIndex
+
+        onCurrentIndexChanged: {
+            swipeView.currentIndex = tabBar.currentIndex
+        }
 
         Repeater {
             model: [

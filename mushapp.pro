@@ -29,7 +29,8 @@ HEADERS += \
     src/googleapps/abstractgoogleapps.h \
     src/googleapps/googledrive.h \
     src/googleapps/googleoauth2.h \
-    src/googleapps/jsonfile.h
+    src/googleapps/jsonfile.h \
+    src/ijsonimportexport.h
 
 
 RESOURCES += src/qml/qml.qrc

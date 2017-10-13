@@ -1,8 +1,9 @@
 #pragma once
 
 #include <QSqlTableModel>
+#include "ijsonimportexport.h"
 
-class SqlCharacterModel : public QSqlTableModel
+class SqlCharacterModel : public QSqlTableModel, public IJsonImportExport
 {
     Q_OBJECT
     Q_PROPERTY(QString character READ character WRITE setCharacter NOTIFY characterChanged)
@@ -19,6 +20,10 @@ public:
 
     QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
+
+    // creates a json document with all characters
+    stdexp::optional<QJsonDocument> jsonExport() const override;
+    bool jsonImport(QJsonDocument const& doc) override;
 
     Q_INVOKABLE bool addCharacter(const QString &name, const QString &title);
     Q_INVOKABLE bool delCharacter(const QString &name);

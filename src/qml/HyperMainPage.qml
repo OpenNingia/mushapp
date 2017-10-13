@@ -2,6 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import "."
+import "business/dal.js" as Dal
 
 MushaDynPage {
     id: root
@@ -16,10 +17,7 @@ MushaDynPage {
     }
 
     property var save: function() {
-        if ( charModel ) {
-            console.log('HyperMainPage: saving...')
-            dataModel.characterData = JSON.stringify(charModel)
-        }
+        Dal.saveCharacter(charModel);
     }
 
     header: TabBar {

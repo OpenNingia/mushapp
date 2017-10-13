@@ -15,6 +15,8 @@
 #include <QFileInfo>
 #include <QDesktopServices>
 
+#include <easy/profiler.h>
+
 static const char *charactersTableName = "Characters";
 
 static void createTable()
@@ -263,6 +265,67 @@ static void removeOldestFiles(int freeSlots)
     }
 }
 
+stdexp::optional<QJsonDocument> SqlCharacterModel::jsonExport() const
+{
+    // should not export a single character
+    if ( !(activeCharacter.isNull() || activeCharacter.isEmpty()) )
+        return stdexp::nullopt;
+
+    QJsonArray lst;
+
+    for(int i = 0; i < rowCount(); i++) {
+        auto json_value = QJsonDocument::fromBinaryData(record(i).value("content").toByteArray());
+        lst.append(json_value.object());
+    }
+
+    return stdexp::make_optional<QJsonDocument>(QJsonDocument{lst});
+}
+
+bool SqlCharacterModel::jsonImport(QJsonDocument const& doc)
+{
+    if ( !doc.isArray() ) {
+        qWarning("loaded document is not an array of characters");
+        return false;
+    }
+
+    QSqlQuery query;
+    if (!query.exec(
+        "DELETE FROM 'Characters'")) {
+        qWarning("Failed to delete characters: %s", qPrintable(query.lastError().text()));
+    }
+
+    QJsonArray lst{doc.array()};
+
+    qDebug() << "found " << lst.count() << " characters";
+
+    auto import_from_json_object = [&](QJsonObject o) {
+        QJsonDocument d{o};
+        if ( !importCharacter(o["name"].toString(), d.toJson()) ) {
+            qWarning() << "Failed to import " << o["name"].toString();
+        }
+    };
+
+    auto import_from_json_array = [&](QJsonArray lst) {
+        for(auto c: lst) {
+            if ( c.isObject() )
+                import_from_json_object(c.toObject());
+            else
+                qWarning("expected a json object");
+        }
+    };
+
+    for(auto c: lst) {
+        if ( c.isObject() )
+            import_from_json_object(c.toObject());
+        else if ( c.isArray() )
+            import_from_json_array(c.toArray());
+        else
+            qWarning("expected a json object or a json array");
+    }
+
+    return true;
+}
+
 // export all characters into a JSON file
 bool SqlCharacterModel::exportAll()
 {
@@ -284,16 +347,13 @@ bool SqlCharacterModel::exportAll()
             .arg(outPath)
             .arg(timeStamp);
 
-    QJsonArray lst;
-
-    for(int i = 0; i < rowCount(); i++) {
-        auto json_value = QJsonDocument::fromBinaryData(record(i).value("content").toByteArray());
-        lst.append(json_value.object());
-    }
+    auto doc = jsonExport();
+    if ( !doc )
+        return false;
 
     QFile writer{outJson};
     if ( writer.open(QFile::WriteOnly) ) {
-        bool ok = (writer.write(QJsonDocument(lst).toJson()) != 0);
+        bool ok = (writer.write(doc->toJson()) != 0);
         if ( ok )
             removeOldestFiles(5);
         return true;

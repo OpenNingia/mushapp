@@ -3,10 +3,7 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import "."
 import "components"
-
-//import QtQuick.Controls.Material 2.1
-//import "fa"
-//import "business/exp.js" as Exp
+import "business/dal.js" as Dal
 
 MushaDynPage {
     id: root
@@ -37,10 +34,7 @@ MushaDynPage {
     }
 
     property var save: function() {
-        if ( charModel ) {
-            console.log('CharacterInfoPage: saving...')
-            dataModel.characterData = JSON.stringify(charModel)
-        }
+        Dal.saveCharacter(charModel);
     }
 
     // SP ENGINES

@@ -1,15 +1,16 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
-import QtGraphicalEffects 1.0
+//import QtGraphicalEffects 1.0
 
 Page {
     id: root
 
     property var charModel: null
+    background: Rectangle { color: "#00000000" }
 
     //layer.enabled: true
-
+/*
     background: Rectangle {
         id: rect
         color: "#B7D5DD"
@@ -34,5 +35,5 @@ Page {
             color: "#802A3E47"
             source: image
         }
-    }
+    }*/
 }

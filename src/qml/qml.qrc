@@ -106,5 +106,7 @@
         <file>Style.qml</file>
         <file>qmldir</file>
         <file>client_id.json</file>
+        <file>components/ParallaxView.qml</file>
+        <file>business/dal.js</file>
     </qresource>
 </RCC>

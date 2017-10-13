@@ -53,10 +53,15 @@ int main(int argc, char *argv[])
 
     connectToDatabase();
 
-    QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("gdrive", new GDriveWrapper{});
-    engine.rootContext()->setContextProperty("dataModel", new SqlCharacterModel{});
-    engine.rootContext()->setContextProperty("pdfExporter", new PdfExport{});
+    auto dataModel = new SqlCharacterModel;
+    auto gdrive = new GDriveWrapper(dataModel);
+    auto pdfExporter = new PdfExport;
+
+    QQmlApplicationEngine engine;    
+    engine.rootContext()->setContextProperty("dataModel", dataModel);
+    engine.rootContext()->setContextProperty("gdrive", gdrive);
+    engine.rootContext()->setContextProperty("pdfExporter", pdfExporter);
+
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));    
     if (engine.rootObjects().isEmpty())
         return -1;

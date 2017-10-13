@@ -5,6 +5,7 @@ import QtQuick.Dialogs 1.2
 import "."
 import "fa"
 import "business/moves.js" as Moves
+import "business/dal.js" as Dal
 import "components"
 
 MushaDynPage {
@@ -31,11 +32,7 @@ MushaDynPage {
     }
 
     property var save: function() {
-        // save on exit
-        if ( charModel ) {
-            console.log('CharacterMoveListPage: saving...')
-            dataModel.characterData = JSON.stringify(charModel)
-        }
+        Dal.saveCharacter(charModel);
     }
 
     ColumnLayout {
