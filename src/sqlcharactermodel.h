@@ -25,6 +25,8 @@ public:
     stdexp::optional<QJsonDocument> jsonExport() const override;
     bool jsonImport(QJsonDocument const& doc) override;
 
+    Q_INVOKABLE QVariantList toList() const;
+
     Q_INVOKABLE bool addCharacter(const QString &name, const QString &title);
     Q_INVOKABLE bool delCharacter(const QString &name);
 

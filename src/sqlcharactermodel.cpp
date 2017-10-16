@@ -15,8 +15,6 @@
 #include <QFileInfo>
 #include <QDesktopServices>
 
-#include <easy/profiler.h>
-
 static const char *charactersTableName = "Characters";
 
 static void createTable()
@@ -40,6 +38,17 @@ SqlCharacterModel::SqlCharacterModel(QObject *parent) :
     select();
     // Ensures that the model is sorted correctly after submitting a new row.
     setEditStrategy(QSqlTableModel::OnManualSubmit);
+}
+
+QVariantList SqlCharacterModel::toList() const {
+    QVariantList r;
+    for(int i = 0; i < rowCount(); i++) {
+        const auto sqlRecord = record(i);
+        const auto doc = QJsonDocument::fromBinaryData(sqlRecord.value("content").toByteArray());
+        r << doc.object().toVariantMap();
+        //r << QString::fromUtf8(QJsonDocument::fromBinaryData(sqlRecord.value("content").toByteArray()).toJson());
+    }
+    return r;
 }
 
 QVariant SqlCharacterModel::data(const QModelIndex &index, int role) const
@@ -212,7 +221,6 @@ void SqlCharacterModel::setCharacter(const QString & name)
             "(name = '%1')").arg(activeCharacter);
         setFilter(filterString);
     }
-    select();
 
     emit characterChanged();
 }
