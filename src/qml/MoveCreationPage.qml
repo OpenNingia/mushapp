@@ -70,10 +70,11 @@ MushaDynPage {
             height: 48
             symbols: root.selectedSymbols
 
-            MouseArea {
-                anchors.fill: symbolList
-                onClicked: {
-                    root.selectedSymbols.pop()
+            onItemClicked: {
+                console.log('removing %1'.arg(symbolId))
+                var index_ = root.selectedSymbols.indexOf(symbolId)
+                if (index_ > -1) {
+                    root.selectedSymbols.splice(index_, 1);
                     root.reload()
                 }
             }

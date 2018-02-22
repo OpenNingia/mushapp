@@ -1,7 +1,8 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-// import QtQuick.Controls.Material 2.1
+
+import "components"
 import "fa"
 import "fa/fontawesome.js" as FA
 import "business/dal.js" as Dal
@@ -123,311 +124,308 @@ MushaDynPage {
         }
     }
 
-    ScrollView {
-        clip: false
+    ColumnLayout {
+
         anchors.fill: parent
         anchors.margins: 12
 
-        ColumnLayout {
+        // PUNTI VITA
+        MySpinBox {
+            id: sbHp
 
-            // PUNTI VITA
-            RowLayout {
-                Layout.fillWidth: true
-                anchors.margins: 2
-                spacing: 12
+            from: 0
+            to: 1000
+            stepSize: 1
+            value: 30
 
-                Label {
-                    Layout.preferredWidth: 60
-                    text: qsTr("Hit Points")
-                    font.bold: true
-                }
+            Layout.fillWidth: true
+            Layout.preferredHeight: 60
 
-                SpinBox {
-                    id: sbHp
-                    from: 0
-                    to: 1000
-                    stepSize: 1
-                    value: 30
-                }
-            }
+            text: qsTr("Hit Points")
+        }
 
-            // SP
-            RowLayout {
-                Layout.fillWidth: true
-                anchors.margins: 2
-                spacing: 12
+        // SP
+        MySpinBox {
+            id: sbSp
 
-                Label {
-                    Layout.preferredWidth: 60
-                    text: qsTr("SP")
-                    font.bold: true
-                }
+            from: 0
+            to: 9
+            stepSize: 1
+            value: 0
 
-                SpinBox {
-                    id: sbSp
-                    from: 0
-                    to: 9
-                    stepSize: 1
-                    value: 0
-                }
-            }
+            Layout.fillWidth: true
+            Layout.preferredHeight: 60
 
-            // PA
-            RowLayout {
-                Layout.fillWidth: true
-                anchors.margins: 2
-                spacing: 12
+            text: qsTr("SP")
+        }
 
-                Label {
-                    Layout.preferredWidth: 60
-                    text: qsTr("PA")
-                    font.bold: true
-                }
+        // PA
+        MySpinBox {
+            id: sbPa
 
-                SpinBox {
-                    id: sbPa
-                    from: 0
-                    to: 100
-                    stepSize: 1
-                    value: 0
-                }
-            }
+            from: 0
+            to: 100
+            stepSize: 1
+            value: 0
 
-            // WILLPOWER
-            RowLayout {
-                Layout.fillWidth: true
-                anchors.margins: 2
-                spacing: 24
+            Layout.fillWidth: true
+            Layout.preferredHeight: 60
 
-                visible: charModel && charModel.willpower > 0
+            text: qsTr("PA")
+        }
 
-                Label {
-                    Layout.preferredWidth: 60
-                    text: qsTr("Willpower")
-                    font.bold: true
-                }
+        Pane {
 
-                FlaggablePicker {
-                    id: itmWillpower
-                    value: 0
-                    size: charModel ? charModel.willpower : 0
-                }
-            }
+            Layout.fillWidth: true
+            background: Rectangle { color: Style.primaryBgColor }
 
-            RowLayout {                
-                Layout.fillWidth: true
-                anchors.margins: 2
-                spacing: 24
+            Column {
 
-                visible: charModel && charModel.balance > 0
+                spacing: 32
 
-                Label {
-                    Layout.preferredWidth: 60
-                    text: qsTr("Balance")
-                    font.bold: true
-                }
+                // WILLPOWER
+                RowLayout {
+                    spacing: 24
 
-                FlaggablePicker {
-                    id: itmBalance
-                    value: 0
-                    size: charModel ? charModel.balance : 0
-                }
-            }
+                    visible: charModel && charModel.willpower > 0
 
-            // AURA
-            ColumnLayout {
-                Layout.fillWidth: true
-                anchors.margins: 2
-                spacing: 2
+                    Label {
+                        Layout.preferredWidth: 60
+                        text: qsTr("Willpower")
 
-                visible: charModel && charModel.aura.level > 0
-
-                Switch {
-                    id: auraSwitch
-                    text: qsTr("Burn Aura")
-                    //font.bold: true
-                }
-
-                FlaggablePicker {
-                    id: itmAura
-                    value: 0
-                    size: 10
-                    visible: auraSwitch.checked
-                }
-            }
-
-            // HYPER ARMOR
-            ColumnLayout {
-                Layout.fillWidth: true
-
-                visible: charModel && charModel.armor.name !== ""
-
-                Switch {
-                    id: haSwitch
-                    text: charModel ? charModel.armor.name : ""
-                }
-
-                ColumnLayout {
-                    id: hyperArmor
-                    visible: haSwitch.checked
-                    Layout.fillWidth: true                    
-
-                    // SPEED
-                    RowLayout {
-                        Layout.fillWidth: true
-                        anchors.margins: 2
-                        spacing: 24
-
-                        visible: charModel && charModel.armor.speed > 0
-
-                        Label {
-                            Layout.preferredWidth: 60
-                            text: qsTr("Speed")
-                            font.bold: true
-                        }
-
-                        FlaggablePicker {
-                            id: haSpeed
-                            value: 0
-                            size: charModel ? charModel.armor.speed : 0
-                        }
+                        font.bold: true
+                        font.pointSize: 12
+                        font.family: Style.uiBoldFont.name
+                        color: Style.primaryFgColor
                     }
-                    // SPEED
 
-                    // ATTACK
-                    RowLayout {
-                        Layout.fillWidth: true
-                        anchors.margins: 2
-                        spacing: 24
-
-                        visible: charModel && charModel.armor.attack > 0
-
-                        Label {
-                            Layout.preferredWidth: 60
-                            text: qsTr("Attack")
-                            font.bold: true
-                        }
-
-                        FlaggablePicker {
-                            id: haAttack
-                            value: 0
-                            size: charModel ? charModel.armor.attack : 0
-                        }
+                    FlaggablePicker {
+                        id: itmWillpower
+                        value: 0
+                        size: charModel ? charModel.willpower : 0
                     }
-                    // ATTACK
-
-                    // DEFENCE
-                    RowLayout {
-                        Layout.fillWidth: true
-                        anchors.margins: 2
-                        spacing: 24
-
-                        visible: charModel && charModel.armor.defence > 0
-
-                        Label {
-                            Layout.preferredWidth: 60
-                            text: qsTr("Defence")
-                            font.bold: true
-                        }
-
-                        FlaggablePicker {
-                            id: haDefence
-                            value: 0
-                            size: charModel ? charModel.armor.defence : 0
-                        }
-                    } // DEFENCE
-                }
-            } // HYPER ARMOR
-
-            // HYPER WEAPON
-            ColumnLayout {
-                Layout.fillWidth: true
-
-                visible: charModel && charModel.weapon.name !== ""
-
-                Switch {
-                    id: hwSwitch
-                    text: charModel ? charModel.weapon.name : ""
                 }
 
+                // BALANCE
+                RowLayout {
+                    spacing: 24
+
+                    visible: charModel && charModel.balance > 0
+
+                    Label {
+                        Layout.preferredWidth: 60
+                        text: qsTr("Balance")
+
+                        font.bold: true
+                        font.pointSize: 12
+                        font.family: Style.uiBoldFont.name
+                        color: Style.primaryFgColor
+                    }
+
+                    FlaggablePicker {
+                        id: itmBalance
+                        value: 0
+                        size: charModel ? charModel.balance : 0
+                        color: Style.primaryFgColor
+                    }
+                }
+
+                // AURA
                 ColumnLayout {
-                    id: hyperWeapon
-                    visible: hwSwitch.checked
+                    Layout.fillWidth: true
+                    anchors.margins: 2
+                    spacing: 2
+
+                    visible: charModel && charModel.aura.level > 0
+
+                    MySwitch {
+                        id: auraSwitch
+                        text: qsTr("Burn Aura")
+                    }
+
+                    FlaggablePicker {
+                        id: itmAura
+                        value: 0
+                        size: 10
+                        visible: auraSwitch.checked
+                    }
+                }
+
+                // HYPER ARMOR
+                ColumnLayout {
                     Layout.fillWidth: true
 
-                    // SPEED
-                    RowLayout {
-                        Layout.fillWidth: true
-                        anchors.margins: 2
-                        spacing: 24
+                    visible: charModel && charModel.armor.name !== ""
 
-                        visible: charModel && charModel.weapon.speed > 0
-
-                        Label {
-                            Layout.preferredWidth: 60
-                            text: qsTr("Speed")
-                            font.bold: true
-                        }
-
-                        FlaggablePicker {
-                            id: hwSpeed
-                            value: 0
-                            size: charModel ? charModel.weapon.speed : 0
-                        }
+                    MySwitch {
+                        id: haSwitch
+                        text: charModel ? charModel.armor.name : ""
                     }
-                    // SPEED
 
-                    // ATTACK
-                    RowLayout {
+                    ColumnLayout {
+                        id: hyperArmor
+                        visible: haSwitch.checked
                         Layout.fillWidth: true
-                        anchors.margins: 2
-                        spacing: 24
 
-                        visible: charModel && charModel.weapon.attack > 0
+                        // SPEED
+                        RowLayout {
+                            Layout.fillWidth: true
+                            anchors.margins: 2
+                            spacing: 24
 
-                        Label {
-                            Layout.preferredWidth: 60
-                            text: qsTr("Attack")
-                            font.bold: true
+                            visible: charModel && charModel.armor.speed > 0
+
+                            Label {
+                                Layout.preferredWidth: 60
+                                text: qsTr("Speed")
+                                font.bold: true
+                            }
+
+                            FlaggablePicker {
+                                id: haSpeed
+                                value: 0
+                                size: charModel ? charModel.armor.speed : 0
+                            }
                         }
+                        // SPEED
 
-                        FlaggablePicker {
-                            id: hwAttack
-                            value: 0
-                            size: charModel ? charModel.weapon.attack : 0
+                        // ATTACK
+                        RowLayout {
+                            Layout.fillWidth: true
+                            anchors.margins: 2
+                            spacing: 24
+
+                            visible: charModel && charModel.armor.attack > 0
+
+                            Label {
+                                Layout.preferredWidth: 60
+                                text: qsTr("Attack")
+                                font.bold: true
+                            }
+
+                            FlaggablePicker {
+                                id: haAttack
+                                value: 0
+                                size: charModel ? charModel.armor.attack : 0
+                            }
                         }
+                        // ATTACK
+
+                        // DEFENCE
+                        RowLayout {
+                            Layout.fillWidth: true
+                            anchors.margins: 2
+                            spacing: 24
+
+                            visible: charModel && charModel.armor.defence > 0
+
+                            Label {
+                                Layout.preferredWidth: 60
+                                text: qsTr("Defence")
+                                font.bold: true
+                            }
+
+                            FlaggablePicker {
+                                id: haDefence
+                                value: 0
+                                size: charModel ? charModel.armor.defence : 0
+                            }
+                        } // DEFENCE
                     }
-                    // ATTACK
+                } // HYPER ARMOR
 
-                    // DEFENCE
-                    RowLayout {
+                // HYPER WEAPON
+                ColumnLayout {
+                    Layout.fillWidth: true
+
+                    visible: charModel && charModel.weapon.name !== ""
+
+                    MySwitch {
+                        id: hwSwitch
+                        text: charModel ? charModel.weapon.name : ""
+                    }
+
+                    ColumnLayout {
+                        id: hyperWeapon
+                        visible: hwSwitch.checked
                         Layout.fillWidth: true
-                        anchors.margins: 2
-                        spacing: 24
 
-                        visible: charModel && charModel.weapon.defence > 0
+                        // SPEED
+                        RowLayout {
+                            Layout.fillWidth: true
+                            anchors.margins: 2
+                            spacing: 24
 
-                        Label {
-                            Layout.preferredWidth: 60
-                            text: qsTr("Defence")
-                            font.bold: true
+                            visible: charModel && charModel.weapon.speed > 0
+
+                            Label {
+                                Layout.preferredWidth: 60
+                                text: qsTr("Speed")
+                                font.bold: true
+                            }
+
+                            FlaggablePicker {
+                                id: hwSpeed
+                                value: 0
+                                size: charModel ? charModel.weapon.speed : 0
+                            }
                         }
+                        // SPEED
 
-                        FlaggablePicker {
-                            id: hwDefence
-                            value: 0
-                            size: charModel ? charModel.weapon.defence : 0
+                        // ATTACK
+                        RowLayout {
+                            Layout.fillWidth: true
+                            anchors.margins: 2
+                            spacing: 24
+
+                            visible: charModel && charModel.weapon.attack > 0
+
+                            Label {
+                                Layout.preferredWidth: 60
+                                text: qsTr("Attack")
+                                font.bold: true
+                            }
+
+                            FlaggablePicker {
+                                id: hwAttack
+                                value: 0
+                                size: charModel ? charModel.weapon.attack : 0
+                            }
                         }
-                    } // DEFENCE
-                }
-            } // HYPER WEAPON
+                        // ATTACK
 
+                        // DEFENCE
+                        RowLayout {
+                            Layout.fillWidth: true
+                            anchors.margins: 2
+                            spacing: 24
 
-            Item {
-                Layout.fillHeight: true
+                            visible: charModel && charModel.weapon.defence > 0
+
+                            Label {
+                                Layout.preferredWidth: 60
+                                text: qsTr("Defence")
+                                font.bold: true
+                            }
+
+                            FlaggablePicker {
+                                id: hwDefence
+                                value: 0
+                                size: charModel ? charModel.weapon.defence : 0
+                            }
+                        } // DEFENCE
+                    }
+                } // HYPER WEAPON
+
             }
+
+        }
+
+        Item {
+            Layout.fillHeight: true
         }
     }
+    //    }
 
     footer: ToolBar {
         id: tabBar

@@ -30,7 +30,7 @@ public:
     bool copy(const QString &id);
 
     // synchronize all characters with google drive
-    Q_INVOKABLE bool syncAll();   
+    Q_INVOKABLE bool syncAll(bool merge_remote = true);
 private:
     GoogleOAuth2 oauth2;
     QString folderId;    

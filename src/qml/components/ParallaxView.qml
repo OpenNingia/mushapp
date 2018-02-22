@@ -60,9 +60,14 @@ Item {
 
         Image {
             id: background
-            fillMode: Image.TileHorizontally
-            x: -list.contentItem.contentX / 6
+            fillMode: Image.Pad
+            //x: -list.contentItem.contentX / 8 - 50
+            x: -list.contentItem.contentWidth / 2 + root.width / 2 - list.contentItem.contentX / 10
             width: Math.max(list.contentItem.contentWidth, parent.width)
+            //width: 100
+            //height: 100
+            anchors.bottom: rect.bottom
+            //anchors.fill: rect
         }
 
         DropShadow {

@@ -5,14 +5,13 @@ import QtGraphicalEffects 1.0
 import "."
 import "fa"
 import "components"
+import "business/dal.js" as Dal
 
 MushaDynPage {
     id: root
     enabled: stackView.busy === false
 
-
     property string activeCharacterName
-
     property var initialize: function() {
 
         console.log('MainPage initialize')
@@ -29,6 +28,8 @@ MushaDynPage {
         // finalize on exit
         if (swipeView.currentItem && swipeView.currentItem.finalize)
             swipeView.currentItem.finalize()
+
+        Dal.saveCharacter(charModel)
         dataModel.character = ""
     }
 
@@ -57,6 +58,10 @@ MushaDynPage {
             charModel: root.charModel
             width: swipeView.width
             height: swipeView.height
+
+            onSpEngineChanged: {
+                root.charModelChanged()
+            }
         }
 
 

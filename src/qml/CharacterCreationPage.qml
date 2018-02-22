@@ -1,7 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
-
+import "components"
 import "fa"
 
 MushaDynPage {
@@ -39,9 +39,18 @@ MushaDynPage {
             text: charModel ? charModel.title : ""
             width: 200
             placeholderText: qsTr("Enter character title")
-            KeyNavigation.tab: btConfirm
+            KeyNavigation.tab: inputGroup
             validator: RegExpValidator { regExp: /[^\"\\\/':]+/ }
             Layout.fillWidth: true
+        }
+
+        MyComboBox {
+            id: inputGroup
+            KeyNavigation.tab: btConfirm
+            model: ["PC", "PNG", "Minions", "Boss", "Altri"]
+            width: 200
+            Layout.fillWidth: true
+            currentIndex: charModel ? model.indexOf(charModel.group) : -1
         }
 
         Item {
@@ -66,6 +75,7 @@ MushaDynPage {
 
                         charModel.name = inputName.text
                         charModel.title = inputTitle.text
+                        charModel.group = inputGroup.currentIndex >= 0 ? inputGroup.model[inputGroup.currentIndex] : ""
 
                         if ( oldName === charModel.name ) {
                             dataModel.character = oldName
@@ -77,6 +87,8 @@ MushaDynPage {
 
                     } else {
                         if ( dataModel.addCharacter(inputName.text, inputTitle.text) ) {
+                            dataModel.character = inputName.text
+                            dataModel.character.group = inputGroup.currentIndex >= 0 ? inputGroup.model.get(inputGroup.currentIndex) : ""
                             console.log("add character success")
                         } else {
                             console.log("add character error")

@@ -58,12 +58,23 @@ QVariant SqlCharacterModel::data(const QModelIndex &index, int role) const
 
     const auto column = role - Qt::UserRole;
     const auto sqlRecord = record(index.row());
-    auto raw_value = sqlRecord.value(column);
+    auto raw_value = sqlRecord.value("content");
+    auto json_doc = QJsonDocument::fromBinaryData(raw_value.toByteArray());
 
     // content
-    if ( column == 1 ) {
-        // return json string
-        return QJsonDocument::fromBinaryData(raw_value.toByteArray()).toJson();
+    if ( column == 0 ) {
+        // return name
+        return json_doc.object().value("name");
+    } else if ( column == 1 ) {
+        // return whole json string
+        return json_doc.toJson();
+    } else if ( column == 2 ) {
+        // group
+        //qDebug() << "group name of " << json_doc.object().value("name") << " is: " << json_doc.object().value("group");
+        //if ( json_doc.object().contains("group") )
+            return json_doc.object().value("group");
+        //else
+        //    return "";
     } else {
         return raw_value;
     }
@@ -76,6 +87,7 @@ QHash<int, QByteArray> SqlCharacterModel::roleNames() const
     QHash<int, QByteArray> names;
     names[Qt::UserRole + 0] = "name";
     names[Qt::UserRole + 1] = "content";
+    names[Qt::UserRole + 2] = "group";
     return names;
 }
 

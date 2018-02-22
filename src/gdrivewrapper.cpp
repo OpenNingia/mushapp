@@ -36,11 +36,6 @@ bool GDriveWrapper::grant()
     replyHandler->setCallbackPath("cb");
     oauth2.setReplyHandler(replyHandler);
     QObject::connect(&oauth2, &GoogleOAuth2::authorizeWithBrowser, &QDesktopServices::openUrl);
-                     /*[&](const QUrl &url){
-        qInfo() << "authorize URL:" << url.toString();
-
-        QDesk
-    });*/
 
     oauth2.setClientIdJson(":/client_id.json");
     oauth2.setScope(GoogleDrive::scope());
@@ -54,7 +49,7 @@ bool GDriveWrapper::grant()
         if (ok) {
             //write tokens
             settingsFile.write(oauth2.tokenJson());
-            return true;
+            return createRemoteFolder("MushApp", "#df2d2d", folderId);
         }
 
         return false;
@@ -118,26 +113,6 @@ bool GDriveWrapper::createRemoteFolder(const QString &folderName, const QString&
 
 bool GDriveWrapper::fileNameExists(const QString &fileName)
 {
-    /*if ( !oauth2.isAuthorized() && !grant() )
-        return false;
-
-    GoogleDrive api(&oauth2);
-    bool ok = false;
-
-    QVariantMap vParams;
-    vParams.insert("q", QString("name = '%1' and '%2' in parents").arg(fileName, folderId));
-
-    auto list_reply = api.filesList(vParams);
-    QJsonObject obj = GoogleDrive::waitReplyJson(list_reply, &ok);
-    if ( !ok ) {
-        return false;
-    }
-
-    if ( obj.contains("files") && obj["files"].isArray() && obj["files"].toArray().count() > 0 ) {
-        return true;
-    }
-
-    return false;*/
     return getFileIdByName(fileName).has_value();
 }
 
@@ -430,7 +405,7 @@ bool GDriveWrapper::upload_remote_file(QString const & fileName, QString const& 
     return upload(fileName, doc.toUtf8());
 }
 
-bool GDriveWrapper::syncAll()
+bool GDriveWrapper::syncAll(bool merge_remote)
 {
     if ( !oauth2.isAuthorized() && !grant() )
         return false;
@@ -456,11 +431,14 @@ bool GDriveWrapper::syncAll()
 
     if ( remoteFile ) {
         qInfo() << "updating remote file: " << remoteFile->file_id;
-        auto merged = merge_files(remoteFile->document, *localFile);
-        if ( !update_remote_file(remoteFile->file_id, merged.toJson()) ) {
+
+        auto final = merge_remote ? merge_files(remoteFile->document, *localFile) : *localFile;
+
+        if ( !update_remote_file(remoteFile->file_id, final.toJson()) ) {
             qWarning("could not update remote file!");
         }
-        return ie->jsonImport(QJsonDocument{merged});
+
+        return ie->jsonImport(QJsonDocument{final});
     } else {
         qInfo("uploading local export...");
         return upload_remote_file("musha-export.json", localFile->toJson());

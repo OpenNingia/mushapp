@@ -9,6 +9,8 @@ MushaDynPage {
     id: root
     spacing: 0
 
+    signal spEngineChanged
+
     property var initialize: function() {
         console.log("InfoPage initialize")
 
@@ -89,8 +91,8 @@ MushaDynPage {
 
             onActivated: {
                 root.charModel.spEngine = model.get(index).tag
-                root.charModelChanged()
-                //save()
+                //root.charModelChanged()
+                root.spEngineChanged()
             }
 
             contentItem: ItemDelegate {

@@ -5,21 +5,20 @@ Item {
     id: container
     property int size: 0
     property int value: 0
+    property string color: "#fff"
+    property int pointSize: 12
 
     height: 24
     width: 24*container.size
-
-    /*onValueChanged: {
-        console.log('FlaggablePicker, valueChanged: ' + value)
-        block.model = 0
-        block.model = container.size
-    }*/
 
     Row {
         Repeater {
             id: block
             model: container.size
             FlaggableValue {
+
+                pointSize: container.pointSize
+                color: container.color
                 icon: FA.Icons.fa_square
                 value: modelData+1
                 onClicked: {

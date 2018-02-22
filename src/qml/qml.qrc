@@ -108,5 +108,8 @@
         <file>client_id.json</file>
         <file>components/ParallaxView.qml</file>
         <file>business/dal.js</file>
+        <file>components/MySwipableDelegate.qml</file>
+        <file>components/MySpinBox.qml</file>
+        <file>components/MySwitch.qml</file>
     </qresource>
 </RCC>

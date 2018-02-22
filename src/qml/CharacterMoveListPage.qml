@@ -38,7 +38,7 @@ MushaDynPage {
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: 10
-        spacing: 10               
+        spacing: 10
 
         ListView {
             id: moveList
@@ -50,11 +50,11 @@ MushaDynPage {
             ScrollIndicator.vertical: ScrollIndicator { }
 
             model: null
-            delegate:  ItemDelegate {
+            delegate: ItemDelegate {
                 height: txMoveName.implicitHeight + 48 + 10
                 width: moveList.width - moveList.leftMargin - moveList.rightMargin
                 leftPadding: 0
-                onClicked: {                   
+                onClicked: {
                     root.StackView.view.push(
                                 "qrc:/MoveCreationPage.qml",
                                 { charModel: root.charModel, superMove: superMoves, moveIndex: index })

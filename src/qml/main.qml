@@ -1,16 +1,12 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
-// import QtQuick.Controls.Material 2.1
 
 ApplicationWindow {
     visible: true
-    width: 300
-    height: 520
+    width: 540
+    height: 960
     title: qsTr("Musha Shugyo")
-
-    //Material.theme: Material.Light
-    //Material.accent: Material.Purple
 
     StackView {
         id: stackView

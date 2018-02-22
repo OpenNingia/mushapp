@@ -2,6 +2,9 @@ import QtQuick 2.7
 
 GridView {
     id: container
+
+    signal itemClicked(string symbolId)
+
     property var symbols
     property int preferredHeight: 24
 
@@ -10,9 +13,17 @@ GridView {
 
     model: symbols
     delegate: Image {
+        id: img
         source: "qrc:/img/%1.png".arg(modelData)
         height: 22
         width: 22
+
+        MouseArea {
+            anchors.fill: img
+            onClicked: {
+                itemClicked(modelData)
+            }
+        }
     }
 
     onWidthChanged: {

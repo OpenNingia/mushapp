@@ -7,6 +7,8 @@ Item {
     width: 24
     height: 24
 
+    property alias pointSize: icon.pointSize
+    property alias color: icon.color
     property string icon: FA.Icons.fa_circle
     property int value
     property bool flagged
